@@ -3,12 +3,20 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { Octokit } from '@octokit/rest';
 import { Resend } from 'resend';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Servir arquivos visuais da pasta 'public'
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Instâncias
 const octokit = new Octokit({ auth: process.env.GITHUB_PAT_TOKEN });
@@ -18,9 +26,7 @@ const GITHUB_OWNER = process.env.GITHUB_OWNER;
 const GITHUB_REPO = process.env.GITHUB_REPO_DB || 'don-store-db';
 const FILE_PATH = 'estoque.json';
 
-// =======================================================
-// ROTA DE TESTE GRÁTIS (SIMULAÇÃO DE PAGAMENTO)
-// =======================================================
+// Rota de Teste de Entrega e Estoque
 app.post('/api/test-checkout', async (req, res) => {
   const { emailCliente, produto } = req.body;
 
@@ -29,33 +35,17 @@ app.post('/api/test-checkout', async (req, res) => {
   }
 
   try {
-    // 1. Envia E-mail de Confirmação do Pagamento (Simulado)
-    await resend.emails.send({
-      from: 'DON STORE <onboarding@resend.dev>',
-      to: emailCliente,
-      subject: '✅ [TESTE] Pagamento Aprovado com Sucesso! - DON STORE',
-      html: `
-        <div style="font-family: sans-serif; background: #0a0a0f; color: #fff; padding: 20px;">
-          <h2 style="color: #a855f7;">👻 DON STORE (Modo de Teste)</h2>
-          <p>Seu pagamento para o produto <strong>${produto.toUpperCase()}</strong> foi confirmado pelo sistema!</p>
-          <p>O seu acesso está sendo separado no estoque do GitHub e será enviado no próximo e-mail.</p>
-        </div>
-      `
-    });
-
-    // 2. Processa a Baixa Automática no GitHub Privado
     const contaEntregue = await processarBaixaEstoque(produto, emailCliente);
 
-    // 3. Envia E-mail com o Acesso (Login e Senha do GitHub)
     await resend.emails.send({
       from: 'DON STORE <onboarding@resend.dev>',
       to: emailCliente,
       subject: `🔑 [TESTE] Seu Acesso para ${produto.toUpperCase()} Chegou!`,
       html: `
-        <div style="font-family: sans-serif; background: #0a0a0f; color: #fff; padding: 20px; border: 1px solid #8b5cf6;">
+        <div style="font-family: sans-serif; background: #0a0a0f; color: #fff; padding: 20px; border: 1px solid #8b5cf6; border-radius: 10px;">
           <h2 style="color: #a855f7;">👻 DON STORE - Acesso Liberado</h2>
-          <p>Aqui estão os dados da conta que foi removida do seu estoque privado:</p>
-          <div style="background: #181826; padding: 15px; border-radius: 8px; font-size: 1.1rem; color: #a855f7;">
+          <p>Obrigado pelo seu teste! Abaixo estão as credenciais retiradas do banco privado:</p>
+          <div style="background: #181826; padding: 15px; border-radius: 8px; font-size: 1.1rem; color: #a855f7; margin-top: 10px;">
             <p><strong>Login:</strong> ${contaEntregue.login}</p>
             <p><strong>Senha:</strong> ${contaEntregue.senha}</p>
           </div>
@@ -65,7 +55,7 @@ app.post('/api/test-checkout', async (req, res) => {
 
     return res.json({
       success: true,
-      message: 'Teste executado com sucesso! Verifique sua caixa de entrada e o GitHub Privado.'
+      message: `Sucesso! O acesso para ${produto} foi enviado para ${emailCliente} e removido do estoque.`
     });
 
   } catch (error) {
@@ -74,7 +64,6 @@ app.post('/api/test-checkout', async (req, res) => {
   }
 });
 
-// FUNÇÃO PRIVADA QUE ATUALIZA O ESTOQUE NO GITHUB PRIVADO
 async function processarBaixaEstoque(produto, emailCliente) {
   const { data } = await octokit.repos.getContent({
     owner: GITHUB_OWNER,
@@ -92,10 +81,8 @@ async function processarBaixaEstoque(produto, emailCliente) {
     throw new Error(`Estoque esgotado para o produto: ${produto}`);
   }
 
-  // Remove a conta da lista
   const contaVendida = lista.splice(index, 1)[0];
 
-  // Grava o novo JSON no GitHub Privado
   const novoConteudo = Buffer.from(JSON.stringify(estoque, null, 2)).toString('base64');
   await octokit.repos.createOrUpdateFileContents({
     owner: GITHUB_OWNER,
