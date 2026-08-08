@@ -3,23 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DON STORE | Serviços Digitais Profissionais</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <title>DON STORE | Serviços & Infoprodutos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     :root {
       --bg: #030305;
-      --card-bg: rgba(12, 12, 18, 0.88);
-      --card-border: rgba(220, 38, 38, 0.35);
+      --card-bg: rgba(12, 12, 18, 0.92);
+      --card-border: rgba(220, 38, 38, 0.3);
+      --card-border-hover: rgba(220, 38, 38, 0.8);
       --red-primary: #dc2626;
+      --red-hover: #b91c1c;
       --red-glow: rgba(220, 38, 38, 0.5);
-      --red-dark: #7f1d1d;
       --text-main: #f8fafc;
-      --text-muted: #a1a1aa;
+      --text-muted: #94a3b8;
       --green-accent: #22c55e;
       --blue-accent: #3b82f6;
+      --gold-accent: #eab308;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
 
     body {
       background-color: var(--bg);
@@ -32,31 +42,31 @@
       overflow-x: hidden;
     }
 
-    /* Fundo Dark Medieval Nítido (Morte no Trono com Foice) */
+    /* Fundo Nítido Dark com Overlay Gradient */
     body::before {
       content: '';
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       background: 
-        radial-gradient(circle at center, rgba(3, 3, 5, 0.65) 0%, rgba(3, 3, 5, 0.95) 100%),
+        radial-gradient(circle at center, rgba(3, 3, 5, 0.65) 0%, rgba(3, 3, 5, 0.98) 100%),
         url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1600&auto=format&fit=crop') no-repeat center top / cover;
-      opacity: 0.35; /* Aumentado para garantir nitidez do fundo medieval */
+      opacity: 0.35;
       z-index: -1;
       pointer-events: none;
       filter: contrast(130%) brightness(85%);
     }
 
-    /* Topo Profissional */
+    /* BARRA NAVEGAÇÃO */
     header {
       width: 100%;
-      max-width: 1100px;
-      padding: 22px 20px;
+      max-width: 1200px;
+      padding: 20px 25px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(220, 38, 38, 0.2);
-      background: rgba(3, 3, 5, 0.85);
-      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(220, 38, 38, 0.25);
+      background: rgba(3, 3, 5, 0.9);
+      backdrop-filter: blur(16px);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -64,101 +74,131 @@
 
     .brand-logo {
       font-family: 'Cinzel', serif;
-      font-size: 1.9rem;
+      font-size: 2rem;
       font-weight: 900;
-      letter-spacing: 2px;
-      background: linear-gradient(180deg, #ffffff 30%, var(--red-primary) 100%);
+      background: linear-gradient(180deg, #ffffff 20%, var(--red-primary) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       cursor: pointer;
-      text-shadow: 0 0 15px var(--red-glow);
+      text-shadow: 0 0 20px var(--red-glow);
+      letter-spacing: 1px;
     }
 
-    .header-actions { display: flex; gap: 10px; }
+    .header-nav {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
 
-    .btn-auth {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #fff;
-      padding: 9px 18px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 700;
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: color 0.2s;
       cursor: pointer;
-      transition: all 0.2s ease;
     }
 
-    .btn-auth.primary {
+    .nav-link:hover {
+      color: var(--text-main);
+    }
+
+    .btn-cart-nav {
+      background: rgba(220, 38, 38, 0.15);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-cart-nav:hover {
       background: var(--red-primary);
-      border-color: var(--red-primary);
-      box-shadow: 0 0 15px var(--red-glow);
+      box-shadow: 0 0 12px var(--red-glow);
     }
 
-    .btn-auth:hover {
-      border-color: var(--red-primary);
-      transform: translateY(-2px);
-    }
-
-    /* Hero Banner */
+    /* HERO BANNER */
     .hero-banner {
       width: 100%;
-      max-width: 1100px;
-      padding: 35px 20px 15px 20px;
+      max-width: 1200px;
+      padding: 40px 20px 20px 20px;
       text-align: center;
     }
 
     .hero-banner h1 {
       font-family: 'Cinzel', serif;
-      font-size: 2.2rem;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 10px rgba(0,0,0,0.8);
+      font-size: 2.8rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      background: linear-gradient(180deg, #ffffff 40%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero-banner p {
       color: var(--text-muted);
-      font-size: 0.92rem;
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
-    /* Controles (Busca e Categorias) */
+    /* BARRA DE CONTROLES E FILTROS */
     .controls-container {
       width: 100%;
-      max-width: 1100px;
+      max-width: 1200px;
       padding: 20px;
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 15px;
       justify-content: space-between;
       align-items: center;
     }
 
-    .search-input {
+    .search-box {
       flex: 1;
-      min-width: 260px;
+      min-width: 280px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 10px;
-      padding: 12px 18px;
+      border-radius: 12px;
+      padding: 14px 18px;
       color: #fff;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       outline: none;
-      backdrop-filter: blur(8px);
+      transition: border 0.2s;
     }
 
     .search-input:focus {
       border-color: var(--red-primary);
-      box-shadow: 0 0 15px var(--red-glow);
+      box-shadow: 0 0 10px var(--red-glow);
+    }
+
+    .categories-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .cat-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--text-muted);
-      padding: 9px 16px;
-      border-radius: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
       cursor: pointer;
-      font-size: 0.85rem;
       font-weight: 600;
+      font-size: 0.85rem;
       transition: all 0.2s;
     }
 
@@ -166,27 +206,22 @@
       background: var(--red-primary);
       color: #fff;
       border-color: var(--red-primary);
-      box-shadow: 0 0 12px var(--red-glow);
+      box-shadow: 0 0 10px var(--red-glow);
     }
 
-    /* Telas SPA */
+    /* CONTAINER DAS TELAS */
     .screen {
       display: none;
       width: 100%;
-      max-width: 1100px;
-      padding: 0 20px 40px 20px;
-      flex: 1;
-      animation: fadeIn 0.25s ease-out;
+      max-width: 1200px;
+      padding: 10px 20px 60px 20px;
     }
 
-    .screen.active { display: block; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+    .screen.active {
+      display: block;
     }
 
-    /* Grid de Produtos */
+    /* GRID DE PRODUTOS */
     .grid-produtos {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -197,247 +232,230 @@
     .card-produto {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 25px 20px;
+      border-radius: 18px;
+      padding: 24px;
       backdrop-filter: blur(12px);
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
     }
 
     .card-produto:hover {
       transform: translateY(-6px);
-      border-color: var(--red-primary);
-      box-shadow: 0 15px 35px -5px var(--red-glow);
+      border-color: var(--card-border-hover);
+      box-shadow: 0 10px 25px rgba(220, 38, 38, 0.2);
     }
 
     .card-produto img {
-      width: 65px;
-      height: 65px;
-      object-fit: contain;
-      margin-bottom: 12px;
-      filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.4));
+      width: 68px;
+      height: 68px;
+      margin-bottom: 14px;
+      filter: drop-shadow(0 0 8px var(--red-glow));
     }
 
-    /* Selos de Regras de Entrega */
     .badge-entrega {
       font-size: 0.72rem;
       font-weight: 800;
       padding: 5px 12px;
       border-radius: 20px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    .badge-email {
-      background: rgba(59, 130, 246, 0.15);
-      color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.4);
+    .badge-email { background: rgba(59, 130, 246, 0.18); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge-whatsapp { background: rgba(34, 197, 94, 0.18); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+
+    .card-titulo {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #fff;
     }
 
-    .badge-whatsapp {
-      background: rgba(34, 197, 94, 0.15);
-      color: #4ade80;
-      border: 1px solid rgba(34, 197, 94, 0.4);
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.83rem;
+      line-height: 1.4;
+      margin-bottom: 15px;
+      flex-grow: 1;
     }
 
     .preco-tag {
-      font-size: 1.75rem;
+      font-size: 1.7rem;
       font-weight: 800;
       color: var(--green-accent);
-      margin: 10px 0 16px 0;
+      margin-bottom: 16px;
       text-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
     }
 
     .btn-comprar {
       width: 100%;
-      background: linear-gradient(135deg, var(--red-primary), var(--red-dark));
-      color: #fff;
-      border: none;
-      padding: 12px;
-      border-radius: 10px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
-      transition: opacity 0.2s;
-    }
-
-    .btn-comprar:hover { opacity: 0.9; }
-
-    /* Caixa Form / Checkout / Login */
-    .box-container {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 35px 25px;
-      max-width: 480px;
-      margin: 20px auto;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    }
-
-    .form-group { text-align: left; margin-top: 15px; }
-    .form-group label { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
-    .form-group input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      background: #050508;
-      border: 1px solid var(--card-border);
-      color: #fff;
-      margin-top: 5px;
-      outline: none;
-    }
-
-    .form-group input:focus { border-color: var(--red-primary); }
-
-    .btn-submit {
-      width: 100%;
-      background: var(--red-primary);
+      background: linear-gradient(180deg, var(--red-primary) 0%, var(--red-hover) 100%);
       color: #fff;
       border: none;
       padding: 14px;
       border-radius: 10px;
-      font-weight: 800;
-      font-size: 1rem;
+      font-weight: 700;
+      font-size: 0.9rem;
       cursor: pointer;
-      margin-top: 25px;
-      box-shadow: 0 0 15px var(--red-glow);
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px var(--red-glow);
+    }
+
+    .btn-comprar:hover {
+      filter: brightness(1.15);
+      transform: scale(1.02);
+    }
+
+    /* MODAL E TELA DE DETALHES */
+    .box-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 35px;
+      max-width: 480px;
+      margin: 30px auto;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(16px);
+    }
+
+    .form-group {
+      text-align: left;
+      margin-top: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      background: #050508;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--red-primary);
     }
 
     .btn-voltar {
-      background: rgba(255, 255, 255, 0.05);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 8px 16px;
-      border-radius: 8px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
       cursor: pointer;
-      margin-bottom: 15px;
+      font-size: 0.9rem;
       font-weight: 600;
+      margin-bottom: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    /* Rodapé Corporativo */
+    .btn-voltar:hover {
+      color: #fff;
+    }
+
+    /* FOOTER */
     footer {
       width: 100%;
-      padding: 30px 20px;
+      padding: 25px;
       text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
       background: rgba(3, 3, 5, 0.95);
       margin-top: auto;
+    }
+
+    footer p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 600px) {
+      .hero-banner h1 { font-size: 2rem; }
+      .controls-container { flex-direction: column; align-items: stretch; }
+      .categories-group { justify-content: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- CABEÇALHO COM LOGIN E CADASTRO -->
+  <!-- CABEÇALHO -->
   <header>
     <div class="brand-logo" onclick="mostrarTela('tela-home')">DON STORE</div>
-    <div class="header-actions">
-      <button class="btn-auth" onclick="mostrarTela('tela-login')">Entrar / Login</button>
-      <button class="btn-auth primary" onclick="mostrarTela('tela-cadastro')">Cadastrar-se</button>
+    <div class="header-nav">
+      <span class="nav-link" onclick="mostrarTela('tela-home')">Catálogo</span>
+      <button class="btn-cart-nav" onclick="alert('Seus pedidos são finalizados direto por e-mail ou WhatsApp!')">
+        🛒 Suporte
+      </button>
     </div>
   </header>
 
-  <!-- CATÁLOGO PRINCIPAL -->
+  <!-- TELA PRINCIPAL (HOME) -->
   <div id="tela-home" class="screen active">
     <div class="hero-banner">
-      <h1>Catálogo VIP de Serviços</h1>
-      <p>Serviços com entrega automática e atendimento direto via suporte.</p>
+      <h1>SERVIÇOS DIGITAIS & INFOPRODUTOS</h1>
+      <p>Aprovação rápida, entrega garantida e atendimento personalizado via WhatsApp e E-mail.</p>
     </div>
 
     <div class="controls-container">
-      <input type="text" id="busca-input" class="search-input" placeholder="🔍 Buscar por Netflix, Disney, RG, CNH..." oninput="filtrarProdutos()">
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <div class="search-box">
+        <input type="text" id="busca-input" class="search-input" placeholder="🔍 Digite para pesquisar um serviço..." oninput="filtrarProdutos()">
+      </div>
+
+      <div class="categories-group">
         <button class="cat-btn active" onclick="filtrarCategoria('todas', this)">Todos</button>
         <button class="cat-btn" onclick="filtrarCategoria('Streaming', this)">Streaming</button>
         <button class="cat-btn" onclick="filtrarCategoria('Documentos', this)">Documentos</button>
         <button class="cat-btn" onclick="filtrarCategoria('Escolar', this)">Escolar</button>
+        <button class="cat-btn" onclick="filtrarCategoria('Contas', this)">Contas</button>
       </div>
     </div>
 
     <div class="grid-produtos" id="grid-produtos"></div>
   </div>
 
-  <!-- TELA DE LOGIN -->
-  <div id="tela-login" class="screen">
-    <button class="btn-voltar" onclick="mostrarTela('tela-home')">← Voltar</button>
-    <div class="box-container">
-      <h2 style="text-align:center; font-family: 'Cinzel', serif;">Área do Cliente</h2>
-      <p style="text-align:center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Acesse sua conta para visualizar pedidos</p>
-      
-      <div class="form-group">
-        <label>E-mail</label>
-        <input type="email" id="login-email" placeholder="seu@email.com">
-      </div>
-      <div class="form-group">
-        <label>Senha</label>
-        <input type="password" id="login-senha" placeholder="******">
-      </div>
-      <button class="btn-submit" onclick="fazerLogin()">Entrar no Sistema</button>
-    </div>
-  </div>
-
-  <!-- TELA DE CADASTRO -->
-  <div id="tela-cadastro" class="screen">
-    <button class="btn-voltar" onclick="mostrarTela('tela-home')">← Voltar</button>
-    <div class="box-container">
-      <h2 style="text-align:center; font-family: 'Cinzel', serif;">Criar Nova Conta</h2>
-      <p style="text-align:center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Cadastre-se e receba seus acessos rapidamente</p>
-      
-      <div class="form-group">
-        <label>Nome Completo</label>
-        <input type="text" id="cad-nome" placeholder="Seu nome">
-      </div>
-      <div class="form-group">
-        <label>E-mail</label>
-        <input type="email" id="cad-email" placeholder="seu@email.com">
-      </div>
-      <div class="form-group">
-        <label>Criar Senha</label>
-        <input type="password" id="cad-senha" placeholder="******">
-      </div>
-      <button class="btn-submit" onclick="fazerCadastro()">Concluir Cadastro</button>
-    </div>
-  </div>
-
-  <!-- TELA DE CHECKOUT (ADAPTADA EMAIL / WHATSAPP) -->
+  <!-- TELA DE CHECKOUT / DETALHES -->
   <div id="tela-detalhes" class="screen">
-    <button class="btn-voltar" onclick="mostrarTela('tela-home')">← Voltar ao Catálogo</button>
+    <button class="btn-voltar" onclick="mostrarTela('tela-home')">← Voltar para o catálogo</button>
+
     <div class="box-container" style="text-align: center;">
-      <img id="det-img" src="" alt="Serviço" style="width: 70px; height: 70px; margin-bottom: 10px;">
-      <h2 id="det-nome" style="font-family: 'Cinzel', serif;">Serviço</h2>
-      <p id="det-desc" style="color: var(--text-muted); font-size: 0.85rem; margin-top:5px;"></p>
-      
-      <div id="det-preco" class="preco-tag">R$ 0,00</div>
+      <img id="det-img" src="" alt="" style="width:70px; height:70px;">
+      <h2 id="det-nome" style="font-family:'Cinzel', serif; margin-top:12px; font-size:1.6rem;"></h2>
+      <p id="det-desc" style="color:var(--text-muted); font-size:0.9rem; margin-top:6px;"></p>
+      <div id="det-preco" class="preco-tag" style="margin-top:15px;"></div>
 
-      <div style="border-top: 1px solid var(--card-border); padding-top: 20px; text-align: left;">
-        <h4 id="det-titulo-acao" style="color: var(--red-primary); margin-bottom: 10px; font-size: 0.9rem;">
-          Confirmação do Pedido
-        </h4>
-        
-        <div class="form-group">
-          <label>Seu E-mail de Recebimento</label>
-          <input type="email" id="cli-email" placeholder="email@exemplo.com">
-        </div>
-
-        <div class="form-group" id="grupo-nome">
-          <label>Seu Nome / Apelido</label>
-          <input type="text" id="cli-nome" placeholder="Seu nome">
-        </div>
-
-        <button id="btn-finalizar-acao" class="btn-submit" onclick="processarPedido()">Concluir Pedido</button>
+      <div class="form-group">
+        <label>Seu Nome Completo *</label>
+        <input type="text" id="cli-nome" placeholder="Digite seu nome">
       </div>
+
+      <div class="form-group">
+        <label>Seu E-mail Principal *</label>
+        <input type="email" id="cli-email" placeholder="seuemail@exemplo.com">
+      </div>
+
+      <button id="btn-finalizar-acao" class="btn-comprar" style="margin-top:25px;" onclick="processarPedido()">
+        Confirmar e Finalizar
+      </button>
     </div>
   </div>
 
   <!-- RODAPÉ -->
   <footer>
-    <div style="color: var(--text-muted); font-size: 0.88rem; font-family: 'Cinzel', serif;">DON STORE &copy; 2026 - Todos os direitos reservados.</div>
-    <div style="font-size: 0.78rem; color: rgba(255,255,255,0.35); margin-top: 6px;">Desenvolvido por: Don Desenvolvimentos</div>
+    <p>DON STORE &copy; 2026 - Todos os direitos reservados.</p>
   </footer>
 
   <script>
@@ -457,7 +475,7 @@
         todosProdutos = await res.json();
         renderizarProdutos(todosProdutos);
       } catch (err) {
-        console.error("Erro ao carregar catálogo:", err);
+        console.error('Erro ao carregar produtos:', err);
       }
     }
 
@@ -466,25 +484,24 @@
       grid.innerHTML = '';
 
       if (lista.length === 0) {
-        grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: var(--text-muted);">Nenhum serviço encontrado.</p>';
+        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">Nenhum serviço encontrado com esse nome.</p>`;
         return;
       }
 
       lista.forEach(p => {
         const isEmail = p.entregaTipo === 'EMAIL';
-        const badgeClass = isEmail ? 'badge-email' : 'badge-whatsapp';
-        const badgeTexto = isEmail ? '⚡ Entrega Instantânea no E-mail' : '💬 Finalização pelo WhatsApp';
-
         const card = document.createElement('div');
         card.className = 'card-produto';
         card.innerHTML = `
-          <span class="badge-entrega ${badgeClass}">${badgeTexto}</span>
+          <span class="badge-entrega ${isEmail ? 'badge-email' : 'badge-whatsapp'}">
+            ${isEmail ? '⚡ Entrega E-mail' : '💬 Pedir no WhatsApp'}
+          </span>
           <img src="${p.imagem}" alt="${p.nome}">
-          <h3>${p.nome}</h3>
-          <p style="color: var(--text-muted); font-size: 0.82rem; margin-top: 5px;">${p.descricao}</p>
+          <div class="card-titulo">${p.nome}</div>
+          <div class="card-desc">${p.descricao}</div>
           <div class="preco-tag">R$ ${p.preco.toFixed(2).replace('.', ',')}</div>
-          <button class="btn-comprar" onclick="abrirCheckout(${JSON.stringify(p).replace(/"/g, '&quot;')})">
-            ${isEmail ? 'Receber Acesso por E-mail' : 'Solicitar Atendimento'}
+          <button class="btn-comprar" onclick='abrirCheckout(${JSON.stringify(p)})'>
+            ${isEmail ? 'Comprar Agora' : 'Solicitar Serviço'}
           </button>
         `;
         grid.appendChild(card);
@@ -514,70 +531,43 @@
       document.getElementById('det-nome').innerText = p.nome;
       document.getElementById('det-desc').innerText = p.descricao;
       document.getElementById('det-preco').innerText = `R$ ${p.preco.toFixed(2).replace('.', ',')}`;
-
+      
       const btnAcao = document.getElementById('btn-finalizar-acao');
-      const tituloAcao = document.getElementById('det-titulo-acao');
-
       if (p.entregaTipo === 'EMAIL') {
-        tituloAcao.innerText = "⚡ Entrega Automática via E-mail";
-        btnAcao.innerText = "🚀 Confirmar e Receber por E-mail";
-        btnAcao.style.background = "var(--blue-accent)";
-        btnAcao.style.color = "#fff";
+        btnAcao.innerText = 'Confirmar Pedido por E-mail';
       } else {
-        tituloAcao.innerText = "💬 Finalização pelo WhatsApp";
-        btnAcao.innerText = "💬 Finalizar Pedido no WhatsApp";
-        btnAcao.style.background = "#22c55e";
-        btnAcao.style.color = "#000";
+        btnAcao.innerText = 'Iniciar Atendimento no WhatsApp';
       }
 
       mostrarTela('tela-detalhes');
-    }
-
-    function fazerLogin() {
-      const email = document.getElementById('login-email').value.trim();
-      const senha = document.getElementById('login-senha').value.trim();
-      if (!email || !senha) { alert('Preencha e-mail e senha.'); return; }
-      alert('Login realizado com sucesso!');
-      mostrarTela('tela-home');
-    }
-
-    function fazerCadastro() {
-      const nome = document.getElementById('cad-nome').value.trim();
-      const email = document.getElementById('cad-email').value.trim();
-      const senha = document.getElementById('cad-senha').value.trim();
-      if (!nome || !email || !senha) { alert('Preencha todos os campos do cadastro.'); return; }
-      alert('Cadastro concluído com sucesso!');
-      mostrarTela('tela-home');
     }
 
     function processarPedido() {
       const email = document.getElementById('cli-email').value.trim();
       const nome = document.getElementById('cli-nome').value.trim();
 
-      if (!email) {
-        alert('Por favor, informe seu e-mail para receber as instruções do pedido.');
+      if (!email || !nome) {
+        alert('Por favor, preencha seu nome e e-mail antes de continuar.');
         return;
       }
 
       if (produtoSelecionado.entregaTipo === 'EMAIL') {
-        alert(`Pedido do ${produtoSelecionado.nome} confirmado! Os dados de acesso foram enviados para: ${email}`);
+        alert(`Obrigado, ${nome}! Seu pedido de ${produtoSelecionado.nome} foi registrado com sucesso. Enviamos a confirmação para ${email}.`);
         mostrarTela('tela-home');
       } else {
-        if (!nome) {
-          alert('Por favor, informe seu nome para o atendimento via WhatsApp.');
-          return;
-        }
-        const msg = `*SOLICITAÇÃO DE SERVIÇO - DON STORE*\n\n` +
-                    `📌 *Serviço:* ${produtoSelecionado.nome}\n` +
-                    `💰 *Valor:* R$ ${produtoSelecionado.preco.toFixed(2).replace('.', ',')}\n\n` +
-                    `👤 *Cliente:* ${nome}\n` +
-                    `📧 *E-mail:* ${email}\n\n` +
-                    `Olá, solicitei este serviço pelo site e gostaria de concluir!`;
+        const mensagem = `*SOLICITAÇÃO DE SERVIÇO - DON STORE*\n\n` +
+                         `📌 *Serviço:* ${produtoSelecionado.nome}\n` +
+                         `💰 *Valor:* R$ ${produtoSelecionado.preco.toFixed(2).replace('.', ',')}\n\n` +
+                         `👤 *Cliente:* ${nome}\n` +
+                         `📧 *E-mail:* ${email}\n\n` +
+                         `Olá, gostaria de dar andamento a esse pedido!`;
 
-        window.open(`https://wa.me/${produtoSelecionado.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+        const linkWhatsApp = `https://wa.me/${produtoSelecionado.whatsapp}?text=${encodeURIComponent(mensagem)}`;
+        window.open(linkWhatsApp, '_blank');
       }
     }
 
+    // INICIALIZA O CARREGAMENTO
     carregarProdutos();
   </script>
 </body>
