@@ -3,89 +3,308 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DON STORE - Oficial</title>
+  <title>DON STORE - Serviços Digitais Premium</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: #0d0e15; color: #fff; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
-    
-    header { text-align: center; margin-bottom: 30px; }
-    header h1 { font-size: 2.2rem; color: #a855f7; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
-    header p { color: #9ca3af; font-size: 0.95rem; margin-top: 5px; }
+    :root {
+      --bg-color: #090a0f;
+      --card-bg: #12141d;
+      --card-border: #1e2230;
+      --accent: #8b5cf6;
+      --accent-glow: rgba(139, 92, 246, 0.35);
+      --green: #10b981;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
 
-    /* Efeito de Animação/Movimentação */
-    .screen { display: none; width: 100%; max-width: 900px; animation: fadeIn 0.4s ease-in-out forwards; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 15px 40px 15px;
+      overflow-x: hidden;
+    }
+
+    /* Header e Banner Principal */
+    header {
+      width: 100%;
+      max-width: 1000px;
+      padding: 30px 20px 20px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.5px;
+      cursor: pointer;
+    }
+
+    .brand span {
+      background: linear-gradient(135deg, #a855f7, #6366f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-badge {
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid var(--accent);
+      color: #c084fc;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 500px;
+    }
+
+    /* Telas com Transição */
+    .screen {
+      display: none;
+      width: 100%;
+      max-width: 1000px;
+      animation: slideUp 0.35s ease-out forwards;
+    }
+
     .screen.active { display: block; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     /* Grid do Catálogo */
-    .grid-produtos { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; width: 100%; }
-    .card-produto { background: #161824; border: 1px solid #2d2f45; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; transition: all 0.3s ease; cursor: pointer; }
-    .card-produto:hover { transform: translateY(-8px) scale(1.02); border-color: #a855f7; box-shadow: 0 10px 20px rgba(168, 85, 247, 0.2); }
-    .card-produto img { width: 85px; height: 85px; object-fit: contain; margin-bottom: 15px; border-radius: 10px; background: #0d0e15; padding: 8px; border: 1px solid #26293b; }
-    .card-produto h3 { font-size: 1.2rem; margin-bottom: 8px; color: #f3f4f6; }
-    .card-produto .preco { font-size: 1.5rem; font-weight: bold; color: #10b981; margin-bottom: 12px; }
-    .btn-ver { background: #a855f7; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; width: 100%; transition: background 0.2s; }
-    .btn-ver:hover { background: #9333ea; }
+    .grid-produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 22px;
+      width: 100%;
+      margin-top: 20px;
+    }
 
-    /* Detalhes do Produto */
-    .btn-voltar { background: transparent; color: #9ca3af; border: 1px solid #374151; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-bottom: 20px; font-weight: bold; transition: 0.2s; }
-    .btn-voltar:hover { color: #fff; border-color: #a855f7; }
-    
-    .detalhes-container { background: #161824; border: 1px solid #2d2f45; border-radius: 12px; padding: 30px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px; }
-    .detalhes-container img { width: 120px; height: 120px; object-fit: contain; background: #0d0e15; padding: 10px; border-radius: 12px; border: 1px solid #26293b; }
-    
-    /* Formulário de Checkout */
-    .form-box { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 15px; text-align: left; margin-top: 10px; }
-    .form-group label { font-size: 0.85rem; color: #9ca3af; margin-bottom: 5px; display: block; }
-    .form-group input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #2d2f45; background: #0d0e15; color: #fff; outline: none; transition: border-color 0.2s; }
-    .form-group input:focus { border-color: #a855f7; }
-    
-    .btn-wpp { width: 100%; background: #25d366; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1.05rem; transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; }
-    .btn-wpp:hover { background: #1da851; }
+    .card-produto {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-produto::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .card-produto:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+      box-shadow: 0 12px 30px -10px var(--accent-glow);
+    }
+
+    .card-produto:hover::before { opacity: 1; }
+
+    .card-produto img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      margin-bottom: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .card-produto h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .card-produto .preco {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--green);
+      margin: 10px 0 16px 0;
+    }
+
+    .btn-detalhes {
+      width: 100%;
+      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn-detalhes:active { transform: scale(0.98); }
+
+    /* Tela de Detalhes e Checkout */
+    .btn-voltar {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      border: 1px solid var(--card-border);
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-bottom: 25px;
+      transition: all 0.2s;
+    }
+
+    .btn-voltar:hover { color: #fff; border-color: var(--accent); }
+
+    .checkout-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 35px 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 550px;
+      margin: 0 auto;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .checkout-box img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 15px;
+    }
+
+    .form-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 15px;
+      text-align: left;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      background: #090a0f;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus {
+      border-color: var(--accent);
+    }
+
+    .btn-wpp {
+      width: 100%;
+      background: #25d366;
+      color: #000;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      cursor: pointer;
+      margin-top: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-wpp:hover { background: #22c55e; }
+    .btn-wpp:active { transform: scale(0.98); }
   </style>
 </head>
 <body>
 
   <header>
-    <h1 onclick="mostrarTela('tela-home')">👻 DON STORE</h1>
-    <p>Catálogo de Serviços - Atendimento Rápido</p>
+    <div class="brand" onclick="mostrarTela('tela-home')">
+      👑 <span>DON STORE</span>
+      <span class="brand-badge">Oficial</span>
+    </div>
+    <p class="hero-subtitle">Plataforma Oficial de Serviços & Consultoria Digital com Atendimento Imediato.</p>
   </header>
 
-  <!-- TELA 1: CATÁLOGO PRINCIPAL -->
+  <!-- TELA 1: VITRINE DE PRODUTOS -->
   <main id="tela-home" class="screen active">
-    <div class="grid-produtos" id="grid-produtos">
-      <p style="text-align: center; width: 100%;">Carregando serviços...</p>
-    </div>
+    <div class="grid-produtos" id="grid-produtos"></div>
   </main>
 
-  <!-- TELA 2: DETALHES E CHECKOUT -->
+  <!-- TELA 2: CHECKOUT & CADASTRO -->
   <main id="tela-detalhes" class="screen">
     <button class="btn-voltar" onclick="mostrarTela('tela-home')">← Voltar ao Catálogo</button>
-    <div class="detalhes-container">
-      <img id="det-img" src="" alt="Produto">
+    <div class="checkout-box">
+      <img id="det-img" src="" alt="Serviço">
       <h2 id="det-nome">Nome do Serviço</h2>
-      <p id="det-desc" style="color: #9ca3af; max-width: 500px;">Descrição do serviço...</p>
-      <div id="det-preco" class="preco" style="font-size: 2rem;">R$ 0,00</div>
+      <p id="det-desc" style="color: var(--text-muted); margin-top: 8px; text-align: center; font-size: 0.9rem;"></p>
+      <div id="det-preco" class="preco" style="font-size: 2.2rem; margin: 15px 0;">R$ 0,00</div>
 
-      <div class="form-box">
-        <h4 style="color: #a855f7; text-align: center; margin-bottom: 5px;">Dados para Recebimento / Identificação</h4>
+      <div style="width: 100%; border-top: 1px solid var(--card-border); padding-top: 20px; margin-top: 10px;">
+        <h4 style="text-align: center; color: var(--accent); margin-bottom: 15px;">Dados para Envio e Identificação</h4>
+        
         <div class="form-group">
-          <label>Seu Nome ou Apelido</label>
-          <input type="text" id="cli-nome" placeholder="Ex: João Silva" required>
+          <label>Nome Completo ou Apelido</label>
+          <input type="text" id="cli-nome" placeholder="Digite seu nome">
         </div>
+
         <div class="form-group">
-          <label>E-mail (Para receber a entrega)</label>
-          <input type="email" id="cli-email" placeholder="seuemail@gmail.com" required>
+          <label>E-mail (Para recebimento da entrega)</label>
+          <input type="email" id="cli-email" placeholder="seuemail@exemplo.com">
         </div>
+
         <div class="form-group">
-          <label>Crie uma Senha (Identificação de Acesso)</label>
-          <input type="password" id="cli-senha" placeholder="******" required>
+          <label>Crie uma Senha (Identificação do Pedido)</label>
+          <input type="password" id="cli-senha" placeholder="******">
         </div>
-        <button class="btn-wpp" onclick="processarPedido()">
+
+        <button class="btn-wpp" onclick="finalizarPedido()">
           💬 Finalizar Pedido no WhatsApp
         </button>
       </div>
@@ -93,11 +312,11 @@
   </main>
 
   <script>
-    let produtoSelecionado = null;
+    let produtoAtual = null;
 
-    function mostrarTela(idTela) {
+    function mostrarTela(id) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById(idTela).classList.add('active');
+      document.getElementById(id).classList.add('active');
       window.scrollTo(0, 0);
     }
 
@@ -106,56 +325,53 @@
         const res = await fetch('/api/produtos');
         const produtos = await res.json();
         
-        const container = document.getElementById('grid-produtos');
-        container.innerHTML = '';
+        const grid = document.getElementById('grid-produtos');
+        grid.innerHTML = '';
 
         produtos.forEach(p => {
           const card = document.createElement('div');
           card.className = 'card-produto';
-          card.onclick = () => abrirDetalhes(p);
-          
           card.innerHTML = `
             <img src="${p.imagem}" alt="${p.nome}">
             <h3>${p.nome}</h3>
             <div class="preco">R$ ${p.preco.toFixed(2).replace('.', ',')}</div>
-            <button class="btn-ver">Ver Detalhes</button>
+            <button class="btn-detalhes" onclick="abrirCheckout(${JSON.stringify(p).replace(/"/g, '&quot;')})">Adquirir / Ver Detalhes</button>
           `;
-          container.appendChild(card);
+          grid.appendChild(card);
         });
       } catch (err) {
-        document.getElementById('grid-produtos').innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar catálogo. Tente novamente.</p>';
+        console.error(err);
       }
     }
 
-    function abrirDetalhes(produto) {
-      produtoSelecionado = produto;
-      document.getElementById('det-img').src = produto.imagem;
-      document.getElementById('det-nome').innerText = produto.nome;
-      document.getElementById('det-desc').innerText = produto.descricao;
-      document.getElementById('det-preco').innerText = `R$ ${produto.preco.toFixed(2).replace('.', ',')}`;
+    function abrirCheckout(p) {
+      produtoAtual = p;
+      document.getElementById('det-img').src = p.imagem;
+      document.getElementById('det-nome').innerText = p.nome;
+      document.getElementById('det-desc').innerText = p.descricao;
+      document.getElementById('det-preco').innerText = `R$ ${p.preco.toFixed(2).replace('.', ',')}`;
       mostrarTela('tela-detalhes');
     }
 
-    function processarPedido() {
+    function finalizarPedido() {
       const nome = document.getElementById('cli-nome').value.trim();
       const email = document.getElementById('cli-email').value.trim();
       const senha = document.getElementById('cli-senha').value.trim();
 
       if (!nome || !email || !senha) {
-        alert('Por favor, preencha todos os campos para identificação antes de prosseguir.');
+        alert('Por favor, preencha o Nome, E-mail e crie uma Senha para validação do seu pedido.');
         return;
       }
 
       const mensagem = `*NOVO PEDIDO - DON STORE*\n\n` +
-                       `📌 *Serviço:* ${produtoSelecionado.nome}\n` +
-                       `💰 *Valor:* R$ ${produtoSelecionado.preco.toFixed(2).replace('.', ',')}\n\n` +
+                       `📌 *Serviço:* ${produtoAtual.nome}\n` +
+                       `💰 *Valor:* R$ ${produtoAtual.preco.toFixed(2).replace('.', ',')}\n\n` +
                        `👤 *Cliente:* ${nome}\n` +
                        `📧 *E-mail:* ${email}\n` +
-                       `🔑 *Senha de Acesso:* ${senha}\n\n` +
-                       `Gostaria de realizar o pagamento para dar andamento!`;
+                       `🔑 *Senha Cadastrada:* ${senha}\n\n` +
+                       `Gostaria de proceder com o pagamento e recebimento!`;
 
-      const urlWpp = `https://wa.me/${produtoSelecionado.whatsapp}?text=${encodeURIComponent(mensagem)}`;
-      window.open(urlWpp, '_blank');
+      window.open(`https://wa.me/${produtoAtual.whatsapp}?text=${encodeURIComponent(mensagem)}`, '_blank');
     }
 
     carregarProdutos();
