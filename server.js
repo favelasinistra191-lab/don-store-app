@@ -1,6 +1,10 @@
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,7 +26,7 @@ const ICONES = {
   doc: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23dc2626"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>'
 };
 
-// BANCO DE DADOS COMPLETO DE PRODUTOS E PREÇOS CORRETOS
+// BANCO DE DADOS DE PRODUTOS COMPLETO
 const produtos = [
   {
     id: 1,
@@ -127,7 +131,6 @@ app.get('/api/produtos/:id', (req, res) => {
   res.json(p);
 });
 
-// SERVIR INDEX CASO ACESSE DIRETO
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
