@@ -4,18 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DON STORE | Serviços Digitais Profissionais</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #050508;
-      --card-bg: rgba(14, 14, 20, 0.9);
-      --card-border: rgba(220, 38, 38, 0.25);
+      --bg: #030305;
+      --card-bg: rgba(12, 12, 18, 0.88);
+      --card-border: rgba(220, 38, 38, 0.35);
       --red-primary: #dc2626;
-      --red-glow: rgba(220, 38, 38, 0.4);
-      --red-dark: #991b1b;
+      --red-glow: rgba(220, 38, 38, 0.5);
+      --red-dark: #7f1d1d;
       --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      --text-muted: #a1a1aa;
       --green-accent: #22c55e;
+      --blue-accent: #3b82f6;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -31,30 +32,31 @@
       overflow-x: hidden;
     }
 
-    /* Fundo Opaco com a Morte / Capuz e Foice */
+    /* Fundo Dark Medieval Nítido (Morte no Trono com Foice) */
     body::before {
       content: '';
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at center, rgba(5, 5, 8, 0.7) 0%, #050508 90%),
-                  url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1200') no-repeat center center/cover;
-      opacity: 0.12;
+      background: 
+        radial-gradient(circle at center, rgba(3, 3, 5, 0.65) 0%, rgba(3, 3, 5, 0.95) 100%),
+        url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1600&auto=format&fit=crop') no-repeat center top / cover;
+      opacity: 0.35; /* Aumentado para garantir nitidez do fundo medieval */
       z-index: -1;
       pointer-events: none;
-      filter: grayscale(100%) contrast(160%);
+      filter: contrast(130%) brightness(85%);
     }
 
-    /* Topo Profissional com Menu de Login/Cadastro */
+    /* Topo Profissional */
     header {
       width: 100%;
       max-width: 1100px;
-      padding: 25px 20px;
+      padding: 22px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      background: rgba(5, 5, 8, 0.8);
-      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(220, 38, 38, 0.2);
+      background: rgba(3, 3, 5, 0.85);
+      backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -62,31 +64,28 @@
 
     .brand-logo {
       font-family: 'Cinzel', serif;
-      font-size: 1.8rem;
-      font-weight: 700;
+      font-size: 1.9rem;
+      font-weight: 900;
       letter-spacing: 2px;
-      background: linear-gradient(180deg, #ffffff 40%, var(--red-primary) 100%);
+      background: linear-gradient(180deg, #ffffff 30%, var(--red-primary) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       cursor: pointer;
-      text-shadow: 0 0 20px var(--red-glow);
+      text-shadow: 0 0 15px var(--red-glow);
     }
 
-    .header-actions {
-      display: flex;
-      gap: 10px;
-    }
+    .header-actions { display: flex; gap: 10px; }
 
     .btn-auth {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: #fff;
-      padding: 8px 16px;
+      padding: 9px 18px;
       border-radius: 8px;
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
 
     .btn-auth.primary {
@@ -97,29 +96,31 @@
 
     .btn-auth:hover {
       border-color: var(--red-primary);
-      transform: translateY(-1px);
+      transform: translateY(-2px);
     }
 
-    /* Hero Subtítulo */
+    /* Hero Banner */
     .hero-banner {
       width: 100%;
       max-width: 1100px;
-      padding: 30px 20px 10px 20px;
+      padding: 35px 20px 15px 20px;
       text-align: center;
     }
 
     .hero-banner h1 {
-      font-size: 2rem;
-      font-weight: 800;
+      font-family: 'Cinzel', serif;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
       margin-bottom: 8px;
+      text-shadow: 0 0 10px rgba(0,0,0,0.8);
     }
 
     .hero-banner p {
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.92rem;
     }
 
-    /* Controles (Busca e Filtros) */
+    /* Controles (Busca e Categorias) */
     .controls-container {
       width: 100%;
       max-width: 1100px;
@@ -133,7 +134,7 @@
 
     .search-input {
       flex: 1;
-      min-width: 250px;
+      min-width: 260px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 10px;
@@ -141,6 +142,7 @@
       color: #fff;
       font-size: 0.9rem;
       outline: none;
+      backdrop-filter: blur(8px);
     }
 
     .search-input:focus {
@@ -149,10 +151,10 @@
     }
 
     .cat-btn {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text-muted);
-      padding: 8px 15px;
+      padding: 9px 16px;
       border-radius: 8px;
       cursor: pointer;
       font-size: 0.85rem;
@@ -164,6 +166,7 @@
       background: var(--red-primary);
       color: #fff;
       border-color: var(--red-primary);
+      box-shadow: 0 0 12px var(--red-glow);
     }
 
     /* Telas SPA */
@@ -172,14 +175,14 @@
       width: 100%;
       max-width: 1100px;
       padding: 0 20px 40px 20px;
-      animation: fadeIn 0.3s ease-out;
       flex: 1;
+      animation: fadeIn 0.25s ease-out;
     }
 
     .screen.active { display: block; }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -196,48 +199,58 @@
       border: 1px solid var(--card-border);
       border-radius: 16px;
       padding: 25px 20px;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
 
     .card-produto:hover {
       transform: translateY(-6px);
       border-color: var(--red-primary);
-      box-shadow: 0 15px 35px -10px var(--red-glow);
+      box-shadow: 0 15px 35px -5px var(--red-glow);
     }
 
     .card-produto img {
-      width: 85px;
-      height: 85px;
+      width: 65px;
+      height: 65px;
       object-fit: contain;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.4));
     }
 
-    .card-produto h3 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 8px;
+    /* Selos de Regras de Entrega */
+    .badge-entrega {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .card-produto p {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-bottom: 15px;
-      line-height: 1.4;
-      height: 38px;
-      overflow: hidden;
+    .badge-email {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+
+    .badge-whatsapp {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.4);
     }
 
     .preco-tag {
-      font-size: 1.7rem;
+      font-size: 1.75rem;
       font-weight: 800;
       color: var(--green-accent);
-      margin-bottom: 18px;
+      margin: 10px 0 16px 0;
+      text-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
     }
 
     .btn-comprar {
@@ -255,7 +268,7 @@
 
     .btn-comprar:hover { opacity: 0.9; }
 
-    /* Caixa de Autenticação / Checkout */
+    /* Caixa Form / Checkout / Login */
     .box-container {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -263,27 +276,12 @@
       padding: 35px 25px;
       max-width: 480px;
       margin: 20px auto;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(16px);
       box-shadow: 0 20px 50px rgba(0,0,0,0.8);
     }
 
-    .box-container h2 {
-      text-align: center;
-      font-size: 1.5rem;
-      margin-bottom: 8px;
-    }
-
-    .form-group {
-      text-align: left;
-      margin-top: 15px;
-    }
-
-    .form-group label {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
+    .form-group { text-align: left; margin-top: 15px; }
+    .form-group label { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
     .form-group input {
       width: 100%;
       padding: 12px;
@@ -322,57 +320,41 @@
       font-weight: 600;
     }
 
-    /* Rodapé Profissional com Marca d'água */
+    /* Rodapé Corporativo */
     footer {
       width: 100%;
       padding: 30px 20px;
       text-align: center;
       border-top: 1px solid rgba(255, 255, 255, 0.05);
-      background: rgba(5, 5, 8, 0.9);
+      background: rgba(3, 3, 5, 0.95);
       margin-top: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .footer-brand {
-      font-family: 'Cinzel', serif;
-      font-size: 1rem;
-      color: var(--text-muted);
-      letter-spacing: 1px;
-    }
-
-    .footer-dev {
-      font-size: 0.78rem;
-      color: rgba(255, 255, 255, 0.4);
-      letter-spacing: 0.5px;
     }
   </style>
 </head>
 <body>
 
-  <!-- TOPO PROFISSIONAL -->
+  <!-- CABEÇALHO COM LOGIN E CADASTRO -->
   <header>
     <div class="brand-logo" onclick="mostrarTela('tela-home')">DON STORE</div>
     <div class="header-actions">
-      <button class="btn-auth" onclick="mostrarTela('tela-login')">Entrar</button>
-      <button class="btn-auth primary" onclick="mostrarTela('tela-cadastro')">Cadastre-se</button>
+      <button class="btn-auth" onclick="mostrarTela('tela-login')">Entrar / Login</button>
+      <button class="btn-auth primary" onclick="mostrarTela('tela-cadastro')">Cadastrar-se</button>
     </div>
   </header>
 
-  <!-- TELA 1: HOME / CATÁLOGO -->
+  <!-- CATÁLOGO PRINCIPAL -->
   <div id="tela-home" class="screen active">
     <div class="hero-banner">
-      <h1>Catálogo de Serviços VIP</h1>
-      <p>Selecione abaixo o serviço desejado para iniciar o atendimento imediato.</p>
+      <h1>Catálogo VIP de Serviços</h1>
+      <p>Serviços com entrega automática e atendimento direto via suporte.</p>
     </div>
 
     <div class="controls-container">
-      <input type="text" id="busca-input" class="search-input" placeholder="🔍 Buscar serviço (Ex: CNH, RG, 99, Atestado...)" oninput="filtrarProdutos()">
+      <input type="text" id="busca-input" class="search-input" placeholder="🔍 Buscar por Netflix, Disney, RG, CNH..." oninput="filtrarProdutos()">
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
         <button class="cat-btn active" onclick="filtrarCategoria('todas', this)">Todos</button>
+        <button class="cat-btn" onclick="filtrarCategoria('Streaming', this)">Streaming</button>
         <button class="cat-btn" onclick="filtrarCategoria('Documentos', this)">Documentos</button>
-        <button class="cat-btn" onclick="filtrarCategoria('Contas / Apps', this)">Contas/Apps</button>
         <button class="cat-btn" onclick="filtrarCategoria('Escolar', this)">Escolar</button>
       </div>
     </div>
@@ -380,84 +362,82 @@
     <div class="grid-produtos" id="grid-produtos"></div>
   </div>
 
-  <!-- TELA 2: LOGIN -->
+  <!-- TELA DE LOGIN -->
   <div id="tela-login" class="screen">
     <button class="btn-voltar" onclick="mostrarTela('tela-home')">← Voltar</button>
     <div class="box-container">
-      <h2>Área do Cliente</h2>
-      <p style="text-align:center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Entre com sua conta cadastrada</p>
+      <h2 style="text-align:center; font-family: 'Cinzel', serif;">Área do Cliente</h2>
+      <p style="text-align:center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Acesse sua conta para visualizar pedidos</p>
       
       <div class="form-group">
         <label>E-mail</label>
         <input type="email" id="login-email" placeholder="seu@email.com">
       </div>
-
       <div class="form-group">
         <label>Senha</label>
         <input type="password" id="login-senha" placeholder="******">
       </div>
-
       <button class="btn-submit" onclick="fazerLogin()">Entrar no Sistema</button>
     </div>
   </div>
 
-  <!-- TELA 3: CADASTRO -->
+  <!-- TELA DE CADASTRO -->
   <div id="tela-cadastro" class="screen">
     <button class="btn-voltar" onclick="mostrarTela('tela-home')">← Voltar</button>
     <div class="box-container">
-      <h2>Criar Nova Conta</h2>
-      <p style="text-align:center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Cadastre-se para acompanhar seus pedidos</p>
+      <h2 style="text-align:center; font-family: 'Cinzel', serif;">Criar Nova Conta</h2>
+      <p style="text-align:center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Cadastre-se e receba seus acessos rapidamente</p>
       
       <div class="form-group">
         <label>Nome Completo</label>
         <input type="text" id="cad-nome" placeholder="Seu nome">
       </div>
-
       <div class="form-group">
         <label>E-mail</label>
         <input type="email" id="cad-email" placeholder="seu@email.com">
       </div>
-
       <div class="form-group">
         <label>Criar Senha</label>
         <input type="password" id="cad-senha" placeholder="******">
       </div>
-
       <button class="btn-submit" onclick="fazerCadastro()">Concluir Cadastro</button>
     </div>
   </div>
 
-  <!-- TELA 4: CHECKOUT / PEDIDO -->
+  <!-- TELA DE CHECKOUT (ADAPTADA EMAIL / WHATSAPP) -->
   <div id="tela-detalhes" class="screen">
     <button class="btn-voltar" onclick="mostrarTela('tela-home')">← Voltar ao Catálogo</button>
     <div class="box-container" style="text-align: center;">
-      <img id="det-img" src="" alt="Serviço" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 15px;">
-      <h2 id="det-nome">Serviço</h2>
-      <p id="det-desc" style="color: var(--text-muted); margin-top: 8px; font-size: 0.85rem;"></p>
-      <div id="det-preco" class="preco-tag" style="margin: 15px 0;">R$ 0,00</div>
+      <img id="det-img" src="" alt="Serviço" style="width: 70px; height: 70px; margin-bottom: 10px;">
+      <h2 id="det-nome" style="font-family: 'Cinzel', serif;">Serviço</h2>
+      <p id="det-desc" style="color: var(--text-muted); font-size: 0.85rem; margin-top:5px;"></p>
+      
+      <div id="det-preco" class="preco-tag">R$ 0,00</div>
 
       <div style="border-top: 1px solid var(--card-border); padding-top: 20px; text-align: left;">
-        <h4 style="color: var(--red-primary); margin-bottom: 10px; font-size: 0.9rem;">Confirmação de Dados para WhatsApp</h4>
+        <h4 id="det-titulo-acao" style="color: var(--red-primary); margin-bottom: 10px; font-size: 0.9rem;">
+          Confirmação do Pedido
+        </h4>
         
         <div class="form-group">
-          <label>Seu Nome ou Apelido</label>
-          <input type="text" id="cli-nome" placeholder="Nome para atendimento">
-        </div>
-
-        <div class="form-group">
-          <label>Seu E-mail de Contato</label>
+          <label>Seu E-mail de Recebimento</label>
           <input type="email" id="cli-email" placeholder="email@exemplo.com">
         </div>
 
-        <button class="btn-submit" style="background: #22c55e; color: #000; box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);" onclick="finalizarPedido()">💬 Enviar Pedido no WhatsApp</button>
+        <div class="form-group" id="grupo-nome">
+          <label>Seu Nome / Apelido</label>
+          <input type="text" id="cli-nome" placeholder="Seu nome">
+        </div>
+
+        <button id="btn-finalizar-acao" class="btn-submit" onclick="processarPedido()">Concluir Pedido</button>
       </div>
     </div>
   </div>
 
-  <!-- RODAPÉ CORPORATIVO -->
+  <!-- RODAPÉ -->
   <footer>
-    <div class="footer-brand">DON STORE &copy; 2026 - Todos os direitos reservados.</div>
-    <div class="footer-dev">Desenvolvido por: Don Desenvolvimentos</div>
+    <div style="color: var(--text-muted); font-size: 0.88rem; font-family: 'Cinzel', serif;">DON STORE &copy; 2026 - Todos os direitos reservados.</div>
+    <div style="font-size: 0.78rem; color: rgba(255,255,255,0.35); margin-top: 6px;">Desenvolvido por: Don Desenvolvimentos</div>
   </footer>
 
   <script>
@@ -477,7 +457,7 @@
         todosProdutos = await res.json();
         renderizarProdutos(todosProdutos);
       } catch (err) {
-        console.error(err);
+        console.error("Erro ao carregar catálogo:", err);
       }
     }
 
@@ -491,14 +471,21 @@
       }
 
       lista.forEach(p => {
+        const isEmail = p.entregaTipo === 'EMAIL';
+        const badgeClass = isEmail ? 'badge-email' : 'badge-whatsapp';
+        const badgeTexto = isEmail ? '⚡ Entrega Instantânea no E-mail' : '💬 Finalização pelo WhatsApp';
+
         const card = document.createElement('div');
         card.className = 'card-produto';
         card.innerHTML = `
+          <span class="badge-entrega ${badgeClass}">${badgeTexto}</span>
           <img src="${p.imagem}" alt="${p.nome}">
           <h3>${p.nome}</h3>
-          <p>${p.descricao}</p>
+          <p style="color: var(--text-muted); font-size: 0.82rem; margin-top: 5px;">${p.descricao}</p>
           <div class="preco-tag">R$ ${p.preco.toFixed(2).replace('.', ',')}</div>
-          <button class="btn-comprar" onclick="abrirCheckout(${JSON.stringify(p).replace(/"/g, '&quot;')})">Solicitar Serviço</button>
+          <button class="btn-comprar" onclick="abrirCheckout(${JSON.stringify(p).replace(/"/g, '&quot;')})">
+            ${isEmail ? 'Receber Acesso por E-mail' : 'Solicitar Atendimento'}
+          </button>
         `;
         grid.appendChild(card);
       });
@@ -527,17 +514,30 @@
       document.getElementById('det-nome').innerText = p.nome;
       document.getElementById('det-desc').innerText = p.descricao;
       document.getElementById('det-preco').innerText = `R$ ${p.preco.toFixed(2).replace('.', ',')}`;
+
+      const btnAcao = document.getElementById('btn-finalizar-acao');
+      const tituloAcao = document.getElementById('det-titulo-acao');
+
+      if (p.entregaTipo === 'EMAIL') {
+        tituloAcao.innerText = "⚡ Entrega Automática via E-mail";
+        btnAcao.innerText = "🚀 Confirmar e Receber por E-mail";
+        btnAcao.style.background = "var(--blue-accent)";
+        btnAcao.style.color = "#fff";
+      } else {
+        tituloAcao.innerText = "💬 Finalização pelo WhatsApp";
+        btnAcao.innerText = "💬 Finalizar Pedido no WhatsApp";
+        btnAcao.style.background = "#22c55e";
+        btnAcao.style.color = "#000";
+      }
+
       mostrarTela('tela-detalhes');
     }
 
     function fazerLogin() {
       const email = document.getElementById('login-email').value.trim();
       const senha = document.getElementById('login-senha').value.trim();
-      if (!email || !senha) {
-        alert('Preencha seu e-mail e senha.');
-        return;
-      }
-      alert('Login realizado com sucesso! Bem-vindo de volta.');
+      if (!email || !senha) { alert('Preencha e-mail e senha.'); return; }
+      alert('Login realizado com sucesso!');
       mostrarTela('tela-home');
     }
 
@@ -545,31 +545,37 @@
       const nome = document.getElementById('cad-nome').value.trim();
       const email = document.getElementById('cad-email').value.trim();
       const senha = document.getElementById('cad-senha').value.trim();
-      if (!nome || !email || !senha) {
-        alert('Preencha todos os campos do cadastro.');
-        return;
-      }
-      alert('Cadastro realizado com sucesso! Conta ativada.');
+      if (!nome || !email || !senha) { alert('Preencha todos os campos do cadastro.'); return; }
+      alert('Cadastro concluído com sucesso!');
       mostrarTela('tela-home');
     }
 
-    function finalizarPedido() {
-      const nome = document.getElementById('cli-nome').value.trim();
+    function processarPedido() {
       const email = document.getElementById('cli-email').value.trim();
+      const nome = document.getElementById('cli-nome').value.trim();
 
-      if (!nome || !email) {
-        alert('Por favor, informe seu nome e e-mail.');
+      if (!email) {
+        alert('Por favor, informe seu e-mail para receber as instruções do pedido.');
         return;
       }
 
-      const msg = `*NOVO PEDIDO - DON STORE*\n\n` +
-                  `📌 *Serviço:* ${produtoSelecionado.nome}\n` +
-                  `💰 *Valor:* R$ ${produtoSelecionado.preco.toFixed(2).replace('.', ',')}\n\n` +
-                  `👤 *Cliente:* ${nome}\n` +
-                  `📧 *E-mail:* ${email}\n\n` +
-                  `Olá, solicitei este serviço pelo site e gostaria de finalizar!`;
+      if (produtoSelecionado.entregaTipo === 'EMAIL') {
+        alert(`Pedido do ${produtoSelecionado.nome} confirmado! Os dados de acesso foram enviados para: ${email}`);
+        mostrarTela('tela-home');
+      } else {
+        if (!nome) {
+          alert('Por favor, informe seu nome para o atendimento via WhatsApp.');
+          return;
+        }
+        const msg = `*SOLICITAÇÃO DE SERVIÇO - DON STORE*\n\n` +
+                    `📌 *Serviço:* ${produtoSelecionado.nome}\n` +
+                    `💰 *Valor:* R$ ${produtoSelecionado.preco.toFixed(2).replace('.', ',')}\n\n` +
+                    `👤 *Cliente:* ${nome}\n` +
+                    `📧 *E-mail:* ${email}\n\n` +
+                    `Olá, solicitei este serviço pelo site e gostaria de concluir!`;
 
-      window.open(`https://wa.me/${produtoSelecionado.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+        window.open(`https://wa.me/${produtoSelecionado.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+      }
     }
 
     carregarProdutos();
