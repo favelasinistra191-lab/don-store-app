@@ -7,6 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
     :root {
@@ -21,7 +25,6 @@
       --text-muted: #94a3b8;
       --green-accent: #22c55e;
       --blue-accent: #3b82f6;
-      --gold-accent: #eab308;
     }
 
     * {
@@ -116,6 +119,7 @@
       align-items: center;
       gap: 8px;
       transition: all 0.2s;
+      text-decoration: none;
     }
 
     .btn-cart-nav:hover {
@@ -249,11 +253,25 @@
       box-shadow: 0 10px 25px rgba(220, 38, 38, 0.2);
     }
 
-    .card-produto img {
-      width: 68px;
-      height: 68px;
-      margin-bottom: 14px;
-      filter: drop-shadow(0 0 8px var(--red-glow));
+    /* CAIXA DO ÍCONE PROFISSIONAL */
+    .icon-box {
+      width: 72px;
+      height: 72px;
+      background: rgba(15, 15, 23, 0.8);
+      border: 1px solid rgba(220, 38, 38, 0.25);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 2rem;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .card-produto:hover .icon-box {
+      transform: scale(1.08);
+      border-color: var(--red-primary);
     }
 
     .badge-entrega {
@@ -311,7 +329,7 @@
       transform: scale(1.02);
     }
 
-    /* MODAL E TELA DE DETALHES */
+    /* CHECKOUT / DETALHES */
     .box-container {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -321,6 +339,7 @@
       margin: 30px auto;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(16px);
+      text-align: center;
     }
 
     .form-group {
@@ -397,9 +416,9 @@
     <div class="brand-logo" onclick="mostrarTela('tela-home')">DON STORE</div>
     <div class="header-nav">
       <span class="nav-link" onclick="mostrarTela('tela-home')">Catálogo</span>
-      <button class="btn-cart-nav" onclick="alert('Seus pedidos são finalizados direto por e-mail ou WhatsApp!')">
-        🛒 Suporte
-      </button>
+      <a href="https://wa.me/5565993416402" target="_blank" class="btn-cart-nav">
+        <i class="fa-brands fa-whatsapp text-emerald-400 text-base"></i> Suporte
+      </a>
     </div>
   </header>
 
@@ -429,11 +448,11 @@
 
   <!-- TELA DE CHECKOUT / DETALHES -->
   <div id="tela-detalhes" class="screen">
-    <button class="btn-voltar" onclick="mostrarTela('tela-home')">← Voltar para o catálogo</button>
+    <button class="btn-voltar" onclick="mostrarTela('tela-home')"><i class="fa-solid fa-arrow-left"></i> Voltar para o catálogo</button>
 
-    <div class="box-container" style="text-align: center;">
-      <img id="det-img" src="" alt="" style="width:70px; height:70px;">
-      <h2 id="det-nome" style="font-family:'Cinzel', serif; margin-top:12px; font-size:1.6rem;"></h2>
+    <div class="box-container">
+      <div id="det-icon-box" class="icon-box" style="margin: 0 auto 12px auto; width: 75px; height: 75px; font-size: 2.2rem;"></div>
+      <h2 id="det-nome" style="font-family:'Cinzel', serif; margin-top:12px; font-size:1.6rem; color:#fff;"></h2>
       <p id="det-desc" style="color:var(--text-muted); font-size:0.9rem; margin-top:6px;"></p>
       <div id="det-preco" class="preco-tag" style="margin-top:15px;"></div>
 
@@ -458,6 +477,7 @@
     <p>DON STORE &copy; 2026 - Todos os direitos reservados.</p>
   </footer>
 
+  <!-- SCRIPT DA APLICAÇÃO -->
   <script>
     let todosProdutos = [];
     let produtoSelecionado = null;
@@ -476,6 +496,7 @@
         renderizarProdutos(todosProdutos);
       } catch (err) {
         console.error('Erro ao carregar produtos:', err);
+        document.getElementById('grid-produtos').innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--red-primary); padding: 40px;">Erro ao carregar produtos do servidor.</p>`;
       }
     }
 
@@ -496,7 +517,9 @@
           <span class="badge-entrega ${isEmail ? 'badge-email' : 'badge-whatsapp'}">
             ${isEmail ? '⚡ Entrega E-mail' : '💬 Pedir no WhatsApp'}
           </span>
-          <img src="${p.imagem}" alt="${p.nome}">
+          <div class="icon-box">
+            <i class="${p.icone} ${p.corIcone}"></i>
+          </div>
           <div class="card-titulo">${p.nome}</div>
           <div class="card-desc">${p.descricao}</div>
           <div class="preco-tag">R$ ${p.preco.toFixed(2).replace('.', ',')}</div>
@@ -527,16 +550,16 @@
 
     function abrirCheckout(p) {
       produtoSelecionado = p;
-      document.getElementById('det-img').src = p.imagem;
+      document.getElementById('det-icon-box').innerHTML = `<i class="${p.icone} ${p.corIcone}"></i>`;
       document.getElementById('det-nome').innerText = p.nome;
       document.getElementById('det-desc').innerText = p.descricao;
       document.getElementById('det-preco').innerText = `R$ ${p.preco.toFixed(2).replace('.', ',')}`;
       
       const btnAcao = document.getElementById('btn-finalizar-acao');
       if (p.entregaTipo === 'EMAIL') {
-        btnAcao.innerText = 'Confirmar Pedido por E-mail';
+        btnAcao.innerHTML = '<i class="fa-solid fa-envelope"></i> Confirmar Pedido por E-mail';
       } else {
-        btnAcao.innerText = 'Iniciar Atendimento no WhatsApp';
+        btnAcao.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Iniciar Atendimento no WhatsApp';
       }
 
       mostrarTela('tela-detalhes');
@@ -552,7 +575,7 @@
       }
 
       if (produtoSelecionado.entregaTipo === 'EMAIL') {
-        alert(`Obrigado, ${nome}! Seu pedido de ${produtoSelecionado.nome} foi registrado com sucesso. Enviamos a confirmação para ${email}.`);
+        alert(`Obrigado, ${nome}! Seu pedido de ${produtoSelecionado.nome} foi registrado com sucesso. Enviamos os detalhes para ${email}.`);
         mostrarTela('tela-home');
       } else {
         const mensagem = `*SOLICITAÇÃO DE SERVIÇO - DON STORE*\n\n` +
