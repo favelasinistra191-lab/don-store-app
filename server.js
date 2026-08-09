@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Configurações de segurança e tamanho de upload (para imagens Base64)
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
@@ -16,6 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const SEU_WHATSAPP = "5565993416402";
 
+// Banco de Dados em Memória (Reinicia se o servidor reiniciar)
 let db = {
   produtos: [
     {
@@ -29,17 +31,18 @@ let db = {
       imagem: "",
       entregaTipo: "EMAIL",
       controlarEstoque: true,
-      // Array de contas/telas disponíveis para entrega automática:
+      // Estoque de credenciais para entrega automática
       credenciaisEstoque: [
-        "netflix1@exemplo.com:senha123 | Perfil: 01",
-        "netflix2@exemplo.com:senha456 | Perfil: 02"
+        "teste1@donstore.com:senha123 | Perfil: 01",
+        "teste2@donstore.com:senha456 | Perfil: 02"
       ],
       ilimitado: false,
       whatsapp: SEU_WHATSAPP
     }
   ],
   usuarios: [
-    { id: 1, nome: "Admin Don", email: "admin@donstore.com", senha: "admin", isAdmin: true, dataCadastro: new Date().toISOString() }
+    // SENHA DE ADMIN ATUALIZADA PARA UMA BEM SEGURA:
+    { id: 1, nome: "Admin Don", email: "admin@donstore.com", senha: "DonStore@2026#Adm", isAdmin: true, dataCadastro: new Date().toISOString() }
   ],
   pedidos: [],
   estatisticas: { visitas: 0 }
@@ -51,17 +54,31 @@ app.post('/api/visita', (req, res) => {
 });
 
 app.get('/api/produtos', (req, res) => {
-  // Retorna os produtos para a loja (sem expor as senhas em estoque para todo mundo ver na API pública)
+  // Retorna os produtos para a loja (sem expor as senhas em estoque)
   const produtosPublicos = db.produtos.map(p => ({
-    ...p,
-    estoque: p.credenciaisEstoque ? p.credenciaisEstoque.length : (p.estoque || 0)
+    id: p.id,
+    nome: p.nome,
+    descricao: p.descricao,
+    preco: p.preco,
+    categoria: p.categoria,
+    icone: p.icone,
+    corIcone: p.corIcone,
+    imagem: p.imagem,
+    entregaTipo: p.entregaTipo,
+    controlarEstoque: p.controlarEstoque,
+    ilimitado: p.ilimitado,
+    whatsapp: p.whatsapp,
+    // Mostra apenas a quantidade disponível
+    estoque: p.credenciaisEstoque ? p.credenciaisEstoque.length : 0
   }));
   res.json(produtosPublicos);
 });
 
-// Cadastrar novo produto pelo Admin com as credenciais automáticas
+// Cadastrar novo produto pelo Admin com suporte a Lote de Contas e imagem
 app.post('/api/admin/produtos', (req, res) => {
-  const { nome, descricao, preco, categoria, icone, corIcone, imagem, entregaTipo, credenciaisTexto } = req.body;
+  // Recebe os dados do formulário admin
+  const { nome, descricao, preco, categoria, icone, corIcone, imagem, entregaTipo, credenciaisTexto, controlarEstoque, ilimitado } = req.body;
+  
   if (!nome || !preco) return res.status(400).json({ error: 'Nome e preço são obrigatórios.' });
 
   // Transforma o texto de credenciais (uma por linha) em um array limpo
@@ -75,13 +92,13 @@ app.post('/api/admin/produtos', (req, res) => {
     descricao: descricao || '',
     preco: parseFloat(preco),
     categoria: categoria || 'Streaming',
-    icone: icone || 'fa-solid fa-box',
+    icone: icone || 'fa-solid fa-bolt',
     corIcone: corIcone || 'text-white',
-    imagem: imagem || '',
-    entregaTipo: entregaTipo || 'EMAIL',
-    controlarEstoque: true,
-    credenciaisEstoque, // As contas cadastradas aqui serão entregues automaticamente
-    ilimitado: false,
+    imagem: imagem || '', // Pode ser URL ou Base64
+    entregaTipo: entregaTipo || 'WHATSAPP',
+    controlarEstoque: !!controlarEstoque,
+    credenciaisEstoque: controlarEstoque ? credenciaisEstoque : [],
+    ilimitado: !!ilimitado,
     whatsapp: SEU_WHATSAPP
   };
 
@@ -126,12 +143,19 @@ app.post('/api/pedidos', (req, res) => {
   if (!prod) return res.status(400).json({ error: 'Produto não encontrado.' });
 
   let dadoEntregue = "Entrega combinada via WhatsApp";
+  let estoqueBaixado = false;
 
-  // Se o produto tiver contas cadastradas no estoque automático, puxa a primeira da fila
-  if (prod.credenciaisEstoque && prod.credenciaisEstoque.length > 0) {
-    dadoEntregue = prod.credenciaisEstoque.shift(); // Remove a conta do estoque para não vender duas vezes!
-  } else if (!prod.ilimitado) {
-    return res.status(400).json({ error: 'Produto esgotado no momento!' });
+  // Se o produto for do tipo "EMAIL" e controlar estoque, tenta pegar conta automática
+  if (prod.entregaTipo === 'EMAIL' && prod.controlarEstoque) {
+    if (prod.credenciaisEstoque && prod.credenciaisEstoque.length > 0) {
+      dadoEntregue = prod.credenciaisEstoque.shift(); // Pega a primeira conta e remove do estoque
+      estoqueBaixado = true;
+    } else if (!prod.ilimitado) {
+      return res.status(400).json({ error: 'Produto esgotado no momento!' });
+    }
+  } else {
+     // Se for entrega manual (WhatsApp), não baixa estoque numérico
+     estoqueBaixado = false;
   }
 
   const novoPedido = {
@@ -139,12 +163,13 @@ app.post('/api/pedidos', (req, res) => {
     usuarioEmail: usuarioEmail || 'Anônimo',
     produtoNome: prod.nome,
     valor: prod.preco,
-    dadoEntregue, // O site vai salvar exatamente qual login/senha foi entregue para este cliente
+    tipo: prod.entregaTipo,
+    dadoEntregue, // O que foi entregue ao cliente (pode ser a conta ou a mensagem de manual)
     data: new Date().toISOString()
   };
 
   db.pedidos.push(novoPedido);
-  res.json({ success: true, dadoEntregue });
+  res.json({ success: true, dadoEntregue, tipo: prod.entregaTipo });
 });
 
 app.get('/api/admin/stats', (req, res) => {
