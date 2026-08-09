@@ -50,7 +50,6 @@
       overflow-x: hidden;
     }
 
-    /* HEADER */
     header {
       width: 100%;
       max-width: 1200px;
@@ -111,7 +110,6 @@
       border-color: var(--red-primary);
     }
 
-    /* HERO */
     .hero-banner {
       width: 100%;
       max-width: 1200px;
@@ -137,7 +135,6 @@
       margin: 0 auto;
     }
 
-    /* CONTROLS */
     .controls-container {
       width: 100%;
       max-width: 1200px;
@@ -197,7 +194,6 @@
       box-shadow: 0 0 10px var(--red-glow);
     }
 
-    /* SCREENS */
     .screen {
       display: none;
       width: 100%;
@@ -209,7 +205,6 @@
       display: block;
     }
 
-    /* GRID RESPONSIVO COM ALTA TRANSPARÊNCIA */
     .grid-produtos {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -225,7 +220,7 @@
     }
 
     .card-produto {
-      background: rgba(10, 10, 15, 0.45); /* Bem transparente para ver bem a imagem de fundo */
+      background: rgba(10, 10, 15, 0.40);
       border: 1px solid var(--card-border);
       border-radius: 18px;
       padding: 20px;
@@ -240,7 +235,7 @@
     .card-produto:hover {
       transform: translateY(-4px);
       border-color: var(--card-border-hover);
-      background: rgba(15, 15, 22, 0.60);
+      background: rgba(15, 15, 22, 0.55);
       box-shadow: 0 10px 25px rgba(220, 38, 38, 0.25);
     }
 
@@ -312,7 +307,6 @@
       filter: brightness(1.15);
     }
 
-    /* FORMS / BOXES */
     .box-container {
       background: rgba(12, 12, 18, 0.8);
       border: 1px solid var(--card-border);
@@ -368,7 +362,6 @@
 
     .btn-voltar:hover { color: #fff; }
 
-    /* ADMIN DASHBOARD */
     .admin-stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -425,7 +418,6 @@
       font-weight: 700;
     }
 
-    /* FOOTER */
     footer {
       width: 100%;
       padding: 25px;
@@ -440,16 +432,14 @@
 </head>
 <body>
 
-  <!-- CABEÇALHO -->
   <header>
     <div class="brand-logo" onclick="mostrarTela('tela-home')">DON STORE</div>
     <div class="header-nav" id="header-nav-buttons"></div>
   </header>
 
-  <!-- TELA PRINCIPAL (HOME) -->
   <div id="tela-home" class="screen active">
     <div class="hero-banner">
-      <h1>SERVIÇOS DIGITAIS & ESQUEMA</h1>
+      <h1>SERVIÇOS DIGITAIS & DOCUMENTOS</h1>
       <p>Aprovação rápida, entrega garantida e atendimento personalizado via WhatsApp e E-mail.</p>
     </div>
 
@@ -461,14 +451,13 @@
       <div class="categories-group">
         <button class="cat-btn active" onclick="filtrarCategoria('todas', this)">Todos</button>
         <button class="cat-btn" onclick="filtrarCategoria('Streaming', this)">Streaming</button>
-        <button class="cat-btn" onclick="filtrarCategoria('Esquema', this)">Esquema</button>
+        <button class="cat-btn" onclick="filtrarCategoria('Serviços', this)">Serviços & Documentos</button>
       </div>
     </div>
 
     <div class="grid-produtos" id="grid-produtos"></div>
   </div>
 
-  <!-- TELA DE LOGIN -->
   <div id="tela-login" class="screen">
     <button class="btn-voltar" onclick="mostrarTela('tela-home')"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
     <div class="box-container">
@@ -491,7 +480,6 @@
     </div>
   </div>
 
-  <!-- TELA DE CADASTRO -->
   <div id="tela-cadastro" class="screen">
     <button class="btn-voltar" onclick="mostrarTela('tela-home')"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
     <div class="box-container">
@@ -518,7 +506,6 @@
     </div>
   </div>
 
-  <!-- TELA DE CHECKOUT / DETALHES -->
   <div id="tela-detalhes" class="screen">
     <button class="btn-voltar" onclick="mostrarTela('tela-home')"><i class="fa-solid fa-arrow-left"></i> Voltar para o catálogo</button>
 
@@ -544,7 +531,6 @@
     </div>
   </div>
 
-  <!-- PAINEL ADMINISTRATIVO -->
   <div id="tela-admin" class="screen">
     <button class="btn-voltar" onclick="mostrarTela('tela-home')"><i class="fa-solid fa-arrow-left"></i> Voltar ao site</button>
     
@@ -600,12 +586,10 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
   <footer>
     <p>DON STORE &copy; 2026 - Todos os direitos reservados.</p>
   </footer>
 
-  <!-- SCRIPT DA APLICAÇÃO -->
   <script>
     let todosProdutos = [];
     let produtoSelecionado = null;
@@ -803,7 +787,7 @@
       try {
         await fetch('/api/pedidos', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             usuarioEmail: email,
             produtoNome: produtoSelecionado.nome,
