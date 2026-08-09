@@ -161,7 +161,6 @@
       border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-size: 0.85rem; margin-top: auto;
     }
 
-    /* Responsividade */
     @media (max-width: 640px) {
       .header-nav .nav-btn span { display: none; }
       .header-nav .nav-btn { padding: 10px; border-radius: 50%; }
@@ -221,7 +220,7 @@
     <p class="mt-1 opacity-50 text-[10px]">Desenvolvido com foco em alta performance.</p>
   </footer>
 
-  <!-- Modal de Compra / Checkout -->
+  <!-- Modal de Compra / Checkout Pix ou WhatsApp -->
   <div class="modal-overlay" id="modalCompra">
     <div class="modal-box">
       <div class="flex justify-between items-center mb-6">
@@ -229,11 +228,10 @@
         <button onclick="fecharModal('modalCompra')" class="text-slate-500 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
       </div>
       <div id="checkoutConteudo" class="space-y-4 mb-8">
-        <!-- Detalhes do produto -->
+        <!-- Detalhes do produto / QR Code Pix -->
       </div>
-      <div class="flex flex-col gap-3">
-        <button id="btnConfirmarCompra" class="w-full py-4 bg-red-600 rounded-xl font-black text-white hover:bg-red-700 shadow-xl shadow-red-600/20 transition-all active:scale-95">Confirmar</button>
-        <button onclick="fecharModal('modalCompra')" class="w-full py-3 text-slate-400 font-bold hover:text-white transition-colors">Voltar ao Catálogo</button>
+      <div class="flex flex-col gap-3" id="checkoutBotoes">
+        <!-- Botões dinâmicos -->
       </div>
     </div>
   </div>
@@ -265,7 +263,7 @@
     </div>
   </div>
 
-  <!-- Modal Painel do Administrador -->
+  <!-- Modal Painel do Administrador (Adicionar, Editar e Excluir) -->
   <div class="modal-overlay" id="modalAdmin">
     <div class="modal-box max-w-2xl">
       <div class="flex justify-between items-center mb-6">
@@ -274,10 +272,11 @@
       </div>
 
       <div class="space-y-8">
-        <!-- Formulário Adicionar Produto -->
+        <!-- Formulário Adicionar / Editar Produto -->
         <div class="bg-slate-900/40 border border-white/5 p-6 rounded-2xl">
-          <h4 class="font-black text-sm text-white mb-5 flex items-center gap-2 uppercase tracking-widest"><i class="fa-solid fa-plus-circle text-red-600"></i> Novo Produto</h4>
-          <form onsubmit="cadastrarProdutoAdmin(event)" class="space-y-4">
+          <h4 id="adminFormTitulo" class="font-black text-sm text-white mb-5 flex items-center gap-2 uppercase tracking-widest"><i class="fa-solid fa-plus-circle text-red-600"></i> Novo Produto</h4>
+          <form onsubmit="salvarProdutoAdmin(event)" class="space-y-4">
+            <input type="hidden" id="admId">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Nome do Serviço</label>
@@ -300,7 +299,7 @@
               <div>
                 <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Método de Entrega</label>
                 <select id="admEntregaTipo" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-red-600">
-                  <option value="EMAIL">Automático (E-mail)</option>
+                  <option value="EMAIL">Automático (Pix API)</option>
                   <option value="WHATSAPP">Manual (WhatsApp)</option>
                 </select>
               </div>
@@ -312,16 +311,19 @@
             </div>
 
             <div>
-              <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Link da Imagem</label>
+              <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Link da Imagem (URL)</label>
               <input type="text" id="admImagem" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-red-600">
             </div>
 
             <div>
-              <label class="block text-[10px] font-bold text-red-500 mb-1 uppercase">Estoque (Apenas para Automático)</label>
-              <textarea id="admCredenciais" rows="3" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-xs text-white outline-none focus:border-red-600" placeholder="Uma conta por linha..."></textarea>
+              <label class="block text-[10px] font-bold text-red-500 mb-1 uppercase">Estoque / Credenciais (Uma por linha)</label>
+              <textarea id="admCredenciais" rows="3" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-xs text-white outline-none focus:border-red-600" placeholder="conta@email.com:senha | Perfil 01"></textarea>
             </div>
 
-            <button type="submit" class="w-full py-4 bg-red-600 hover:bg-red-700 rounded-xl font-black text-sm text-white shadow-lg shadow-red-600/20 transition-all">Salvar no Sistema</button>
+            <div class="flex gap-2">
+              <button type="submit" id="admSubmitBtn" class="flex-1 py-4 bg-red-600 hover:bg-red-700 rounded-xl font-black text-sm text-white shadow-lg shadow-red-600/20 transition-all">Salvar no Sistema</button>
+              <button type="button" id="admCancelBtn" onclick="limparFormAdmin()" style="display:none;" class="px-4 py-4 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-xs text-slate-300 transition-all">Cancelar</button>
+            </div>
           </form>
         </div>
 
@@ -340,16 +342,16 @@
     let produtosCache = [];
     let categoriaAtual = 'Todos';
     let usuarioLogado = JSON.parse(localStorage.getItem('donstore_usuario')) || null;
+    let intervaloVerificacaoPix = null;
 
-    // CONFIGURAÇÃO DO WHATSAPP - Mude aqui o número
-    const WHATSAPP_NUMERO = "5584999999999"; 
+    // WHATSAPP CORRIGIDO COM DDD 65
+    const WHATSAPP_NUMERO = "5565993416402"; 
 
     document.addEventListener('DOMContentLoaded', () => {
       registrarVisita();
       carregarProdutos();
       atualizarInterfaceUsuario();
       
-      // Efeito de scroll no header
       window.addEventListener('scroll', () => {
         const header = document.getElementById('mainHeader');
         if (window.scrollY > 50) {
@@ -415,7 +417,7 @@
             <div class="product-footer">
               <div class="product-price"><span>R$</span>${p.preco.toFixed(2)}</div>
               <button onclick="abrirCheckout(${p.id})" class="buy-btn" ${esgotado ? 'disabled' : ''}>
-                ${esgotado ? 'Esgotado' : (p.entregaTipo === 'EMAIL' ? 'Comprar' : 'Pedir Agora')}
+                ${esgotado ? 'Esgotado' : (p.entregaTipo === 'EMAIL' ? 'Comprar Pix' : 'Pedir Agora')}
               </button>
             </div>
           </div>
@@ -442,74 +444,127 @@
     }
 
     function abrirCheckout(id) {
+      if (intervaloVerificacaoPix) clearInterval(intervaloVerificacaoPix);
       const p = produtosCache.find(x => x.id === id);
       if (!p) return;
       
       const conteudo = document.getElementById('checkoutConteudo');
-      const btn = document.getElementById('btnConfirmarCompra');
-      
-      let badgeHtml = p.entregaTipo === 'EMAIL' 
-        ? '<span class="text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded font-bold">ENTREGA AUTOMÁTICA</span>'
-        : '<span class="text-[10px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded font-bold">ATENDIMENTO HUMANO</span>';
+      const botoes = document.getElementById('checkoutBotoes');
 
-      conteudo.innerHTML = `
-        <div class="bg-black/40 p-5 rounded-2xl border border-white/5">
-          <div class="flex justify-between items-start mb-3">
-            <div>
-              <p class="text-white font-black text-xl mb-1">${p.nome}</p>
-              ${badgeHtml}
-            </div>
-            <p class="text-2xl font-black text-red-600">R$ ${p.preco.toFixed(2)}</p>
+      if (p.entregaTipo === 'WHATSAPP') {
+        conteudo.innerHTML = `
+          <div class="bg-black/40 p-5 rounded-2xl border border-white/5">
+            <p class="text-white font-black text-xl mb-1">${p.nome}</p>
+            <p class="text-2xl font-black text-red-600 mb-3">R$ ${p.preco.toFixed(2)}</p>
+            <p class="text-sm text-slate-400 leading-relaxed">${p.descricao}</p>
           </div>
-          <p class="text-sm text-slate-400 leading-relaxed">${p.descricao}</p>
-        </div>
-        <div class="p-2 text-center">
-          <p class="text-xs text-slate-500 italic">
-            ${p.entregaTipo === 'EMAIL' 
-              ? 'Os dados serão exibidos na tela e enviados ao seu e-mail após a confirmação.' 
-              : 'Você será redirecionado ao nosso WhatsApp oficial para concluir seu pedido.'}
-          </p>
-        </div>
-      `;
-
-      btn.innerText = p.entregaTipo === 'EMAIL' ? 'Pagar e Receber Acesso' : 'Ir para o WhatsApp';
-      btn.onclick = () => p.entregaTipo === 'EMAIL' ? finalizarCompraAutomatica(id) : finalizarCompraWhatsapp(id);
-
-      document.getElementById('modalCompra').classList.add('active');
+          <p class="text-xs text-slate-500 text-center italic">Este serviço é finalizado diretamente via WhatsApp com atendimento humano.</p>
+        `;
+        botoes.innerHTML = `
+          <button onclick="finalizarCompraWhatsapp(${p.id})" class="w-full py-4 bg-red-600 rounded-xl font-black text-white hover:bg-red-700 shadow-xl shadow-red-600/20 transition-all">Ir para o WhatsApp</button>
+          <button onclick="fecharModal('modalCompra')" class="w-full py-3 text-slate-400 font-bold hover:text-white transition-colors">Voltar</button>
+        `;
+        document.getElementById('modalCompra').classList.add('active');
+      } else {
+        // Produto Automático - Gerar Pix
+        conteudo.innerHTML = `
+          <div class="text-center py-6">
+            <i class="fa-solid fa-spinner fa-spin text-3xl text-red-600 mb-3"></i>
+            <p class="text-white font-bold">Gerando QR Code Pix via Mercado Pago...</p>
+          </div>
+        `;
+        botoes.innerHTML = `<button onclick="fecharModal('modalCompra')" class="w-full py-3 text-slate-400 font-bold hover:text-white">Cancelar</button>`;
+        document.getElementById('modalCompra').classList.add('active');
+        gerarPixPagamento(p);
+      }
     }
 
-    async function finalizarCompraAutomatica(id) {
+    async function gerarPixPagamento(p) {
       try {
-        const res = await fetch('/api/pedidos', {
+        const res = await fetch('/api/pagamento/pix', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            usuarioEmail: usuarioLogado ? usuarioLogado.email : 'Anônimo',
-            produtoId: id
+            produtoId: p.id,
+            emailCliente: usuarioLogado ? usuarioLogado.email : 'cliente@donstore.com'
           })
         });
         const data = await res.json();
+
         if (data.success) {
+          const conteudo = document.getElementById('checkoutConteudo');
+          const botoes = document.getElementById('checkoutBotoes');
+
+          conteudo.innerHTML = `
+            <div class="bg-black/50 p-4 rounded-2xl border border-white/5 text-center">
+              <p class="text-white font-bold mb-2">${p.nome}</p>
+              <p class="text-xl font-black text-red-600 mb-4">R$ ${p.preco.toFixed(2)}</p>
+              
+              ${data.qrCodeBase64 ? `<img src="data:image/jpeg;base64,${data.qrCodeBase64}" class="mx-auto w-48 h-48 rounded-xl border border-white/10 mb-4 bg-white p-2">` : ''}
+              
+              <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Pix Copia e Cola</label>
+              <div class="flex gap-2">
+                <input type="text" id="inputPixCopiaCola" readonly value="${data.qrCodeText}" class="w-full bg-black border border-white/10 rounded-xl p-2.5 text-xs text-slate-300 outline-none">
+                <button onclick="copiarPixCodigo()" class="bg-red-600 px-4 rounded-xl text-white font-bold text-xs hover:bg-red-700"><i class="fa-solid fa-copy"></i></button>
+              </div>
+              <div class="mt-4 flex items-center justify-center gap-2 text-xs text-yellow-500 font-bold animate-pulse">
+                <i class="fa-solid fa-rotate"></i> Aguardando confirmação automática da API...
+              </div>
+            </div>
+          `;
+
+          botoes.innerHTML = `
+            <button onclick="fecharModal('modalCompra')" class="w-full py-3 text-slate-400 font-bold hover:text-white transition-colors">Cancelar / Fechar</button>
+          `;
+
+          // Iniciar verificação automática do pagamento a cada 4 segundos
+          intervaloVerificacaoPix = setInterval(() => {
+            verificarStatusPagamento(data.paymentId, p.id);
+          }, 4000);
+
+        } else {
+          alert(data.error || 'Erro ao gerar Pix.');
+          fecharModal('modalCompra');
+        }
+      } catch (e) {
+        alert('Erro de conexão ao gerar pagamento.');
+        fecharModal('modalCompra');
+      }
+    }
+
+    async function verificarStatusPagamento(paymentId, produtoId) {
+      try {
+        const res = await fetch('/api/pagamento/verificar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ paymentId, produtoId })
+        });
+        const data = await res.json();
+
+        if (data.success && data.status === 'APPROVED') {
+          clearInterval(intervaloVerificacaoPix);
           fecharModal('modalCompra');
           Swal.fire({
-            title: 'Sucesso!',
-            text: `Dados entregues: ${data.dadoEntregue}`,
+            title: 'Pagamento Confirmado!',
+            html: `<p class="mb-2 text-sm">Seu acesso foi liberado com sucesso:</p><div class="bg-slate-900 p-3 rounded-xl border border-white/10 text-green-400 font-mono text-xs select-all">${data.dadoEntregue}</div>`,
             icon: 'success',
             confirmButtonColor: '#dc2626'
           });
           carregarProdutos();
-        } else {
-          alert(data.error || 'Erro ao processar compra.');
         }
-      } catch (e) {
-        alert('Erro de conexão.');
-      }
+      } catch (e) {}
+    }
+
+    function copiarPixCodigo() {
+      const input = document.getElementById('inputPixCopiaCola');
+      input.select();
+      navigator.clipboard.writeText(input.value);
+      Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Código Pix copiado!', showConfirmButton: false, timer: 1500 });
     }
 
     function finalizarCompraWhatsapp(id) {
       const p = produtosCache.find(x => x.id === id);
       if (!p) return;
-      
       const mensagem = encodeURIComponent(`Olá! Quero finalizar o pedido do serviço: *${p.nome}* no valor de R$ ${p.preco.toFixed(2)}. Aguardo retorno!`);
       fecharModal('modalCompra');
       window.open(`https://wa.me/${WHATSAPP_NUMERO}?text=${mensagem}`, '_blank');
@@ -552,9 +607,7 @@
           localStorage.setItem('donstore_usuario', JSON.stringify(usuarioLogado));
           fecharModal('modalAuth');
           atualizarInterfaceUsuario();
-        } else {
-          alert(data.error);
-        }
+        } else { alert(data.error); }
       } catch (err) { alert('Erro no login.'); }
     }
 
@@ -596,7 +649,6 @@
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mr-2 hidden sm:inline">User: <b class="text-white">${usuarioLogado.nome}</b></span>
           <button onclick="fazerLogout()" class="nav-btn"><i class="fa-solid fa-power-off"></i> <span>Sair</span></button>
         `;
-
         if (usuarioLogado.isAdmin) {
           adminBtnArea.innerHTML = `<button onclick="abrirAdmin()" class="nav-btn bg-red-600/20 border-red-600/50 text-red-500"><i class="fa-solid fa-shield-halved"></i> <span>Admin</span></button>`;
         } else { adminBtnArea.innerHTML = ''; }
@@ -628,16 +680,48 @@
                 <p class="font-bold text-white text-sm">${p.nome}</p>
                 <p class="text-[10px] text-slate-500 uppercase">${p.entregaTipo} • R$ ${p.preco.toFixed(2)}</p>
               </div>
-              <button onclick="deletarProduto(${p.id})" class="w-10 h-10 flex items-center justify-center bg-red-600/10 text-red-500 rounded-lg hover:bg-red-600 hover:text-white transition-all"><i class="fa-solid fa-trash-can"></i></button>
+              <div class="flex gap-2">
+                <button onclick="prepararEdicao(${p.id}, '${p.nome.replace(/'/g, "\\'")}', ${p.preco}, '${p.categoria}', '${p.entregaTipo}', '${p.descricao.replace(/'/g, "\\'")}', '${p.imagem}')" class="w-10 h-10 flex items-center justify-center bg-blue-600/10 text-blue-400 rounded-lg hover:bg-blue-600 hover:text-white transition-all"><i class="fa-solid fa-pen"></i></button>
+                <button onclick="deletarProduto(${p.id})" class="w-10 h-10 flex items-center justify-center bg-red-600/10 text-red-500 rounded-lg hover:bg-red-600 hover:text-white transition-all"><i class="fa-solid fa-trash-can"></i></button>
+              </div>
             </div>
           `;
         });
       } catch (e) {}
     }
 
-    async function cadastrarProdutoAdmin(e) {
+    function prepararEdicao(id, nome, preco, categoria, entregaTipo, descricao, imagem) {
+      document.getElementById('admId').value = id;
+      document.getElementById('admNome').value = nome;
+      document.getElementById('admPreco').value = preco;
+      document.getElementById('admCategoria').value = categoria;
+      document.getElementById('admEntregaTipo').value = entregaTipo;
+      document.getElementById('admDescricao').value = descricao;
+      document.getElementById('admImagem').value = imagem;
+      document.getElementById('admCredenciais').value = '';
+      
+      document.getElementById('adminFormTitulo').innerHTML = `<i class="fa-solid fa-pen text-blue-500"></i> Editar Produto (ID: ${id})`;
+      document.getElementById('admSubmitBtn').innerText = 'Atualizar Produto';
+      document.getElementById('admCancelBtn').style.display = 'block';
+    }
+
+    function limparFormAdmin() {
+      document.getElementById('admId').value = '';
+      document.getElementById('admNome').value = '';
+      document.getElementById('admPreco').value = '';
+      document.getElementById('admDescricao').value = '';
+      document.getElementById('admImagem').value = '';
+      document.getElementById('admCredenciais').value = '';
+      
+      document.getElementById('adminFormTitulo').innerHTML = `<i class="fa-solid fa-plus-circle text-red-600"></i> Novo Produto`;
+      document.getElementById('admSubmitBtn').innerText = 'Salvar no Sistema';
+      document.getElementById('admCancelBtn').style.display = 'none';
+    }
+
+    async function salvarProdutoAdmin(e) {
       e.preventDefault();
       const payload = {
+        id: document.getElementById('admId').value || null,
         nome: document.getElementById('admNome').value,
         preco: document.getElementById('admPreco').value,
         categoria: document.getElementById('admCategoria').value,
@@ -655,11 +739,7 @@
         });
         const data = await res.json();
         if (data.success) {
-          document.getElementById('admNome').value = '';
-          document.getElementById('admPreco').value = '';
-          document.getElementById('admDescricao').value = '';
-          document.getElementById('admImagem').value = '';
-          document.getElementById('admCredenciais').value = '';
+          limparFormAdmin();
           carregarProdutos();
           carregarListaAdmin();
         }
@@ -679,10 +759,11 @@
     }
 
     function fecharModal(id) {
+      if (id === 'modalCompra' && intervaloVerificacaoPix) clearInterval(intervaloVerificacaoPix);
       document.getElementById(id).classList.remove('active');
     }
   </script>
-  <!-- SweetAlert2 para alertas mais bonitos -->
+  <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
