@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const DATA_FILE = path.join(__dirname, 'dados.json');
 
-// Apenas os produtos exatos que você solicitou, com imagens personalizadas para cada um
+// Produtos com imagens atualizadas e profissionais
 const produtosIniciais = [
   {
     id: 1,
@@ -25,8 +25,8 @@ const produtosIniciais = [
     entregaTipo: "EMAIL",
     imagem: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=500&auto=format&fit=crop",
     credenciais: [
-      "netflix1@donstore.com:senha123 | Perfil: 01",
-      "netflix2@donstore.com:senha456 | Perfil: 02"
+      "disponivel1@donstore.com:senha123 | Perfil: 01",
+      "disponivel2@donstore.com:senha456 | Perfil: 02"
     ]
   },
   {
@@ -38,7 +38,7 @@ const produtosIniciais = [
     entregaTipo: "EMAIL",
     imagem: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=500&auto=format&fit=crop",
     credenciais: [
-      "disney1@donstore.com:senha789"
+      "disponivel1@donstore.com:senha789"
     ]
   },
   {
@@ -60,7 +60,7 @@ const produtosIniciais = [
     preco: 120.00,
     categoria: "Serviços",
     entregaTipo: "WHATSAPP",
-    imagem: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=500&auto=format&fit=crop",
+    imagem: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=500&auto=format&fit=crop",
     credenciais: []
   },
   {
@@ -80,7 +80,7 @@ const produtosIniciais = [
     preco: 100.00,
     categoria: "Serviços",
     entregaTipo: "WHATSAPP",
-    imagem: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=500&auto=format&fit=crop",
+    imagem: "https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?q=80&w=500&auto=format&fit=crop",
     credenciais: []
   },
   {
@@ -90,7 +90,7 @@ const produtosIniciais = [
     preco: 140.00,
     categoria: "Serviços",
     entregaTipo: "WHATSAPP",
-    imagem: "https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=500&auto=format&fit=crop",
+    imagem: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=500&auto=format&fit=crop",
     credenciais: []
   },
   {
@@ -100,7 +100,7 @@ const produtosIniciais = [
     preco: 30.00,
     categoria: "Serviços",
     entregaTipo: "WHATSAPP",
-    imagem: "https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=500&auto=format&fit=crop",
+    imagem: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=500&auto=format&fit=crop",
     credenciais: []
   },
   {
@@ -120,7 +120,7 @@ const produtosIniciais = [
     preco: 230.00,
     categoria: "Serviços",
     entregaTipo: "WHATSAPP",
-    imagem: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=500&auto=format&fit=crop",
+    imagem: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=500&auto=format&fit=crop",
     credenciais: []
   },
   {
@@ -130,7 +130,7 @@ const produtosIniciais = [
     preco: 330.00,
     categoria: "Serviços",
     entregaTipo: "WHATSAPP",
-    imagem: "https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=500&auto=format&fit=crop",
+    imagem: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=500&auto=format&fit=crop",
     credenciais: []
   }
 ];
