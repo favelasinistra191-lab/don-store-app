@@ -13,13 +13,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// SEU NÚMERO OFICIAL DE WHATSAPP
 const SEU_WHATSAPP = "5565993416402";
 
-// BANCO DE DADOS EM MEMÓRIA
 let db = {
   produtos: [
-    // --- STREAMING E OUTROS ---
     {
       id: 1,
       nome: "Tela Netflix 4K",
@@ -29,104 +26,94 @@ let db = {
       icone: "fa-solid fa-tv",
       corIcone: "text-red-500",
       entregaTipo: "EMAIL",
-      estoque: true,
       whatsapp: SEU_WHATSAPP
     },
     {
       id: 2,
-      nome: "Disney+",
+      nome: "Tela Disney+",
       descricao: "Acesso Premium Full HD / 4K para filmes e séries",
       preco: 10.00,
       categoria: "Streaming",
       icone: "fa-solid fa-film",
       corIcone: "text-blue-500",
       entregaTipo: "EMAIL",
-      estoque: true,
       whatsapp: SEU_WHATSAPP
     },
     {
       id: 3,
-      nome: "Segunda Via RG / RNI",
-      descricao: "Atendimento especializado para emissão e atualização de RG/RNI",
+      nome: "Histórico Escolar",
+      descricao: "Documento oficial escolar emitido com rapidez e segurança",
       preco: 120.00,
-      categoria: "Documentos",
+      categoria: "Serviços",
+      icone: "fa-solid fa-graduation-cap",
+      corIcone: "text-blue-400",
+      entregaTipo: "WHATSAPP",
+      whatsapp: SEU_WHATSAPP
+    },
+    {
+      id: 4,
+      nome: "Certificado Escolar",
+      descricao: "Certificado de conclusão de ensino regular ou supletivo",
+      preco: 100.00,
+      categoria: "Serviços",
+      icone: "fa-solid fa-scroll",
+      corIcone: "text-amber-400",
+      entregaTipo: "WHATSAPP",
+      whatsapp: SEU_WHATSAPP
+    },
+    {
+      id: 5,
+      nome: "Esquema SmartFit",
+      descricao: "Acesso e procedimentos exclusivos para SmartFit",
+      preco: 40.00,
+      categoria: "Serviços",
+      icone: "fa-solid fa-dumbbell",
+      corIcone: "text-yellow-500",
+      entregaTipo: "WHATSAPP",
+      whatsapp: SEU_WHATSAPP
+    },
+    {
+      id: 6,
+      nome: "RG Digital",
+      descricao: "Atendimento especializado para emissão e regularização de RG Digital",
+      preco: 100.00,
+      categoria: "Serviços",
       icone: "fa-solid fa-id-card",
       corIcone: "text-amber-500",
       entregaTipo: "WHATSAPP",
-      estoque: true,
-      whatsapp: SEU_WHATSAPP
-    },
-    // --- PRODUTOS SMART FIT (SEM ESTOQUE POR ENQUANTO) ---
-    {
-      id: 101,
-      nome: "Kit Smart Fit Premium",
-      descricao: "Conjunto completo de acessórios para treino de alta performance.",
-      preco: 149.90,
-      categoria: "SmartFit",
-      icone: "fa-solid fa-dumbbell",
-      corIcone: "text-red-500",
-      entregaTipo: "WHATSAPP",
-      estoque: false,
       whatsapp: SEU_WHATSAPP
     },
     {
-      id: 102,
-      nome: "Camiseta Oficial Dry-Fit",
-      descricao: "Tecido tecnológico respirável com estampa exclusiva da marca.",
-      preco: 79.90,
-      categoria: "SmartFit",
-      icone: "fa-solid fa-shirt",
-      corIcone: "text-zinc-300",
-      entregaTipo: "WHATSAPP",
-      estoque: false,
-      whatsapp: SEU_WHATSAPP
-    },
-    {
-      id: 103,
-      nome: "Garrafa Térmica Aço Inox",
-      descricao: "Mantém a temperatura gelada por até 24 horas durante o treino.",
-      preco: 89.90,
-      categoria: "SmartFit",
-      icone: "fa-solid fa-bottle-water",
-      corIcone: "text-cyan-400",
-      entregaTipo: "WHATSAPP",
-      estoque: false,
-      whatsapp: SEU_WHATSAPP
-    },
-    {
-      id: 104,
-      nome: "Mochila Esportiva Executiva",
-      descricao: "Compartimento impermeável para calçados e notebook.",
-      preco: 199.90,
-      categoria: "SmartFit",
-      icone: "fa-solid fa-backpack",
-      corIcone: "text-neutral-400",
-      entregaTipo: "WHATSAPP",
-      estoque: false,
-      whatsapp: SEU_WHATSAPP
-    },
-    {
-      id: 105,
-      nome: "Toalha de Microfibra Pro",
-      descricao: "Super absorvente, compacta e de secagem rápida.",
-      preco: 49.90,
-      categoria: "SmartFit",
-      icone: "fa-solid fa-rug",
+      id: 7,
+      nome: "CNH Digital",
+      descricao: "Emissão e regularização de CNH com atendimento ágil",
+      preco: 140.00,
+      categoria: "Serviços",
+      icone: "fa-solid fa-id-badge",
       corIcone: "text-emerald-400",
       entregaTipo: "WHATSAPP",
-      estoque: false,
       whatsapp: SEU_WHATSAPP
     },
     {
-      id: 106,
-      nome: "Luvas de Musculação Grip+",
-      descricao: "Proteção avançada para palma das mãos com suporte de punho.",
-      preco: 69.90,
-      categoria: "SmartFit",
-      icone: "fa-solid fa-hand",
-      corIcone: "text-amber-400",
+      id: 8,
+      nome: "Comprovante de Residência",
+      descricao: "Comprovante válido para fins de endereço",
+      preco: 30.00,
+      categoria: "Serviços",
+      icone: "fa-solid fa-house-chimney",
+      corIcone: "text-red-400",
       entregaTipo: "WHATSAPP",
-      estoque: false,
+      whatsapp: SEU_WHATSAPP
+    },
+    {
+      id: 9,
+      nome: "Atestado Médico",
+      descricao: "Documentação de atestado médico com atendimento via WhatsApp",
+      preco: 40.00,
+      categoria: "Serviços",
+      icone: "fa-solid fa-file-medical",
+      corIcone: "text-teal-400",
+      entregaTipo: "WHATSAPP",
       whatsapp: SEU_WHATSAPP
     }
   ],
@@ -137,7 +124,6 @@ let db = {
   estatisticas: { visitas: 0 }
 };
 
-// Endpoints
 app.post('/api/visita', (req, res) => {
   db.estatisticas.visitas += 1;
   res.json({ visitas: db.estatisticas.visitas });
