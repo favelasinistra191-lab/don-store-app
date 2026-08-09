@@ -7,9 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Tailwind CSS -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
@@ -24,9 +22,7 @@
       --text-muted: #94a3b8;
       --glass: rgba(12, 12, 18, 0.7);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
-
     body {
       background-color: var(--bg);
       background-image: radial-gradient(circle at top right, rgba(220, 38, 38, 0.1), transparent 40%),
@@ -36,148 +32,102 @@
       color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column;
       align-items: center; position: relative; overflow-x: hidden;
     }
-
     header {
       width: 100%; max-width: 1200px; padding: 15px 20px; display: flex; justify-content: space-between;
       align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       background: rgba(3, 3, 5, 0.8); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 100;
-      transition: all 0.3s;
     }
-
     .brand-logo {
       font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 900;
       background: linear-gradient(180deg, #ffffff 30%, var(--red-primary) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       cursor: pointer; text-shadow: 0 0 15px var(--red-glow); letter-spacing: 1px;
     }
-
     .header-nav { display: flex; gap: 8px; align-items: center; }
-
     .nav-btn {
       background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text-main); padding: 8px 12px; border-radius: 10px; font-weight: 600; font-size: 0.8rem;
       cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; text-decoration: none;
     }
-
     .nav-btn:hover { background: var(--red-primary); border-color: var(--red-primary); transform: translateY(-2px); }
     .nav-btn-primary { background: var(--red-primary); border-color: var(--red-primary); box-shadow: 0 4px 12px var(--red-glow); }
-
     .hero-banner { width: 100%; max-width: 1200px; padding: 60px 20px 40px 20px; text-align: center; }
     .hero-banner h1 {
       font-family: 'Cinzel', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900;
       letter-spacing: 3px; margin-bottom: 15px;
       background: linear-gradient(180deg, #ffffff 40%, #71717a 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
     }
     .hero-banner p { color: var(--text-muted); font-size: clamp(0.9rem, 2vw, 1.1rem); max-width: 600px; margin: 0 auto; line-height: 1.6; }
-
     .controls-container {
       width: 100%; max-width: 1200px; padding: 10px 20px; display: flex; flex-wrap: wrap; gap: 15px;
       justify-content: space-between; align-items: center; margin-bottom: 20px;
     }
-
     .search-box { flex: 1; min-width: 280px; position: relative; }
     .search-input {
       width: 100%; background: var(--glass); border: 1px solid var(--card-border);
       border-radius: 14px; padding: 14px 16px 14px 45px; color: #fff; font-size: 0.95rem; outline: none; backdrop-filter: blur(10px);
-      transition: all 0.3s;
     }
-    .search-input:focus { border-color: var(--red-primary); box-shadow: 0 0 15px var(--red-glow); background: rgba(12, 12, 18, 0.9); }
+    .search-input:focus { border-color: var(--red-primary); box-shadow: 0 0 15px var(--red-glow); }
     .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
-
     .categories-group { display: flex; gap: 10px; flex-wrap: wrap; }
     .cat-btn {
       background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
       color: var(--text-muted); padding: 10px 18px; border-radius: 12px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.3s;
     }
     .cat-btn.active, .cat-btn:hover { background: var(--red-primary); color: #fff; border-color: var(--red-primary); transform: scale(1.05); box-shadow: 0 4px 12px var(--red-glow); }
-
     .main-grid {
       width: 100%; max-width: 1200px; padding: 0 20px 60px 20px;
       display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;
     }
-
     .product-card {
       background: linear-gradient(145deg, rgba(20, 20, 30, 0.7), rgba(10, 10, 15, 0.8));
       border: 1px solid var(--card-border);
       border-radius: 20px; overflow: hidden; display: flex; flex-direction: column;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); backdrop-filter: blur(12px); position: relative;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); backdrop-filter: blur(12px); cursor: pointer;
     }
-
     .product-card:hover {
       border-color: var(--card-border-hover); transform: translateY(-8px) scale(1.02);
       box-shadow: 0 15px 35px -5px rgba(220, 38, 38, 0.3);
     }
-
     .product-img-container { width: 100%; height: 170px; background: #0c0c12; position: relative; overflow: hidden; }
     .product-img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
     .product-card:hover .product-img-container img { transform: scale(1.1); }
-    
     .badge-category {
       position: absolute; top: 12px; left: 12px; background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(5px); color: #fff; padding: 4px 10px; border-radius: 8px;
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
       border: 1px solid rgba(255,255,255,0.1);
     }
-
     .product-content { padding: 20px; display: flex; flex-direction: column; flex: 1; }
-    .product-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; color: #fff; letter-spacing: -0.3px; }
+    .product-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; color: #fff; }
     .product-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 18px; flex: 1; line-height: 1.5; }
-    
-    .product-info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); }
-    .info-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
-    
     .product-footer { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
     .product-price { font-size: 1.4rem; font-weight: 900; color: #fff; }
     .product-price span { color: var(--red-primary); font-size: 0.9rem; margin-right: 2px; }
-
     .buy-btn {
       background: var(--red-primary); color: #fff; border: none; padding: 10px 18px;
       border-radius: 12px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.3s;
-      flex: 1; text-align: center;
+      flex: 1; text-align: center; text-decoration: none; display: inline-block;
     }
-    .buy-btn:hover:not(:disabled) { background: var(--red-hover); box-shadow: 0 0 15px var(--red-glow); transform: translateY(-2px); }
-    .buy-btn:disabled { background: #27272a; color: #52525b; cursor: not-allowed; }
-
-    /* Modais */
+    .buy-btn:hover { background: var(--red-hover); box-shadow: 0 0 15px var(--red-glow); }
     .modal-overlay {
       position: fixed; inset: 0; background: rgba(3, 3, 5, 0.9); backdrop-filter: blur(10px);
       display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;
       opacity: 0; pointer-events: none; transition: all 0.3s;
     }
     .modal-overlay.active { opacity: 1; pointer-events: auto; }
-    
     .modal-box {
       background: linear-gradient(145deg, #0c0c12, #161620); border: 1px solid rgba(220, 38, 38, 0.3); border-radius: 24px;
-      width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; padding: 30px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); position: relative;
-      transform: scale(0.9); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      width: 100%; max-width: 480px; padding: 30px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
-    .modal-overlay.active .modal-box { transform: scale(1); }
-
-    footer {
-      width: 100%; max-width: 1200px; padding: 30px 20px; text-align: center;
-      border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-size: 0.85rem; margin-top: auto;
-    }
-
-    @media (max-width: 640px) {
-      .header-nav .nav-btn span { display: none; }
-      .header-nav .nav-btn { padding: 10px; border-radius: 50%; }
-      .header-nav .nav-btn i { font-size: 1rem; margin: 0; }
-      .hero-banner { padding: 40px 20px 20px 20px; }
-      .controls-container { flex-direction: column; align-items: stretch; }
-      .categories-group { justify-content: center; }
-      .main-grid { grid-template-columns: 1fr; padding: 0 15px 40px 15px; }
-      .product-card { max-width: 400px; margin: 0 auto; width: 100%; }
-    }
+    footer { width: 100%; max-width: 1200px; padding: 30px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-size: 0.85rem; margin-top: auto; }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header id="mainHeader">
-    <div class="brand-logo" onclick="window.scrollTo(0,0); carregarProdutos();">DON STORE</div>
+  <header>
+    <div class="brand-logo" onclick="window.location.href='index.html'">DON STORE</div>
     <div class="header-nav">
       <div id="userInfoArea" class="flex items-center gap-2">
         <button onclick="abrirModalAuth('login')" class="nav-btn"><i class="fa-solid fa-user"></i> <span>Entrar</span></button>
@@ -187,13 +137,11 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
   <section class="hero-banner">
     <h1>CATÁLOGO DIGITAL</h1>
     <p>Sua loja de confiança para serviços digitais, streaming e suporte especializado com entrega imediata.</p>
   </section>
 
-  <!-- Filtros e Busca -->
   <div class="controls-container">
     <div class="search-box">
       <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -206,37 +154,13 @@
     </div>
   </div>
 
-  <!-- Vitrine de Produtos -->
-  <main class="main-grid" id="produtosGrid">
-    <!-- Os produtos carregam via script -->
-  </main>
+  <main class="main-grid" id="produtosGrid"></main>
 
   <footer>
-    <div class="mb-4 flex justify-center gap-6 text-xl">
-      <a href="#" class="hover:text-red-500 transition-colors"><i class="fa-brands fa-instagram"></i></a>
-      <a href="#" class="hover:text-red-500 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
-    </div>
     <p>&copy; 2026 DON STORE. Excelência em Serviços Digitais.</p>
-    <p class="mt-1 opacity-50 text-[10px]">Desenvolvido com foco em alta performance.</p>
   </footer>
 
-  <!-- Modal de Compra / Checkout Pix ou WhatsApp -->
-  <div class="modal-overlay" id="modalCompra">
-    <div class="modal-box">
-      <div class="flex justify-between items-center mb-6">
-        <h3 class="text-2xl font-black text-white" id="checkoutTitulo">Finalizar Pedido</h3>
-        <button onclick="fecharModal('modalCompra')" class="text-slate-500 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-      </div>
-      <div id="checkoutConteudo" class="space-y-4 mb-8">
-        <!-- Detalhes do produto / QR Code Pix -->
-      </div>
-      <div class="flex flex-col gap-3" id="checkoutBotoes">
-        <!-- Botões dinâmicos -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal de Login / Cadastro -->
+  <!-- Modal Auth -->
   <div class="modal-overlay" id="modalAuth">
     <div class="modal-box">
       <div class="flex justify-between items-center mb-6">
@@ -245,180 +169,99 @@
       </div>
       <form id="authForm" onsubmit="realizarAuth(event)" class="space-y-5">
         <div id="grupoNome" style="display:none;">
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nome Completo</label>
-          <input type="text" id="authNome" class="w-full bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 text-white text-sm focus:border-red-600 outline-none transition-all">
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Nome Completo</label>
+          <input type="text" id="authNome" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white text-sm outline-none">
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Seu E-mail</label>
-          <input type="email" id="authEmail" required class="w-full bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 text-white text-sm focus:border-red-600 outline-none transition-all" placeholder="exemplo@email.com">
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Seu E-mail</label>
+          <input type="email" id="authEmail" required class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white text-sm outline-none">
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Sua Senha</label>
-          <input type="password" id="authSenha" required class="w-full bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 text-white text-sm focus:border-red-600 outline-none transition-all" placeholder="••••••••">
+          <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Sua Senha</label>
+          <input type="password" id="authSenha" required class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white text-sm outline-none">
         </div>
-        <div class="pt-4">
-          <button type="submit" id="authSubmitBtn" class="w-full py-4 bg-red-600 rounded-xl font-black text-white hover:bg-red-700 shadow-xl shadow-red-600/20 transition-all">Entrar</button>
-        </div>
+        <button type="submit" id="authSubmitBtn" class="w-full py-4 bg-red-600 rounded-xl font-black text-white hover:bg-red-700 shadow-xl">Entrar</button>
       </form>
     </div>
   </div>
 
-  <!-- Modal Painel do Administrador (Adicionar, Editar e Excluir) -->
+  <!-- Modal Admin -->
   <div class="modal-overlay" id="modalAdmin">
     <div class="modal-box max-w-2xl">
       <div class="flex justify-between items-center mb-6">
         <h3 class="text-2xl font-black text-red-600"><i class="fa-solid fa-shield-halved"></i> Gestão Admin</h3>
         <button onclick="fecharModal('modalAdmin')" class="text-slate-500 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
       </div>
-
-      <div class="space-y-8">
-        <!-- Formulário Adicionar / Editar Produto -->
-        <div class="bg-slate-900/40 border border-white/5 p-6 rounded-2xl">
-          <h4 id="adminFormTitulo" class="font-black text-sm text-white mb-5 flex items-center gap-2 uppercase tracking-widest"><i class="fa-solid fa-plus-circle text-red-600"></i> Novo Produto</h4>
-          <form onsubmit="salvarProdutoAdmin(event)" class="space-y-4">
-            <input type="hidden" id="admId">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Nome do Serviço</label>
-                <input type="text" id="admNome" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-red-600">
-              </div>
-              <div>
-                <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Preço (R$)</label>
-                <input type="number" step="0.01" id="admPreco" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-red-600">
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Categoria</label>
-                <select id="admCategoria" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-red-600">
-                  <option value="Streaming">Streaming</option>
-                  <option value="Serviços">Serviços</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Método de Entrega</label>
-                <select id="admEntregaTipo" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-red-600">
-                  <option value="EMAIL">Automático (Pix API)</option>
-                  <option value="WHATSAPP">Manual (WhatsApp)</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Descrição Curta</label>
-              <input type="text" id="admDescricao" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-red-600">
-            </div>
-
-            <div>
-              <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Link da Imagem (URL)</label>
-              <input type="text" id="admImagem" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-red-600">
-            </div>
-
-            <div>
-              <label class="block text-[10px] font-bold text-red-500 mb-1 uppercase">Estoque / Credenciais (Uma por linha)</label>
-              <textarea id="admCredenciais" rows="3" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-xs text-white outline-none focus:border-red-600" placeholder="conta@email.com:senha | Perfil 01"></textarea>
-            </div>
-
-            <div class="flex gap-2">
-              <button type="submit" id="admSubmitBtn" class="flex-1 py-4 bg-red-600 hover:bg-red-700 rounded-xl font-black text-sm text-white shadow-lg shadow-red-600/20 transition-all">Salvar no Sistema</button>
-              <button type="button" id="admCancelBtn" onclick="limparFormAdmin()" style="display:none;" class="px-4 py-4 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-xs text-slate-300 transition-all">Cancelar</button>
-            </div>
-          </form>
+      <form onsubmit="salvarProdutoAdmin(event)" class="space-y-4">
+        <input type="hidden" id="admId">
+        <div class="grid grid-cols-2 gap-4">
+          <input type="text" id="admNome" required placeholder="Nome do Serviço" class="bg-black border border-white/10 rounded-xl p-3 text-sm text-white outline-none">
+          <input type="number" step="0.01" id="admPreco" required placeholder="Preço (R$)" class="bg-black border border-white/10 rounded-xl p-3 text-sm text-white outline-none">
         </div>
-
-        <!-- Lista de Produtos Existentes -->
-        <div>
-          <h4 class="font-black text-sm text-white mb-4 uppercase tracking-widest">Inventário Atual</h4>
-          <div id="adminListaProdutos" class="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
-            <!-- Preenchido via JS -->
-          </div>
+        <div class="grid grid-cols-2 gap-4">
+          <select id="admCategoria" class="bg-black border border-white/10 rounded-xl p-3 text-sm text-white outline-none">
+            <option value="Streaming">Streaming</option>
+            <option value="Serviços">Serviços</option>
+          </select>
+          <select id="admEntregaTipo" class="bg-black border border-white/10 rounded-xl p-3 text-sm text-white outline-none">
+            <option value="EMAIL">Automático (Pix)</option>
+            <option value="WHATSAPP">Manual (WhatsApp)</option>
+          </select>
         </div>
-      </div>
+        <input type="text" id="admDescricao" placeholder="Descrição Curta" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm text-white outline-none">
+        <input type="file" id="admImagemFile" accept="image/*" class="w-full bg-black border border-white/10 rounded-xl p-2 text-xs text-slate-300">
+        <textarea id="admCredenciais" rows="2" class="w-full bg-black border border-white/10 rounded-xl p-3 text-xs text-white outline-none" placeholder="Estoque (uma linha por conta)"></textarea>
+        <button type="submit" class="w-full py-3 bg-red-600 rounded-xl font-bold text-white">Salvar Produto</button>
+      </form>
     </div>
   </div>
-
-  <script>
+    <script>
     let produtosCache = [];
     let categoriaAtual = 'Todos';
     let usuarioLogado = JSON.parse(localStorage.getItem('donstore_usuario')) || null;
-    let intervaloVerificacaoPix = null;
-
-    // WHATSAPP CORRIGIDO COM DDD 65
-    const WHATSAPP_NUMERO = "5565993416402"; 
 
     document.addEventListener('DOMContentLoaded', () => {
-      registrarVisita();
       carregarProdutos();
       atualizarInterfaceUsuario();
-      
-      window.addEventListener('scroll', () => {
-        const header = document.getElementById('mainHeader');
-        if (window.scrollY > 50) {
-          header.style.padding = '10px 20px';
-          header.style.background = 'rgba(3, 3, 5, 0.95)';
-        } else {
-          header.style.padding = '15px 20px';
-          header.style.background = 'rgba(3, 3, 5, 0.8)';
-        }
-      });
+      verificarSessaoAtiva();
     });
-
-    async function registrarVisita() {
-      try { await fetch('/api/visita', { method: 'POST' }); } catch(e) {}
-    }
 
     async function carregarProdutos() {
       try {
-        const res = await fetch('/api/produtos');
-        produtosCache = await res.json();
+        const resposta = await fetch('/api/produtos');
+        if (!resposta.ok) throw new Error('Erro ao buscar produtos no servidor.');
+        produtosCache = await resposta.json();
         renderizarProdutos(produtosCache);
-      } catch (e) {
-        console.error('Erro ao carregar produtos:', e);
+      } catch (erro) {
+        console.error('Falha de conexão:', erro);
       }
     }
 
     function renderizarProdutos(lista) {
       const grid = document.getElementById('produtosGrid');
+      if (!grid) return;
       grid.innerHTML = '';
-
+      
       if (lista.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center py-20 text-slate-500 font-bold italic">Nenhum serviço disponível no momento.</div>`;
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 font-medium">Nenhum produto encontrado.</div>`;
         return;
       }
 
       lista.forEach(p => {
-        let imgHtml = p.imagem 
-          ? `<img src="${p.imagem}" alt="${p.nome}" loading="lazy">` 
-          : `<div class="w-full h-full flex items-center justify-center bg-slate-900 text-4xl text-red-600"><i class="fa-solid fa-box-open"></i></div>`;
-
-        let esgotado = p.entregaTipo === 'EMAIL' && p.estoque === 0;
-        
-        let statusHtml = p.entregaTipo === 'EMAIL' 
-          ? (p.estoque > 0 
-              ? `<span class="bg-green-500/10 text-green-400 px-2 py-1 rounded text-[10px] font-black uppercase tracking-tighter border border-green-500/20">${p.estoque} Unidades</span>` 
-              : `<span class="bg-red-500/10 text-red-500 px-2 py-1 rounded text-[10px] font-black uppercase tracking-tighter border border-red-500/20">Esgotado</span>`)
-          : `<span class="bg-blue-500/10 text-blue-400 px-2 py-1 rounded text-[10px] font-black uppercase tracking-tighter border border-blue-500/20">Disponível</span>`;
-
         const card = document.createElement('div');
-        card.className = `product-card ${esgotado ? 'opacity-75 grayscale-[0.5]' : ''}`;
+        card.className = 'product-card';
+        card.onclick = () => window.location.href = `produto.html?id=${p.id}`;
         card.innerHTML = `
           <div class="product-img-container">
             <span class="badge-category">${p.categoria}</span>
-            ${imgHtml}
+            <img src="${p.imagem || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600'}" alt="${p.nome}" loading="lazy">
           </div>
           <div class="product-content">
             <h3 class="product-title">${p.nome}</h3>
-            <p class="product-desc">${p.descricao}</p>
-            <div class="product-info-row">
-              <span class="info-label">Status do Estoque</span>
-              ${statusHtml}
-            </div>
+            <p class="product-desc">${p.descricao || 'Sem descrição informada.'}</p>
             <div class="product-footer">
-              <div class="product-price"><span>R$</span>${p.preco.toFixed(2)}</div>
-              <button onclick="abrirCheckout(${p.id})" class="buy-btn" ${esgotado ? 'disabled' : ''}>
-                ${esgotado ? 'Esgotado' : (p.entregaTipo === 'EMAIL' ? 'Comprar Pix' : 'Pedir Agora')}
-              </button>
+              <div class="product-price"><span>R$</span>${Number(p.preco).toFixed(2)}</div>
+              <span class="buy-btn">Ver Detalhes</span>
             </div>
           </div>
         `;
@@ -427,173 +270,48 @@
     }
 
     function filtrarProdutos() {
-      const termo = document.getElementById('searchInput').value.toLowerCase();
+      const termo = document.getElementById('searchInput').value.toLowerCase().trim();
       const filtrados = produtosCache.filter(p => {
-        const matchCat = categoriaAtual === 'Todos' || p.categoria === categoriaAtual;
-        const matchNome = p.nome.toLowerCase().includes(termo) || p.descricao.toLowerCase().includes(termo);
+        const matchCat = (categoriaAtual === 'Todos' || p.categoria === categoriaAtual);
+        const matchNome = p.nome.toLowerCase().includes(termo) || (p.descricao && p.descricao.toLowerCase().includes(termo));
         return matchCat && matchNome;
       });
       renderizarProdutos(filtrados);
     }
 
-    function mudarCategoria(cat, el) {
+    function mudarCategoria(cat, elementoBotao) {
       categoriaAtual = cat;
       document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-      el.classList.add('active');
+      if (elementoBotao) elementoBotao.classList.add('active');
       filtrarProdutos();
     }
 
-    function abrirCheckout(id) {
-      if (intervaloVerificacaoPix) clearInterval(intervaloVerificacaoPix);
-      const p = produtosCache.find(x => x.id === id);
-      if (!p) return;
-      
-      const conteudo = document.getElementById('checkoutConteudo');
-      const botoes = document.getElementById('checkoutBotoes');
-
-      if (p.entregaTipo === 'WHATSAPP') {
-        conteudo.innerHTML = `
-          <div class="bg-black/40 p-5 rounded-2xl border border-white/5">
-            <p class="text-white font-black text-xl mb-1">${p.nome}</p>
-            <p class="text-2xl font-black text-red-600 mb-3">R$ ${p.preco.toFixed(2)}</p>
-            <p class="text-sm text-slate-400 leading-relaxed">${p.descricao}</p>
-          </div>
-          <p class="text-xs text-slate-500 text-center italic">Este serviço é finalizado diretamente via WhatsApp com atendimento humano.</p>
-        `;
-        botoes.innerHTML = `
-          <button onclick="finalizarCompraWhatsapp(${p.id})" class="w-full py-4 bg-red-600 rounded-xl font-black text-white hover:bg-red-700 shadow-xl shadow-red-600/20 transition-all">Ir para o WhatsApp</button>
-          <button onclick="fecharModal('modalCompra')" class="w-full py-3 text-slate-400 font-bold hover:text-white transition-colors">Voltar</button>
-        `;
-        document.getElementById('modalCompra').classList.add('active');
-      } else {
-        // Produto Automático - Gerar Pix
-        conteudo.innerHTML = `
-          <div class="text-center py-6">
-            <i class="fa-solid fa-spinner fa-spin text-3xl text-red-600 mb-3"></i>
-            <p class="text-white font-bold">Gerando QR Code Pix via Mercado Pago...</p>
-          </div>
-        `;
-        botoes.innerHTML = `<button onclick="fecharModal('modalCompra')" class="w-full py-3 text-slate-400 font-bold hover:text-white">Cancelar</button>`;
-        document.getElementById('modalCompra').classList.add('active');
-        gerarPixPagamento(p);
-      }
-    }
-
-    async function gerarPixPagamento(p) {
-      try {
-        const res = await fetch('/api/pagamento/pix', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            produtoId: p.id,
-            emailCliente: usuarioLogado ? usuarioLogado.email : 'cliente@donstore.com'
-          })
-        });
-        const data = await res.json();
-
-        if (data.success) {
-          const conteudo = document.getElementById('checkoutConteudo');
-          const botoes = document.getElementById('checkoutBotoes');
-
-          conteudo.innerHTML = `
-            <div class="bg-black/50 p-4 rounded-2xl border border-white/5 text-center">
-              <p class="text-white font-bold mb-2">${p.nome}</p>
-              <p class="text-xl font-black text-red-600 mb-4">R$ ${p.preco.toFixed(2)}</p>
-              
-              ${data.qrCodeBase64 ? `<img src="data:image/jpeg;base64,${data.qrCodeBase64}" class="mx-auto w-48 h-48 rounded-xl border border-white/10 mb-4 bg-white p-2">` : ''}
-              
-              <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Pix Copia e Cola</label>
-              <div class="flex gap-2">
-                <input type="text" id="inputPixCopiaCola" readonly value="${data.qrCodeText}" class="w-full bg-black border border-white/10 rounded-xl p-2.5 text-xs text-slate-300 outline-none">
-                <button onclick="copiarPixCodigo()" class="bg-red-600 px-4 rounded-xl text-white font-bold text-xs hover:bg-red-700"><i class="fa-solid fa-copy"></i></button>
-              </div>
-              <div class="mt-4 flex items-center justify-center gap-2 text-xs text-yellow-500 font-bold animate-pulse">
-                <i class="fa-solid fa-rotate"></i> Aguardando confirmação automática da API...
-              </div>
-            </div>
-          `;
-
-          botoes.innerHTML = `
-            <button onclick="fecharModal('modalCompra')" class="w-full py-3 text-slate-400 font-bold hover:text-white transition-colors">Cancelar / Fechar</button>
-          `;
-
-          // Iniciar verificação automática do pagamento a cada 4 segundos
-          intervaloVerificacaoPix = setInterval(() => {
-            verificarStatusPagamento(data.paymentId, p.id);
-          }, 4000);
-
-        } else {
-          alert(data.error || 'Erro ao gerar Pix.');
-          fecharModal('modalCompra');
-        }
-      } catch (e) {
-        alert('Erro de conexão ao gerar pagamento.');
-        fecharModal('modalCompra');
-      }
-    }
-
-    async function verificarStatusPagamento(paymentId, produtoId) {
-      try {
-        const res = await fetch('/api/pagamento/verificar', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ paymentId, produtoId })
-        });
-        const data = await res.json();
-
-        if (data.success && data.status === 'APPROVED') {
-          clearInterval(intervaloVerificacaoPix);
-          fecharModal('modalCompra');
-          Swal.fire({
-            title: 'Pagamento Confirmado!',
-            html: `<p class="mb-2 text-sm">Seu acesso foi liberado com sucesso:</p><div class="bg-slate-900 p-3 rounded-xl border border-white/10 text-green-400 font-mono text-xs select-all">${data.dadoEntregue}</div>`,
-            icon: 'success',
-            confirmButtonColor: '#dc2626'
-          });
-          carregarProdutos();
-        }
-      } catch (e) {}
-    }
-
-    function copiarPixCodigo() {
-      const input = document.getElementById('inputPixCopiaCola');
-      input.select();
-      navigator.clipboard.writeText(input.value);
-      Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Código Pix copiado!', showConfirmButton: false, timer: 1500 });
-    }
-
-    function finalizarCompraWhatsapp(id) {
-      const p = produtosCache.find(x => x.id === id);
-      if (!p) return;
-      const mensagem = encodeURIComponent(`Olá! Quero finalizar o pedido do serviço: *${p.nome}* no valor de R$ ${p.preco.toFixed(2)}. Aguardo retorno!`);
-      fecharModal('modalCompra');
-      window.open(`https://wa.me/${WHATSAPP_NUMERO}?text=${mensagem}`, '_blank');
-    }
-
-    // Auth
     function abrirModalAuth(tipo) {
       const grupoNome = document.getElementById('grupoNome');
       const titulo = document.getElementById('authTitulo');
-      const btn = document.getElementById('authSubmitBtn');
-
+      const form = document.getElementById('authForm');
+      
       if (tipo === 'cadastro') {
         grupoNome.style.display = 'block';
-        titulo.innerText = 'Criar Conta';
-        btn.innerText = 'Finalizar Cadastro';
-        document.getElementById('authForm').onsubmit = realizarCadastro;
+        titulo.innerText = 'Criar Nova Conta';
+        form.onsubmit = realizarCadastro;
       } else {
         grupoNome.style.display = 'none';
-        titulo.innerText = 'Bem-vindo de Volta';
-        btn.innerText = 'Entrar no Sistema';
-        document.getElementById('authForm').onsubmit = realizarLogin;
+        titulo.innerText = 'Acessar Conta';
+        form.onsubmit = realizarLogin;
       }
       document.getElementById('modalAuth').classList.add('active');
     }
 
+    function fecharModal(idModal) {
+      const modal = document.getElementById(idModal);
+      if (modal) modal.classList.remove('active');
+    }
+
     async function realizarLogin(e) {
       e.preventDefault();
-      const email = document.getElementById('authEmail').value;
-      const senha = document.getElementById('authSenha').value;
+      const email = document.getElementById('authEmail').value.trim();
+      const senha = document.getElementById('authSenha').value.trim();
 
       try {
         const res = await fetch('/api/auth/login', {
@@ -601,21 +319,27 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, senha })
         });
-        const data = await res.json();
-        if (data.success) {
-          usuarioLogado = data.usuario;
+        const dados = await res.json();
+        
+        if (dados.success) {
+          usuarioLogado = dados.usuario;
           localStorage.setItem('donstore_usuario', JSON.stringify(usuarioLogado));
           fecharModal('modalAuth');
           atualizarInterfaceUsuario();
-        } else { alert(data.error); }
-      } catch (err) { alert('Erro no login.'); }
+          location.reload();
+        } else {
+          alert(dados.error || 'Erro ao realizar login.');
+        }
+      } catch (err) {
+        alert('Erro de comunicação com o servidor.');
+      }
     }
 
     async function realizarCadastro(e) {
       e.preventDefault();
-      const nome = document.getElementById('authNome').value;
-      const email = document.getElementById('authEmail').value;
-      const senha = document.getElementById('authSenha').value;
+      const nome = document.getElementById('authNome').value.trim();
+      const email = document.getElementById('authEmail').value.trim();
+      const senha = document.getElementById('authSenha').value.trim();
 
       try {
         const res = await fetch('/api/auth/cadastro', {
@@ -623,147 +347,155 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nome, email, senha })
         });
-        const data = await res.json();
-        if (data.success) {
-          usuarioLogado = data.usuario;
+        const dados = await res.json();
+        
+        if (dados.success) {
+          usuarioLogado = dados.usuario;
           localStorage.setItem('donstore_usuario', JSON.stringify(usuarioLogado));
           fecharModal('modalAuth');
           atualizarInterfaceUsuario();
-        } else { alert(data.error); }
-      } catch (err) { alert('Erro no cadastro.'); }
-    }
-
-    function fazerLogout() {
-      usuarioLogado = null;
-      localStorage.removeItem('donstore_usuario');
-      atualizarInterfaceUsuario();
-      carregarProdutos();
+          location.reload();
+        } else {
+          alert(dados.error || 'Erro ao criar conta.');
+        }
+      } catch (err) {
+        alert('Erro de comunicação com o servidor.');
+      }
     }
 
     function atualizarInterfaceUsuario() {
       const userInfoArea = document.getElementById('userInfoArea');
       const adminBtnArea = document.getElementById('adminBtnArea');
+      
+      if (!userInfoArea) return;
 
       if (usuarioLogado) {
         userInfoArea.innerHTML = `
-          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mr-2 hidden sm:inline">User: <b class="text-white">${usuarioLogado.nome}</b></span>
-          <button onclick="fazerLogout()" class="nav-btn"><i class="fa-solid fa-power-off"></i> <span>Sair</span></button>
+          <div class="flex items-center gap-2 bg-slate-900/80 border border-white/10 px-3 py-1.5 rounded-xl">
+            <span class="text-xs text-slate-300 font-semibold truncate max-w-[120px]">${usuarioLogado.nome}</span>
+            <button onclick="fazerLogout()" class="text-red-400 hover:text-red-300 text-xs p-1" title="Sair"><i class="fa-solid fa-power-off"></i></button>
+          </div>
         `;
-        if (usuarioLogado.isAdmin) {
-          adminBtnArea.innerHTML = `<button onclick="abrirAdmin()" class="nav-btn bg-red-600/20 border-red-600/50 text-red-500"><i class="fa-solid fa-shield-halved"></i> <span>Admin</span></button>`;
-        } else { adminBtnArea.innerHTML = ''; }
-      } else {
-        userInfoArea.innerHTML = `
-          <button onclick="abrirModalAuth('login')" class="nav-btn"><i class="fa-solid fa-user"></i> <span>Entrar</span></button>
-          <button onclick="abrirModalAuth('cadastro')" class="nav-btn nav-btn-primary"><span>Criar Conta</span></button>
-        `;
-        adminBtnArea.innerHTML = '';
+        if (usuarioLogado.isAdmin && adminBtnArea) {
+          adminBtnArea.innerHTML = `
+            <button onclick="document.getElementById('modalAdmin').classList.add('active')" class="nav-btn bg-red-600/20 text-red-500 border-red-500/30" title="Painel Admin">
+              <i class="fa-solid fa-shield-halved"></i>
+            </button>
+          `;
+        }
       }
     }
 
-    async function abrirAdmin() {
-      document.getElementById('modalAdmin').classList.add('active');
-      carregarListaAdmin();
+    function fazerLogout() {
+      localStorage.removeItem('donstore_usuario');
+      usuarioLogado = null;
+      location.reload();
     }
 
-    async function carregarListaAdmin() {
-      try {
-        const res = await fetch('/api/admin/stats');
-        const data = await res.json();
-        const lista = document.getElementById('adminListaProdutos');
-        lista.innerHTML = '';
-
-        data.produtos.forEach(p => {
-          lista.innerHTML += `
-            <div class="flex justify-between items-center bg-black/40 p-4 rounded-xl border border-white/5">
-              <div>
-                <p class="font-bold text-white text-sm">${p.nome}</p>
-                <p class="text-[10px] text-slate-500 uppercase">${p.entregaTipo} • R$ ${p.preco.toFixed(2)}</p>
-              </div>
-              <div class="flex gap-2">
-                <button onclick="prepararEdicao(${p.id}, '${p.nome.replace(/'/g, "\\'")}', ${p.preco}, '${p.categoria}', '${p.entregaTipo}', '${p.descricao.replace(/'/g, "\\'")}', '${p.imagem}')" class="w-10 h-10 flex items-center justify-center bg-blue-600/10 text-blue-400 rounded-lg hover:bg-blue-600 hover:text-white transition-all"><i class="fa-solid fa-pen"></i></button>
-                <button onclick="deletarProduto(${p.id})" class="w-10 h-10 flex items-center justify-center bg-red-600/10 text-red-500 rounded-lg hover:bg-red-600 hover:text-white transition-all"><i class="fa-solid fa-trash-can"></i></button>
-              </div>
-            </div>
-          `;
-        });
-      } catch (e) {}
-    }
-
-    function prepararEdicao(id, nome, preco, categoria, entregaTipo, descricao, imagem) {
-      document.getElementById('admId').value = id;
-      document.getElementById('admNome').value = nome;
-      document.getElementById('admPreco').value = preco;
-      document.getElementById('admCategoria').value = categoria;
-      document.getElementById('admEntregaTipo').value = entregaTipo;
-      document.getElementById('admDescricao').value = descricao;
-      document.getElementById('admImagem').value = imagem;
-      document.getElementById('admCredenciais').value = '';
-      
-      document.getElementById('adminFormTitulo').innerHTML = `<i class="fa-solid fa-pen text-blue-500"></i> Editar Produto (ID: ${id})`;
-      document.getElementById('admSubmitBtn').innerText = 'Atualizar Produto';
-      document.getElementById('admCancelBtn').style.display = 'block';
-    }
-
-    function limparFormAdmin() {
-      document.getElementById('admId').value = '';
-      document.getElementById('admNome').value = '';
-      document.getElementById('admPreco').value = '';
-      document.getElementById('admDescricao').value = '';
-      document.getElementById('admImagem').value = '';
-      document.getElementById('admCredenciais').value = '';
-      
-      document.getElementById('adminFormTitulo').innerHTML = `<i class="fa-solid fa-plus-circle text-red-600"></i> Novo Produto`;
-      document.getElementById('admSubmitBtn').innerText = 'Salvar no Sistema';
-      document.getElementById('admCancelBtn').style.display = 'none';
+    function verificarSessaoAtiva() {
+      const saved = localStorage.getItem('donstore_usuario');
+      if (saved) {
+        try {
+          usuarioLogado = JSON.parse(saved);
+        } catch(e) {
+          localStorage.removeItem('donstore_usuario');
+        }
+      }
     }
 
     async function salvarProdutoAdmin(e) {
       e.preventDefault();
-      const payload = {
-        id: document.getElementById('admId').value || null,
-        nome: document.getElementById('admNome').value,
-        preco: document.getElementById('admPreco').value,
-        categoria: document.getElementById('admCategoria').value,
-        entregaTipo: document.getElementById('admEntregaTipo').value,
-        descricao: document.getElementById('admDescricao').value,
-        imagem: document.getElementById('admImagem').value,
-        credenciaisTexto: document.getElementById('admCredenciais').value
+      const id = document.getElementById('admId').value;
+      const nome = document.getElementById('admNome').value;
+      const preco = document.getElementById('admPreco').value;
+      const categoria = document.getElementById('admCategoria').value;
+      const entregaTipo = document.getElementById('admEntregaTipo').value;
+      const descricao = document.getElementById('admDescricao').value;
+      const credenciaisTexto = document.getElementById('admCredenciais').value;
+      const fileInput = document.getElementById('admImagemFile');
+
+      const prosseguirEnvio = async (imgUrl) => {
+        try {
+          const payload = { id, nome, preco, categoria, entregaTipo, descricao, imagem: imgUrl, credenciaisTexto };
+          const res = await fetch('/api/admin/produtos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const json = await res.json();
+          if (json.success) {
+            fecharModal('modalAdmin');
+            carregarProdutos();
+            e.target.reset();
+          } else {
+            alert('Erro ao salvar produto.');
+          }
+        } catch (err) {
+          alert('Erro de conexão ao salvar.');
+        }
       };
 
-      try {
-        const res = await fetch('/api/admin/produtos', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-        if (data.success) {
-          limparFormAdmin();
-          carregarProdutos();
-          carregarListaAdmin();
-        }
-      } catch (err) {}
-    }
-
-    async function deletarProduto(id) {
-      if (!confirm('Excluir este serviço permanentemente?')) return;
-      try {
-        const res = await fetch(`/api/admin/produtos/${id}`, { method: 'DELETE' });
-        const data = await res.json();
-        if (data.success) {
-          carregarProdutos();
-          carregarListaAdmin();
-        }
-      } catch (e) {}
-    }
-
-    function fecharModal(id) {
-      if (id === 'modalCompra' && intervaloVerificacaoPix) clearInterval(intervaloVerificacaoPix);
-      document.getElementById(id).classList.remove('active');
+      if (fileInput && fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (eventoLeitura) => {
+          prosseguirEnvio(eventoLeitura.target.result);
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      } else {
+        prosseguirEnvio('');
+      }
     }
   </script>
-  <!-- SweetAlert2 -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
+    // Funções complementares de gerenciamento e manipulação de modais avançados
+    function abrirEdicaoAdmin(produtoId) {
+      const produto = produtosCache.find(p => p.id === produtoId);
+      if (!produto) return;
+
+      document.getElementById('admId').value = produto.id;
+      document.getElementById('admNome').value = produto.nome;
+      document.getElementById('admPreco').value = produto.preco;
+      document.getElementById('admCategoria').value = produto.categoria;
+      document.getElementById('admEntregaTipo').value = produto.entregaTipo;
+      document.getElementById('admDescricao').value = produto.descricao || '';
+      document.getElementById('admCredenciais').value = produto.credenciais ? produto.credenciais.join('\n') : '';
+      
+      document.getElementById('modalAdmin').classList.add('active');
+    }
+
+    async function excluirProdutoAdmin(produtoId) {
+      if (!confirm('Tem certeza que deseja excluir este produto do catálogo?')) return;
+      try {
+        const res = await fetch(`/api/admin/produtos/${produtoId}`, {
+          method: 'DELETE'
+        });
+        const json = await res.json();
+        if (json.success) {
+          carregarProdutos();
+        } else {
+          alert('Erro ao excluir produto.');
+        }
+      } catch (err) {
+        alert('Erro de conexão com o servidor.');
+      }
+    }
+
+    // Fechar modais ao clicar fora da caixa principal
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal-overlay')) {
+        event.target.classList.remove('active');
+      }
+    };
+
+    // Atalhos de teclado úteis
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+      }
+    });
+  </script>
+</body>
+</html>
+
+
