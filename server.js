@@ -14,13 +14,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const DATA_FILE = path.join(__dirname, 'dados.json');
 
-// Produtos Iniciais (Estoque apenas para Netflix, Disney e Smart Fit; O resto via WhatsApp)
+// Apenas os produtos exatos que você solicitou, com imagens personalizadas para cada um
 const produtosIniciais = [
   {
     id: 1,
-    nome: "Netflix 4K (Tela)",
+    nome: "TELA NETFLIX 4K",
     descricao: "Acesso em Tela 4K Ultra HD com suporte.",
-    preco: 15.00,
+    preco: 12.00,
     categoria: "Streaming",
     entregaTipo: "EMAIL",
     imagem: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=500&auto=format&fit=crop",
@@ -31,9 +31,9 @@ const produtosIniciais = [
   },
   {
     id: 2,
-    nome: "Disney+ Premium",
+    nome: "TELA DISNEY+",
     descricao: "Conta completa Disney+ com suporte garantido.",
-    preco: 12.00,
+    preco: 10.00,
     categoria: "Streaming",
     entregaTipo: "EMAIL",
     imagem: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=500&auto=format&fit=crop",
@@ -43,9 +43,9 @@ const produtosIniciais = [
   },
   {
     id: 3,
-    nome: "Esquema Smart Fit",
+    nome: "ESQUEMA SMARTFIT",
     descricao: "Acesso liberado ao plano Smart Fit via esquema.",
-    preco: 35.00,
+    preco: 40.00,
     categoria: "Serviços",
     entregaTipo: "EMAIL",
     imagem: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=500&auto=format&fit=crop",
@@ -55,7 +55,67 @@ const produtosIniciais = [
   },
   {
     id: 4,
-    nome: "99 Motorista",
+    nome: "HISTORICO ESCOLAR",
+    descricao: "Documento escolar completo e formatado. Finalizado via WhatsApp.",
+    preco: 120.00,
+    categoria: "Serviços",
+    entregaTipo: "WHATSAPP",
+    imagem: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=500&auto=format&fit=crop",
+    credenciais: []
+  },
+  {
+    id: 5,
+    nome: "CERTIFICADO ESCOLAR",
+    descricao: "Certificado escolar emitido sob demanda. Finalizado via WhatsApp.",
+    preco: 100.00,
+    categoria: "Serviços",
+    entregaTipo: "WHATSAPP",
+    imagem: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=500&auto=format&fit=crop",
+    credenciais: []
+  },
+  {
+    id: 6,
+    nome: "RG DIGITAL",
+    descricao: "Emissão de RG digital com agilidade. Finalizado via WhatsApp.",
+    preco: 100.00,
+    categoria: "Serviços",
+    entregaTipo: "WHATSAPP",
+    imagem: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=500&auto=format&fit=crop",
+    credenciais: []
+  },
+  {
+    id: 7,
+    nome: "CNH DIGITAL",
+    descricao: "Regularização e liberação de CNH digital. Finalizado via WhatsApp.",
+    preco: 140.00,
+    categoria: "Serviços",
+    entregaTipo: "WHATSAPP",
+    imagem: "https://images.unsplash.com/photo-1506015391300-4802dc74de2e?q=80&w=500&auto=format&fit=crop",
+    credenciais: []
+  },
+  {
+    id: 8,
+    nome: "COMPROVANTE DE RESIDENCIA",
+    descricao: "Comprovante de residência válido. Finalizado via WhatsApp.",
+    preco: 30.00,
+    categoria: "Serviços",
+    entregaTipo: "WHATSAPP",
+    imagem: "https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=500&auto=format&fit=crop",
+    credenciais: []
+  },
+  {
+    id: 9,
+    nome: "ATESTADO MEDICO",
+    descricao: "Atestado médico padronizado. Finalizado via WhatsApp.",
+    preco: 40.00,
+    categoria: "Serviços",
+    entregaTipo: "WHATSAPP",
+    imagem: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=500&auto=format&fit=crop",
+    credenciais: []
+  },
+  {
+    id: 10,
+    nome: "99 MOTORISTA",
     descricao: "Ativação e cadastro para motorista 99. Finalizado via WhatsApp.",
     preco: 230.00,
     categoria: "Serviços",
@@ -64,33 +124,13 @@ const produtosIniciais = [
     credenciais: []
   },
   {
-    id: 5,
-    nome: "Uber Motorista",
+    id: 11,
+    nome: "UBER MOTORISTA",
     descricao: "Ativação e liberação para conta Uber Motorista. Finalizado via WhatsApp.",
-    preco: 320.00,
+    preco: 330.00,
     categoria: "Serviços",
     entregaTipo: "WHATSAPP",
     imagem: "https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=500&auto=format&fit=crop",
-    credenciais: []
-  },
-  {
-    id: 6,
-    nome: "WPlay TV (IPTV)",
-    descricao: "Painel e catálogo completo de filmes e séries para sua revenda.",
-    preco: 45.00,
-    categoria: "Serviços",
-    entregaTipo: "WHATSAPP",
-    imagem: "https://images.unsplash.com/photo-1593784991095-a205069470b6?q=80&w=500&auto=format&fit=crop",
-    credenciais: []
-  },
-  {
-    id: 7,
-    nome: "SP Câmera (Segurança)",
-    descricao: "Instalação e configuração de sistema de segurança comercial.",
-    preco: 150.00,
-    categoria: "Serviços",
-    entregaTipo: "WHATSAPP",
-    imagem: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?q=80&w=500&auto=format&fit=crop",
     credenciais: []
   }
 ];
