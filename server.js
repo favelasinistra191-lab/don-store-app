@@ -10,7 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.json({ limit: '10mb' })); // Aumentado o limite para aceitar imagens em Base64
+app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -29,158 +29,12 @@ let db = {
       imagem: "",
       entregaTipo: "EMAIL",
       controlarEstoque: true,
-      estoque: 10,
+      // Array de contas/telas disponíveis para entrega automática:
+      credenciaisEstoque: [
+        "netflix1@exemplo.com:senha123 | Perfil: 01",
+        "netflix2@exemplo.com:senha456 | Perfil: 02"
+      ],
       ilimitado: false,
-      whatsapp: SEU_WHATSAPP
-    },
-    {
-      id: 2,
-      nome: "Tela Disney+",
-      descricao: "Acesso Premium Full HD / 4K processado via API",
-      preco: 10.00,
-      categoria: "Streaming",
-      icone: "fa-solid fa-film",
-      corIcone: "text-blue-500",
-      imagem: "",
-      entregaTipo: "EMAIL",
-      controlarEstoque: true,
-      estoque: 5,
-      ilimitado: false,
-      whatsapp: SEU_WHATSAPP
-    },
-    {
-      id: 3,
-      nome: "Histórico Escolar",
-      descricao: "Documento oficial escolar emitido com rapidez e segurança",
-      preco: 100.00,
-      categoria: "Serviços",
-      icone: "fa-solid fa-graduation-cap",
-      corIcone: "text-blue-400",
-      imagem: "",
-      entregaTipo: "WHATSAPP",
-      controlarEstoque: false,
-      estoque: 0,
-      ilimitado: true,
-      whatsapp: SEU_WHATSAPP
-    },
-    {
-      id: 4,
-      nome: "Certificado Escolar",
-      descricao: "Certificado de conclusão de ensino regular ou supletivo",
-      preco: 100.00,
-      categoria: "Serviços",
-      icone: "fa-solid fa-scroll",
-      corIcone: "text-amber-400",
-      imagem: "",
-      entregaTipo: "WHATSAPP",
-      controlarEstoque: false,
-      estoque: 0,
-      ilimitado: true,
-      whatsapp: SEU_WHATSAPP
-    },
-    {
-      id: 5,
-      nome: "Esquema SmartFit",
-      descricao: "PDF com procedimento exclusivo para SmartFit",
-      preco: 40.00,
-      categoria: "Serviços",
-      icone: "fa-solid fa-dumbbell",
-      corIcone: "text-yellow-500",
-      imagem: "",
-      entregaTipo: "EMAIL",
-      controlarEstoque: true,
-      estoque: 3,
-      ilimitado: false,
-      whatsapp: SEU_WHATSAPP
-    },
-    {
-      id: 6,
-      nome: "RG Digital",
-      descricao: "Atendimento especializado para emissão e regularização de RG Digital",
-      preco: 100.00,
-      categoria: "Serviços",
-      icone: "fa-solid fa-id-card",
-      corIcone: "text-amber-500",
-      imagem: "",
-      entregaTipo: "WHATSAPP",
-      controlarEstoque: false,
-      estoque: 0,
-      ilimitado: true,
-      whatsapp: SEU_WHATSAPP
-    },
-    {
-      id: 7,
-      nome: "CNH Digital",
-      descricao: "Emissão e regularização de CNH com atendimento ágil",
-      preco: 140.00,
-      categoria: "Serviços",
-      icone: "fa-solid fa-id-badge",
-      corIcone: "text-emerald-400",
-      imagem: "",
-      entregaTipo: "WHATSAPP",
-      controlarEstoque: false,
-      estoque: 0,
-      ilimitado: true,
-      whatsapp: SEU_WHATSAPP
-    },
-    {
-      id: 8,
-      nome: "Comprovante de Residência",
-      descricao: "Comprovante válido para fins de endereço",
-      preco: 30.00,
-      categoria: "Serviços",
-      icone: "fa-solid fa-house-chimney",
-      corIcone: "text-red-400",
-      imagem: "",
-      entregaTipo: "WHATSAPP",
-      controlarEstoque: false,
-      estoque: 0,
-      ilimitado: true,
-      whatsapp: SEU_WHATSAPP
-    },
-    {
-      id: 9,
-      nome: "Atestado Médico",
-      descricao: "Documentação de atestado médico com atendimento via WhatsApp",
-      preco: 40.00,
-      categoria: "Serviços",
-      icone: "fa-solid fa-file-medical",
-      corIcone: "text-teal-400",
-      imagem: "",
-      entregaTipo: "WHATSAPP",
-      controlarEstoque: false,
-      estoque: 0,
-      ilimitado: true,
-      whatsapp: SEU_WHATSAPP
-    },
-    {
-      id: 10,
-      nome: "99 Motorista",
-      descricao: "Suporte e cadastro para motorista da plataforma 99",
-      preco: 240.00,
-      categoria: "Serviços",
-      icone: "fa-solid fa-car",
-      corIcone: "text-yellow-400",
-      imagem: "",
-      entregaTipo: "WHATSAPP",
-      controlarEstoque: false,
-      estoque: 0,
-      ilimitado: true,
-      whatsapp: SEU_WHATSAPP
-    },
-    {
-      id: 11,
-      nome: "Uber Motorista",
-      descricao: "Suporte, regularização e processos para Uber Motorista",
-      preco: 320.00,
-      categoria: "Serviços",
-      icone: "fa-solid fa-car-side",
-      corIcone: "text-slate-200",
-      imagem: "",
-      entregaTipo: "WHATSAPP",
-      controlarEstoque: false,
-      estoque: 0,
-      ilimitado: true,
       whatsapp: SEU_WHATSAPP
     }
   ],
@@ -197,27 +51,37 @@ app.post('/api/visita', (req, res) => {
 });
 
 app.get('/api/produtos', (req, res) => {
-  res.json(db.produtos);
+  // Retorna os produtos para a loja (sem expor as senhas em estoque para todo mundo ver na API pública)
+  const produtosPublicos = db.produtos.map(p => ({
+    ...p,
+    estoque: p.credenciaisEstoque ? p.credenciaisEstoque.length : (p.estoque || 0)
+  }));
+  res.json(produtosPublicos);
 });
 
-// Cadastrar novo produto pelo Admin com suporte a imagem local/URL e Estoque
+// Cadastrar novo produto pelo Admin com as credenciais automáticas
 app.post('/api/admin/produtos', (req, res) => {
-  const { nome, descricao, preco, categoria, icone, corIcone, imagem, entregaTipo, controlarEstoque, estoque, ilimitado } = req.body;
+  const { nome, descricao, preco, categoria, icone, corIcone, imagem, entregaTipo, credenciaisTexto } = req.body;
   if (!nome || !preco) return res.status(400).json({ error: 'Nome e preço são obrigatórios.' });
+
+  // Transforma o texto de credenciais (uma por linha) em um array limpo
+  const credenciaisEstoque = credenciaisTexto 
+    ? credenciaisTexto.split('\n').map(c => c.trim()).filter(c => c.length > 0)
+    : [];
 
   const novoProduto = {
     id: db.produtos.length > 0 ? Math.max(...db.produtos.map(p => p.id)) + 1 : 1,
     nome,
     descricao: descricao || '',
     preco: parseFloat(preco),
-    categoria: categoria || 'Serviços',
+    categoria: categoria || 'Streaming',
     icone: icone || 'fa-solid fa-box',
     corIcone: corIcone || 'text-white',
     imagem: imagem || '',
-    entregaTipo: entregaTipo || 'WHATSAPP',
-    controlarEstoque: !!controlarEstoque,
-    estoque: parseInt(estoque) || 0,
-    ilimitado: !!ilimitado,
+    entregaTipo: entregaTipo || 'EMAIL',
+    controlarEstoque: true,
+    credenciaisEstoque, // As contas cadastradas aqui serão entregues automaticamente
+    ilimitado: false,
     whatsapp: SEU_WHATSAPP
   };
 
@@ -254,19 +118,33 @@ app.post('/api/auth/login', (req, res) => {
   res.json({ success: true, usuario: usuarioSeguro });
 });
 
+// Rota de compra: Pega uma conta do estoque automaticamente e entrega para o cliente
 app.post('/api/pedidos', (req, res) => {
-  const { usuarioEmail, produtoNome, valor, tipo, produtoId } = req.body;
+  const { usuarioEmail, produtoId } = req.body;
   
-  // Baixa no estoque se controlar estoque e não for ilimitado
-  if (produtoId) {
-    const prod = db.produtos.find(p => p.id === parseInt(produtoId));
-    if (prod && prod.controlarEstoque && !prod.ilimitado) {
-      if (prod.estoque > 0) prod.estoque -= 1;
-    }
+  const prod = db.produtos.find(p => p.id === parseInt(produtoId));
+  if (!prod) return res.status(400).json({ error: 'Produto não encontrado.' });
+
+  let dadoEntregue = "Entrega combinada via WhatsApp";
+
+  // Se o produto tiver contas cadastradas no estoque automático, puxa a primeira da fila
+  if (prod.credenciaisEstoque && prod.credenciaisEstoque.length > 0) {
+    dadoEntregue = prod.credenciaisEstoque.shift(); // Remove a conta do estoque para não vender duas vezes!
+  } else if (!prod.ilimitado) {
+    return res.status(400).json({ error: 'Produto esgotado no momento!' });
   }
 
-  db.pedidos.push({ id: db.pedidos.length + 1, usuarioEmail: usuarioEmail || 'Anônimo', produtoNome, valor, tipo, data: new Date().toISOString() });
-  res.json({ success: true });
+  const novoPedido = {
+    id: db.pedidos.length + 1,
+    usuarioEmail: usuarioEmail || 'Anônimo',
+    produtoNome: prod.nome,
+    valor: prod.preco,
+    dadoEntregue, // O site vai salvar exatamente qual login/senha foi entregue para este cliente
+    data: new Date().toISOString()
+  };
+
+  db.pedidos.push(novoPedido);
+  res.json({ success: true, dadoEntregue });
 });
 
 app.get('/api/admin/stats', (req, res) => {
