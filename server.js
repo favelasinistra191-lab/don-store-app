@@ -20,7 +20,7 @@ let db = {
     {
       id: 1,
       nome: "Tela Netflix 4K",
-      descricao: "Plano Premium Individual com envio imediato por e-mail",
+      descricao: "Plano Premium Individual com envio imediato por API",
       preco: 12.00,
       categoria: "Streaming",
       icone: "fa-solid fa-tv",
@@ -31,7 +31,7 @@ let db = {
     {
       id: 2,
       nome: "Tela Disney+",
-      descricao: "Acesso Premium Full HD / 4K para filmes e séries",
+      descricao: "Acesso Premium Full HD / 4K processado via API",
       preco: 10.00,
       categoria: "Streaming",
       icone: "fa-solid fa-film",
@@ -64,12 +64,12 @@ let db = {
     {
       id: 5,
       nome: "Esquema SmartFit",
-      descricao: "Acesso e procedimentos exclusivos para SmartFit",
+      descricao: "Acesso e procedimentos exclusivos para SmartFit (Conforme estoque)",
       preco: 40.00,
       categoria: "Serviços",
       icone: "fa-solid fa-dumbbell",
       corIcone: "text-yellow-500",
-      entregaTipo: "WHATSAPP",
+      entregaTipo: "EMAIL",
       whatsapp: SEU_WHATSAPP
     },
     {
@@ -113,6 +113,28 @@ let db = {
       categoria: "Serviços",
       icone: "fa-solid fa-file-medical",
       corIcone: "text-teal-400",
+      entregaTipo: "WHATSAPP",
+      whatsapp: SEU_WHATSAPP
+    },
+    {
+      id: 10,
+      nome: "99 Motorista",
+      descricao: "Suporte e cadastro para motorista da plataforma 99",
+      preco: 50.00,
+      categoria: "Serviços",
+      icone: "fa-solid fa-car",
+      corIcone: "text-yellow-400",
+      entregaTipo: "WHATSAPP",
+      whatsapp: SEU_WHATSAPP
+    },
+    {
+      id: 11,
+      nome: "Uber Motorista",
+      descricao: "Suporte, regularização e processos para Uber Motorista",
+      preco: 50.00,
+      categoria: "Serviços",
+      icone: "fa-solid fa-car-side",
+      corIcone: "text-slate-200",
       entregaTipo: "WHATSAPP",
       whatsapp: SEU_WHATSAPP
     }
