@@ -1,6 +1,11 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+import express from 'express';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -9,7 +14,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const DATA_FILE = path.join(__dirname, 'dados.json');
 
-// Produtos Iniciais Corretos (Com estoque só para Netflix, Disney e Smart Fit; O resto via WhatsApp)
+// Produtos Iniciais (Estoque apenas para Netflix, Disney e Smart Fit; O resto via WhatsApp)
 const produtosIniciais = [
   {
     id: 1,
@@ -90,7 +95,6 @@ const produtosIniciais = [
   }
 ];
 
-// Carregar ou inicializar banco de dados local (JSON)
 function carregarBanco() {
   if (!fs.existsSync(DATA_FILE)) {
     const dadosIniciais = {
@@ -114,10 +118,8 @@ function salvarBanco(dados) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(dados, null, 2));
 }
 
-// Rotas da API
 app.get('/api/produtos', (req, res) => {
   const db = carregarBanco();
-  // Retorna os produtos formatados mostrando a quantidade de estoque disponível (se for EMAIL)
   const produtosFormatados = db.produtos.map(p => ({
     ...p,
     estoque: p.credenciais ? p.credenciais.length : 0
@@ -148,9 +150,8 @@ app.post('/api/auth/cadastro', (req, res) => {
   res.json({ success: true, usuario: { nome, email, isAdmin: false } });
 });
 
-// Comprar produto automático (EMAIL)
 app.post('/api/pedidos', (req, res) => {
-  const { usuarioEmail, produtoId } = req.body;
+  const { produtoId } = req.body;
   const db = carregarBanco();
   const produto = db.produtos.find(p => p.id === produtoId);
 
@@ -159,7 +160,6 @@ app.post('/api/pedidos', (req, res) => {
     if (!produto.credenciais || produto.credenciais.length === 0) {
       return res.status(400).json({ success: false, error: 'Produto esgotado no momento.' });
     }
-    // Pega a primeira credencial do lote
     const dadoEntregue = produto.credenciais.shift();
     salvarBanco(db);
     return res.json({ success: true, dadoEntregue });
@@ -167,13 +167,11 @@ app.post('/api/pedidos', (req, res) => {
   res.status(400).json({ success: false, error: 'Este produto é finalizado via WhatsApp.' });
 });
 
-// Painel Admin - Estatísticas e Lista
 app.get('/api/admin/stats', (req, res) => {
   const db = carregarBanco();
   res.json({ produtos: db.produtos });
 });
 
-// Adicionar / Criar produto pelo Admin
 app.post('/api/admin/produtos', (req, res) => {
   const { nome, preco, categoria, entregaTipo, descricao, imagem, credenciaisTexto } = req.body;
   const db = carregarBanco();
@@ -199,7 +197,6 @@ app.post('/api/admin/produtos', (req, res) => {
   res.json({ success: true });
 });
 
-// Deletar produto
 app.delete('/api/admin/produtos/:id', (req, res) => {
   const id = parseInt(req.params.id);
   const db = carregarBanco();
