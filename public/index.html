@@ -15,142 +15,174 @@
   <style>
     :root {
       --bg: #030305;
-      --card-border: rgba(220, 38, 38, 0.3);
-      --card-border-hover: rgba(220, 38, 38, 0.8);
+      --card-border: rgba(220, 38, 38, 0.2);
+      --card-border-hover: rgba(220, 38, 38, 0.6);
       --red-primary: #dc2626;
       --red-hover: #b91c1c;
-      --red-glow: rgba(220, 38, 38, 0.5);
+      --red-glow: rgba(220, 38, 38, 0.4);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
+      --glass: rgba(12, 12, 18, 0.7);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
 
     body {
       background-color: var(--bg);
-      background-image: linear-gradient(rgba(3, 3, 5, 0.75), rgba(3, 3, 5, 0.85)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1600&auto=format&fit=crop');
+      background-image: radial-gradient(circle at top right, rgba(220, 38, 38, 0.1), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(220, 38, 38, 0.05), transparent 40%),
+                        url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1600&auto=format&fit=crop');
       background-size: cover; background-position: center; background-attachment: fixed;
       color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column;
       align-items: center; position: relative; overflow-x: hidden;
     }
 
     header {
-      width: 100%; max-width: 1200px; padding: 20px 25px; display: flex; justify-content: space-between;
-      align-items: center; border-bottom: 1px solid rgba(220, 38, 38, 0.25);
-      background: rgba(3, 3, 5, 0.85); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100;
+      width: 100%; max-width: 1200px; padding: 15px 20px; display: flex; justify-content: space-between;
+      align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(3, 3, 5, 0.8); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 100;
+      transition: all 0.3s;
     }
 
     .brand-logo {
-      font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 900;
-      background: linear-gradient(180deg, #ffffff 20%, var(--red-primary) 100%);
+      font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 900;
+      background: linear-gradient(180deg, #ffffff 30%, var(--red-primary) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      cursor: pointer; text-shadow: 0 0 20px var(--red-glow); letter-spacing: 1px;
+      cursor: pointer; text-shadow: 0 0 15px var(--red-glow); letter-spacing: 1px;
     }
 
-    .header-nav { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .header-nav { display: flex; gap: 8px; align-items: center; }
 
     .nav-btn {
-      background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--text-main); padding: 8px 14px; border-radius: 8px; font-weight: 600; font-size: 0.85rem;
+      background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-main); padding: 8px 12px; border-radius: 10px; font-weight: 600; font-size: 0.8rem;
       cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; text-decoration: none;
     }
 
-    .nav-btn:hover { background: var(--red-primary); border-color: var(--red-primary); box-shadow: 0 0 10px var(--red-glow); }
-    .nav-btn-primary { background: var(--red-primary); border-color: var(--red-primary); }
+    .nav-btn:hover { background: var(--red-primary); border-color: var(--red-primary); transform: translateY(-2px); }
+    .nav-btn-primary { background: var(--red-primary); border-color: var(--red-primary); box-shadow: 0 4px 12px var(--red-glow); }
 
-    .hero-banner { width: 100%; max-width: 1200px; padding: 40px 20px 20px 20px; text-align: center; }
+    .hero-banner { width: 100%; max-width: 1200px; padding: 60px 20px 40px 20px; text-align: center; }
     .hero-banner h1 {
-      font-family: 'Cinzel', serif; font-size: 2.5rem; font-weight: 900;
-      letter-spacing: 2px; margin-bottom: 10px;
-      background: linear-gradient(180deg, #ffffff 40%, #a1a1aa 100%);
+      font-family: 'Cinzel', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900;
+      letter-spacing: 3px; margin-bottom: 15px;
+      background: linear-gradient(180deg, #ffffff 40%, #71717a 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
     }
-    .hero-banner p { color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto; }
+    .hero-banner p { color: var(--text-muted); font-size: clamp(0.9rem, 2vw, 1.1rem); max-width: 600px; margin: 0 auto; line-height: 1.6; }
 
     .controls-container {
-      width: 100%; max-width: 1200px; padding: 20px; display: flex; flex-wrap: wrap; gap: 15px;
-      justify-content: space-between; align-items: center;
+      width: 100%; max-width: 1200px; padding: 10px 20px; display: flex; flex-wrap: wrap; gap: 15px;
+      justify-content: space-between; align-items: center; margin-bottom: 20px;
     }
 
-    .search-box { flex: 1; min-width: 260px; }
+    .search-box { flex: 1; min-width: 280px; position: relative; }
     .search-input {
-      width: 100%; background: rgba(12, 12, 18, 0.7); border: 1px solid var(--card-border);
-      border-radius: 12px; padding: 12px 16px; color: #fff; font-size: 0.95rem; outline: none; backdrop-filter: blur(8px);
+      width: 100%; background: var(--glass); border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 14px 16px 14px 45px; color: #fff; font-size: 0.95rem; outline: none; backdrop-filter: blur(10px);
+      transition: all 0.3s;
     }
-    .search-input:focus { border-color: var(--red-primary); box-shadow: 0 0 10px var(--red-glow); }
+    .search-input:focus { border-color: var(--red-primary); box-shadow: 0 0 15px var(--red-glow); background: rgba(12, 12, 18, 0.9); }
+    .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
 
-    .categories-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .categories-group { display: flex; gap: 10px; flex-wrap: wrap; }
     .cat-btn {
-      background: rgba(12, 12, 18, 0.7); border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--text-muted); padding: 8px 14px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+      background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-muted); padding: 10px 18px; border-radius: 12px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.3s;
     }
-    .cat-btn.active, .cat-btn:hover { background: var(--red-primary); color: #fff; border-color: var(--red-primary); box-shadow: 0 0 8px var(--red-glow); }
+    .cat-btn.active, .cat-btn:hover { background: var(--red-primary); color: #fff; border-color: var(--red-primary); transform: scale(1.05); box-shadow: 0 4px 12px var(--red-glow); }
 
     .main-grid {
-      width: 100%; max-width: 1200px; padding: 0 20px 40px 20px;
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px;
+      width: 100%; max-width: 1200px; padding: 0 20px 60px 20px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;
     }
 
     .product-card {
-      background: rgba(12, 12, 18, 0.75); border: 1px solid var(--card-border);
-      border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px); position: relative;
+      background: linear-gradient(145deg, rgba(20, 20, 30, 0.7), rgba(10, 10, 15, 0.8));
+      border: 1px solid var(--card-border);
+      border-radius: 20px; overflow: hidden; display: flex; flex-direction: column;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); backdrop-filter: blur(12px); position: relative;
     }
 
     .product-card:hover {
-      border-color: var(--card-border-hover); transform: translateY(-4px);
-      box-shadow: 0 10px 25px -5px rgba(220, 38, 38, 0.25);
+      border-color: var(--card-border-hover); transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 35px -5px rgba(220, 38, 38, 0.3);
     }
 
-    .product-img-container { width: 100%; height: 150px; background: #0c0c12; position: relative; overflow: hidden; }
-    .product-img-container img { width: 100%; height: 100%; object-fit: cover; }
-    .product-icon-fallback {
-      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem;
-    }
-
-    .product-content { padding: 18px; display: flex; flex-direction: column; flex: 1; }
-    .product-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; color: #fff; }
-    .product-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px; flex: 1; line-height: 1.4; }
+    .product-img-container { width: 100%; height: 170px; background: #0c0c12; position: relative; overflow: hidden; }
+    .product-img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .product-card:hover .product-img-container img { transform: scale(1.1); }
     
-    .product-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
-    .product-price { font-size: 1.25rem; font-weight: 800; color: #fff; }
-    .product-price span { color: var(--red-primary); font-size: 0.85rem; }
+    .badge-category {
+      position: absolute; top: 12px; left: 12px; background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px); color: #fff; padding: 4px 10px; border-radius: 8px;
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .product-content { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+    .product-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; color: #fff; letter-spacing: -0.3px; }
+    .product-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 18px; flex: 1; line-height: 1.5; }
+    
+    .product-info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); }
+    .info-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+    
+    .product-footer { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .product-price { font-size: 1.4rem; font-weight: 900; color: #fff; }
+    .product-price span { color: var(--red-primary); font-size: 0.9rem; margin-right: 2px; }
 
     .buy-btn {
-      background: var(--red-primary); color: #fff; border: none; padding: 8px 16px;
-      border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+      background: var(--red-primary); color: #fff; border: none; padding: 10px 18px;
+      border-radius: 12px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.3s;
+      flex: 1; text-align: center;
     }
-    .buy-btn:hover { background: var(--red-hover); box-shadow: 0 0 12px var(--red-glow); }
+    .buy-btn:hover:not(:disabled) { background: var(--red-hover); box-shadow: 0 0 15px var(--red-glow); transform: translateY(-2px); }
+    .buy-btn:disabled { background: #27272a; color: #52525b; cursor: not-allowed; }
 
     /* Modais */
     .modal-overlay {
-      position: fixed; inset: 0; background: rgba(3, 3, 5, 0.85); backdrop-filter: blur(8px);
+      position: fixed; inset: 0; background: rgba(3, 3, 5, 0.9); backdrop-filter: blur(10px);
       display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;
-      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+      opacity: 0; pointer-events: none; transition: all 0.3s;
     }
     .modal-overlay.active { opacity: 1; pointer-events: auto; }
     
     .modal-box {
-      background: #0c0c12; border: 1px solid rgba(220, 38, 38, 0.4); border-radius: 16px;
-      width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; padding: 25px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.8); position: relative;
+      background: linear-gradient(145deg, #0c0c12, #161620); border: 1px solid rgba(220, 38, 38, 0.3); border-radius: 24px;
+      width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; padding: 30px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); position: relative;
+      transform: scale(0.9); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
+    .modal-overlay.active .modal-box { transform: scale(1); }
 
     footer {
-      width: 100%; max-width: 1200px; padding: 20px; text-align: center;
+      width: 100%; max-width: 1200px; padding: 30px 20px; text-align: center;
       border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-size: 0.85rem; margin-top: auto;
+    }
+
+    /* Responsividade */
+    @media (max-width: 640px) {
+      .header-nav .nav-btn span { display: none; }
+      .header-nav .nav-btn { padding: 10px; border-radius: 50%; }
+      .header-nav .nav-btn i { font-size: 1rem; margin: 0; }
+      .hero-banner { padding: 40px 20px 20px 20px; }
+      .controls-container { flex-direction: column; align-items: stretch; }
+      .categories-group { justify-content: center; }
+      .main-grid { grid-template-columns: 1fr; padding: 0 15px 40px 15px; }
+      .product-card { max-width: 400px; margin: 0 auto; width: 100%; }
     }
   </style>
 </head>
 <body>
 
   <!-- Header -->
-  <header>
-    <div class="brand-logo" onclick="carregarProdutos()">DON STORE</div>
+  <header id="mainHeader">
+    <div class="brand-logo" onclick="window.scrollTo(0,0); carregarProdutos();">DON STORE</div>
     <div class="header-nav">
       <div id="userInfoArea" class="flex items-center gap-2">
-        <button onclick="abrirModalAuth('login')" class="nav-btn"><i class="fa-solid fa-user"></i> Entrar</button>
-        <button onclick="abrirModalAuth('cadastro')" class="nav-btn nav-btn-primary">Criar Conta</button>
+        <button onclick="abrirModalAuth('login')" class="nav-btn"><i class="fa-solid fa-user"></i> <span>Entrar</span></button>
+        <button onclick="abrirModalAuth('cadastro')" class="nav-btn nav-btn-primary"><span>Criar Conta</span></button>
       </div>
       <div id="adminBtnArea"></div>
     </div>
@@ -159,13 +191,14 @@
   <!-- Hero Section -->
   <section class="hero-banner">
     <h1>CATÁLOGO DIGITAL</h1>
-    <p>Escolha o serviço ou tela de streaming ideal com atendimento e entrega rápida.</p>
+    <p>Sua loja de confiança para serviços digitais, streaming e suporte especializado com entrega imediata.</p>
   </section>
 
   <!-- Filtros e Busca -->
   <div class="controls-container">
     <div class="search-box">
-      <input type="text" id="searchInput" class="search-input" placeholder="Buscar telas, serviços, motorista..." oninput="filtrarProdutos()">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" id="searchInput" class="search-input" placeholder="O que você está procurando hoje?" oninput="filtrarProdutos()">
     </div>
     <div class="categories-group" id="categoriasFiltro">
       <button class="cat-btn active" onclick="mudarCategoria('Todos', this)">Todos</button>
@@ -180,19 +213,27 @@
   </main>
 
   <footer>
-    <p>&copy; 2026 DON STORE. Todos os direitos reservados.</p>
+    <div class="mb-4 flex justify-center gap-6 text-xl">
+      <a href="#" class="hover:text-red-500 transition-colors"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#" class="hover:text-red-500 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+    <p>&copy; 2026 DON STORE. Excelência em Serviços Digitais.</p>
+    <p class="mt-1 opacity-50 text-[10px]">Desenvolvido com foco em alta performance.</p>
   </footer>
 
   <!-- Modal de Compra / Checkout -->
   <div class="modal-overlay" id="modalCompra">
     <div class="modal-box">
-      <h3 class="text-xl font-bold mb-3" id="checkoutTitulo">Finalizar Pedido</h3>
-      <div id="checkoutConteudo" class="text-sm text-slate-300 space-y-3 mb-5">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-black text-white" id="checkoutTitulo">Finalizar Pedido</h3>
+        <button onclick="fecharModal('modalCompra')" class="text-slate-500 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
+      <div id="checkoutConteudo" class="space-y-4 mb-8">
         <!-- Detalhes do produto -->
       </div>
-      <div class="flex justify-end gap-3">
-        <button onclick="fecharModal('modalCompra')" class="px-4 py-2 bg-slate-800 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-700">Cancelar</button>
-        <button id="btnConfirmarCompra" class="px-5 py-2 bg-red-600 rounded-lg text-sm font-bold text-white hover:bg-red-700 shadow-lg shadow-red-600/30">Confirmar</button>
+      <div class="flex flex-col gap-3">
+        <button id="btnConfirmarCompra" class="w-full py-4 bg-red-600 rounded-xl font-black text-white hover:bg-red-700 shadow-xl shadow-red-600/20 transition-all active:scale-95">Confirmar</button>
+        <button onclick="fecharModal('modalCompra')" class="w-full py-3 text-slate-400 font-bold hover:text-white transition-colors">Voltar ao Catálogo</button>
       </div>
     </div>
   </div>
@@ -200,23 +241,25 @@
   <!-- Modal de Login / Cadastro -->
   <div class="modal-overlay" id="modalAuth">
     <div class="modal-box">
-      <h3 class="text-xl font-bold mb-4" id="authTitulo">Entrar na Conta</h3>
-      <form id="authForm" onsubmit="realizarAuth(event)" class="space-y-4">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-black text-white" id="authTitulo">Acessar Conta</h3>
+        <button onclick="fecharModal('modalAuth')" class="text-slate-500 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
+      <form id="authForm" onsubmit="realizarAuth(event)" class="space-y-5">
         <div id="grupoNome" style="display:none;">
-          <label class="block text-xs font-semibold text-slate-400 mb-1">Nome Completo</label>
-          <input type="text" id="authNome" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white text-sm">
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nome Completo</label>
+          <input type="text" id="authNome" class="w-full bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 text-white text-sm focus:border-red-600 outline-none transition-all">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-1">E-mail</label>
-          <input type="email" id="authEmail" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white text-sm" placeholder="seu@email.com">
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Seu E-mail</label>
+          <input type="email" id="authEmail" required class="w-full bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 text-white text-sm focus:border-red-600 outline-none transition-all" placeholder="exemplo@email.com">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-1">Senha</label>
-          <input type="password" id="authSenha" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white text-sm" placeholder="••••••••">
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Sua Senha</label>
+          <input type="password" id="authSenha" required class="w-full bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 text-white text-sm focus:border-red-600 outline-none transition-all" placeholder="••••••••">
         </div>
-        <div class="flex justify-end gap-3 pt-2">
-          <button type="button" onclick="fecharModal('modalAuth')" class="px-4 py-2 bg-slate-800 rounded-lg text-sm font-semibold text-slate-300">Cancelar</button>
-          <button type="submit" id="authSubmitBtn" class="px-5 py-2 bg-red-600 rounded-lg text-sm font-bold text-white hover:bg-red-700">Entrar</button>
+        <div class="pt-4">
+          <button type="submit" id="authSubmitBtn" class="w-full py-4 bg-red-600 rounded-xl font-black text-white hover:bg-red-700 shadow-xl shadow-red-600/20 transition-all">Entrar</button>
         </div>
       </form>
     </div>
@@ -225,69 +268,67 @@
   <!-- Modal Painel do Administrador -->
   <div class="modal-overlay" id="modalAdmin">
     <div class="modal-box max-w-2xl">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold text-red-500"><i class="fa-solid fa-shield-halved"></i> Painel Administrativo</h3>
-        <button onclick="fecharModal('modalAdmin')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-black text-red-600"><i class="fa-solid fa-shield-halved"></i> Gestão Admin</h3>
+        <button onclick="fecharModal('modalAdmin')" class="text-slate-500 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
       </div>
 
-      <div class="space-y-6">
+      <div class="space-y-8">
         <!-- Formulário Adicionar Produto -->
-        <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl">
-          <h4 class="font-bold text-sm text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-plus text-red-500"></i> Adicionar / Gerenciar Produto</h4>
-          <form onsubmit="cadastrarProdutoAdmin(event)" class="space-y-3">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="bg-slate-900/40 border border-white/5 p-6 rounded-2xl">
+          <h4 class="font-black text-sm text-white mb-5 flex items-center gap-2 uppercase tracking-widest"><i class="fa-solid fa-plus-circle text-red-600"></i> Novo Produto</h4>
+          <form onsubmit="cadastrarProdutoAdmin(event)" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs text-slate-400 mb-1">Nome do Produto</label>
-                <input type="text" id="admNome" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm text-white" placeholder="Ex: Netflix 4K">
+                <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Nome do Serviço</label>
+                <input type="text" id="admNome" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-red-600">
               </div>
               <div>
-                <label class="block text-xs text-slate-400 mb-1">Preço (R$)</label>
-                <input type="number" step="0.01" id="admPreco" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm text-white" placeholder="12.00">
+                <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Preço (R$)</label>
+                <input type="number" step="0.01" id="admPreco" required class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-red-600">
               </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs text-slate-400 mb-1">Categoria</label>
-                <select id="admCategoria" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm text-white">
+                <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Categoria</label>
+                <select id="admCategoria" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-red-600">
                   <option value="Streaming">Streaming</option>
                   <option value="Serviços">Serviços</option>
                 </select>
               </div>
               <div>
-                <label class="block text-xs text-slate-400 mb-1">Tipo de Entrega</label>
-                <select id="admEntregaTipo" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm text-white">
-                  <option value="EMAIL">Automático por E-mail (Com Estoque)</option>
-                  <option value="WHATSAPP">Via WhatsApp (Sem Estoque)</option>
+                <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Método de Entrega</label>
+                <select id="admEntregaTipo" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-red-600">
+                  <option value="EMAIL">Automático (E-mail)</option>
+                  <option value="WHATSAPP">Manual (WhatsApp)</option>
                 </select>
               </div>
             </div>
 
             <div>
-              <label class="block text-xs text-slate-400 mb-1">Descrição</label>
-              <input type="text" id="admDescricao" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm text-white" placeholder="Ex: Acesso imediato">
+              <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Descrição Curta</label>
+              <input type="text" id="admDescricao" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-red-600">
             </div>
 
             <div>
-              <label class="block text-xs text-slate-400 mb-1">URL da Imagem (Opcional)</label>
-              <input type="text" id="admImagem" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm text-white" placeholder="https://exemplo.com/foto.jpg">
+              <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase">Link da Imagem</label>
+              <input type="text" id="admImagem" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-sm text-white outline-none focus:border-red-600">
             </div>
 
-            <!-- CAMPO DE LOTE DE CONTAS (Apenas para EMAIL) -->
             <div>
-              <label class="block text-xs font-semibold text-red-400 mb-1">Contas em Lote (Preencha APENAS se for entrega automática por e-mail)</label>
-              <textarea id="admCredenciais" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white" placeholder="email1@netflix.com:senha123 | Perfil: 01&#10;email2@netflix.com:senha456 | Perfil: 02"></textarea>
-              <p class="text-[11px] text-slate-400 mt-1">Deixe em branco para produtos finalizados via WhatsApp.</p>
+              <label class="block text-[10px] font-bold text-red-500 mb-1 uppercase">Estoque (Apenas para Automático)</label>
+              <textarea id="admCredenciais" rows="3" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-xs text-white outline-none focus:border-red-600" placeholder="Uma conta por linha..."></textarea>
             </div>
 
-            <button type="submit" class="w-full py-2.5 bg-red-600 hover:bg-red-700 rounded-lg font-bold text-sm text-white shadow-md shadow-red-600/30">Salvar Produto</button>
+            <button type="submit" class="w-full py-4 bg-red-600 hover:bg-red-700 rounded-xl font-black text-sm text-white shadow-lg shadow-red-600/20 transition-all">Salvar no Sistema</button>
           </form>
         </div>
 
         <!-- Lista de Produtos Existentes -->
         <div>
-          <h4 class="font-bold text-sm text-white mb-2">Produtos Cadastrados</h4>
-          <div id="adminListaProdutos" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+          <h4 class="font-black text-sm text-white mb-4 uppercase tracking-widest">Inventário Atual</h4>
+          <div id="adminListaProdutos" class="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
             <!-- Preenchido via JS -->
           </div>
         </div>
@@ -300,10 +341,25 @@
     let categoriaAtual = 'Todos';
     let usuarioLogado = JSON.parse(localStorage.getItem('donstore_usuario')) || null;
 
+    // CONFIGURAÇÃO DO WHATSAPP - Mude aqui o número
+    const WHATSAPP_NUMERO = "5584999999999"; 
+
     document.addEventListener('DOMContentLoaded', () => {
       registrarVisita();
       carregarProdutos();
       atualizarInterfaceUsuario();
+      
+      // Efeito de scroll no header
+      window.addEventListener('scroll', () => {
+        const header = document.getElementById('mainHeader');
+        if (window.scrollY > 50) {
+          header.style.padding = '10px 20px';
+          header.style.background = 'rgba(3, 3, 5, 0.95)';
+        } else {
+          header.style.padding = '15px 20px';
+          header.style.background = 'rgba(3, 3, 5, 0.8)';
+        }
+      });
     });
 
     async function registrarVisita() {
@@ -325,34 +381,42 @@
       grid.innerHTML = '';
 
       if (lista.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500">Nenhum produto encontrado.</div>`;
+        grid.innerHTML = `<div class="col-span-full text-center py-20 text-slate-500 font-bold italic">Nenhum serviço disponível no momento.</div>`;
         return;
       }
 
       lista.forEach(p => {
         let imgHtml = p.imagem 
-          ? `<img src="${p.imagem}" alt="${p.nome}">` 
-          : `<div class="product-icon-fallback ${p.corIcone || 'text-white'}"><i class="${p.icone || 'fa-solid fa-box'}"></i></div>`;
+          ? `<img src="${p.imagem}" alt="${p.nome}" loading="lazy">` 
+          : `<div class="w-full h-full flex items-center justify-center bg-slate-900 text-4xl text-red-600"><i class="fa-solid fa-box-open"></i></div>`;
 
-        // Se usa EMAIL, mostra estoque. Se usa WHATSAPP, mostra "Atendimento via WhatsApp"
-        let statusEstoqueHtml = p.entregaTipo === 'EMAIL' 
-          ? (p.estoque > 0 ? `<span class="text-green-400">${p.estoque} disp.</span>` : `<span class="text-red-400">Esgotado</span>`)
-          : `<span class="text-blue-400 font-semibold text-xs"><i class="fa-brands fa-whatsapp"></i> Via WhatsApp</span>`;
+        let esgotado = p.entregaTipo === 'EMAIL' && p.estoque === 0;
+        
+        let statusHtml = p.entregaTipo === 'EMAIL' 
+          ? (p.estoque > 0 
+              ? `<span class="bg-green-500/10 text-green-400 px-2 py-1 rounded text-[10px] font-black uppercase tracking-tighter border border-green-500/20">${p.estoque} Unidades</span>` 
+              : `<span class="bg-red-500/10 text-red-500 px-2 py-1 rounded text-[10px] font-black uppercase tracking-tighter border border-red-500/20">Esgotado</span>`)
+          : `<span class="bg-blue-500/10 text-blue-400 px-2 py-1 rounded text-[10px] font-black uppercase tracking-tighter border border-blue-500/20">Disponível</span>`;
 
         const card = document.createElement('div');
-        card.className = 'product-card';
+        card.className = `product-card ${esgotado ? 'opacity-75 grayscale-[0.5]' : ''}`;
         card.innerHTML = `
-          <div class="product-img-container">${imgHtml}</div>
+          <div class="product-img-container">
+            <span class="badge-category">${p.categoria}</span>
+            ${imgHtml}
+          </div>
           <div class="product-content">
             <h3 class="product-title">${p.nome}</h3>
             <p class="product-desc">${p.descricao}</p>
-            <div class="flex justify-between items-center text-xs text-slate-400 mb-3">
-              <span>Disponibilidade:</span>
-              ${statusEstoqueHtml}
+            <div class="product-info-row">
+              <span class="info-label">Status do Estoque</span>
+              ${statusHtml}
             </div>
             <div class="product-footer">
-              <div class="product-price">R$ ${p.preco.toFixed(2)}</div>
-              <button onclick="abrirCheckout(${p.id})" class="buy-btn">${p.entregaTipo === 'EMAIL' ? 'Comprar' : 'Pedir via WhatsApp'}</button>
+              <div class="product-price"><span>R$</span>${p.preco.toFixed(2)}</div>
+              <button onclick="abrirCheckout(${p.id})" class="buy-btn" ${esgotado ? 'disabled' : ''}>
+                ${esgotado ? 'Esgotado' : (p.entregaTipo === 'EMAIL' ? 'Comprar' : 'Pedir Agora')}
+              </button>
             </div>
           </div>
         `;
@@ -377,78 +441,81 @@
       filtrarProdutos();
     }
 
-    // Modal de Checkout / Pedido
-    let produtoSelecionadoId = null;
     function abrirCheckout(id) {
       const p = produtosCache.find(x => x.id === id);
       if (!p) return;
-      produtoSelecionadoId = id;
-
-      const conteudo = document.getElementById('checkoutConteudo');
       
-      if (p.entregaTipo === 'EMAIL') {
-        conteudo.innerHTML = `
-          <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
-            <p class="font-bold text-white text-base mb-1">${p.nome}</p>
-            <p class="text-xs text-slate-400 mb-2">${p.descricao}</p>
-            <p class="text-lg font-extrabold text-red-500">R$ ${p.preco.toFixed(2)}</p>
+      const conteudo = document.getElementById('checkoutConteudo');
+      const btn = document.getElementById('btnConfirmarCompra');
+      
+      let badgeHtml = p.entregaTipo === 'EMAIL' 
+        ? '<span class="text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded font-bold">ENTREGA AUTOMÁTICA</span>'
+        : '<span class="text-[10px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded font-bold">ATENDIMENTO HUMANO</span>';
+
+      conteudo.innerHTML = `
+        <div class="bg-black/40 p-5 rounded-2xl border border-white/5">
+          <div class="flex justify-between items-start mb-3">
+            <div>
+              <p class="text-white font-black text-xl mb-1">${p.nome}</p>
+              ${badgeHtml}
+            </div>
+            <p class="text-2xl font-black text-red-600">R$ ${p.preco.toFixed(2)}</p>
           </div>
-          <p class="text-xs text-slate-400">O sistema processará o pedido e entregará os dados de acesso automaticamente no seu e-mail.</p>
-        `;
-        document.getElementById('btnConfirmarCompra').innerText = 'Pagar e Receber Acesso';
-        document.getElementById('btnConfirmarCompra').onclick = finalizarCompraAutomatica;
-      } else {
-        conteudo.innerHTML = `
-          <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
-            <p class="font-bold text-white text-base mb-1">${p.nome}</p>
-            <p class="text-xs text-slate-400 mb-2">${p.descricao}</p>
-            <p class="text-lg font-extrabold text-red-500">R$ ${p.preco.toFixed(2)}</p>
-          </div>
-          <p class="text-xs text-slate-400">Este serviço é finalizado diretamente com o atendente via WhatsApp para configuração e alinhamento rápido.</p>
-        `;
-        document.getElementById('btnConfirmarCompra').innerText = 'Continuar para o WhatsApp';
-        document.getElementById('btnConfirmarCompra').onclick = finalizarCompraWhatsapp;
-      }
+          <p class="text-sm text-slate-400 leading-relaxed">${p.descricao}</p>
+        </div>
+        <div class="p-2 text-center">
+          <p class="text-xs text-slate-500 italic">
+            ${p.entregaTipo === 'EMAIL' 
+              ? 'Os dados serão exibidos na tela e enviados ao seu e-mail após a confirmação.' 
+              : 'Você será redirecionado ao nosso WhatsApp oficial para concluir seu pedido.'}
+          </p>
+        </div>
+      `;
+
+      btn.innerText = p.entregaTipo === 'EMAIL' ? 'Pagar e Receber Acesso' : 'Ir para o WhatsApp';
+      btn.onclick = () => p.entregaTipo === 'EMAIL' ? finalizarCompraAutomatica(id) : finalizarCompraWhatsapp(id);
 
       document.getElementById('modalCompra').classList.add('active');
     }
 
-    async function finalizarCompraAutomatica() {
+    async function finalizarCompraAutomatica(id) {
       try {
         const res = await fetch('/api/pedidos', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             usuarioEmail: usuarioLogado ? usuarioLogado.email : 'Anônimo',
-            produtoId: produtoSelecionadoId
+            produtoId: id
           })
         });
         const data = await res.json();
         if (data.success) {
           fecharModal('modalCompra');
-          alert(`Compra realizada com sucesso!\n\nDados entregues:\n${data.dadoEntregue}`);
+          Swal.fire({
+            title: 'Sucesso!',
+            text: `Dados entregues: ${data.dadoEntregue}`,
+            icon: 'success',
+            confirmButtonColor: '#dc2626'
+          });
           carregarProdutos();
         } else {
           alert(data.error || 'Erro ao processar compra.');
         }
       } catch (e) {
-        alert('Erro de conexão ao realizar o pedido.');
+        alert('Erro de conexão.');
       }
     }
 
-    function finalizarCompraWhatsapp() {
-      const p = produtosCache.find(x => x.id === produtoSelecionadoId);
+    function finalizarCompraWhatsapp(id) {
+      const p = produtosCache.find(x => x.id === id);
       if (!p) return;
       
-      const mensagem = encodeURIComponent(`Olá! Quero finalizar o pedido do serviço: *${p.nome}* no valor de R$ ${p.preco.toFixed(2)}. Poderia me ajudar?`);
-      // Substitua pelo seu número de WhatsApp se necessário
-      const telefone = "5584999999999"; 
-      
+      const mensagem = encodeURIComponent(`Olá! Quero finalizar o pedido do serviço: *${p.nome}* no valor de R$ ${p.preco.toFixed(2)}. Aguardo retorno!`);
       fecharModal('modalCompra');
-      window.open(`https://wa.me/${telefone}?text=${mensagem}`, '_blank');
+      window.open(`https://wa.me/${WHATSAPP_NUMERO}?text=${mensagem}`, '_blank');
     }
 
-    // Sistema de Autenticação
+    // Auth
     function abrirModalAuth(tipo) {
       const grupoNome = document.getElementById('grupoNome');
       const titulo = document.getElementById('authTitulo');
@@ -456,13 +523,13 @@
 
       if (tipo === 'cadastro') {
         grupoNome.style.display = 'block';
-        titulo.innerText = 'Criar Nova Conta';
-        btn.innerText = 'Cadastrar';
+        titulo.innerText = 'Criar Conta';
+        btn.innerText = 'Finalizar Cadastro';
         document.getElementById('authForm').onsubmit = realizarCadastro;
       } else {
         grupoNome.style.display = 'none';
-        titulo.innerText = 'Entrar na Conta';
-        btn.innerText = 'Entrar';
+        titulo.innerText = 'Bem-vindo de Volta';
+        btn.innerText = 'Entrar no Sistema';
         document.getElementById('authForm').onsubmit = realizarLogin;
       }
       document.getElementById('modalAuth').classList.add('active');
@@ -485,13 +552,10 @@
           localStorage.setItem('donstore_usuario', JSON.stringify(usuarioLogado));
           fecharModal('modalAuth');
           atualizarInterfaceUsuario();
-          alert('Login efetuado com sucesso!');
         } else {
           alert(data.error);
         }
-      } catch (err) {
-        alert('Erro ao realizar login.');
-      }
+      } catch (err) { alert('Erro no login.'); }
     }
 
     async function realizarCadastro(e) {
@@ -512,20 +576,14 @@
           localStorage.setItem('donstore_usuario', JSON.stringify(usuarioLogado));
           fecharModal('modalAuth');
           atualizarInterfaceUsuario();
-          alert('Conta criada com sucesso!');
-        } else {
-          alert(data.error);
-        }
-      } catch (err) {
-        alert('Erro ao cadastrar.');
-      }
+        } else { alert(data.error); }
+      } catch (err) { alert('Erro no cadastro.'); }
     }
 
     function fazerLogout() {
       usuarioLogado = null;
       localStorage.removeItem('donstore_usuario');
       atualizarInterfaceUsuario();
-      alert('Você saiu da conta.');
       carregarProdutos();
     }
 
@@ -535,25 +593,22 @@
 
       if (usuarioLogado) {
         userInfoArea.innerHTML = `
-          <span class="text-xs text-slate-300 hidden sm:inline">Olá, <b>${usuarioLogado.nome}</b></span>
-          <button onclick="fazerLogout()" class="nav-btn"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mr-2 hidden sm:inline">User: <b class="text-white">${usuarioLogado.nome}</b></span>
+          <button onclick="fazerLogout()" class="nav-btn"><i class="fa-solid fa-power-off"></i> <span>Sair</span></button>
         `;
 
         if (usuarioLogado.isAdmin) {
-          adminBtnArea.innerHTML = `<button onclick="abrirAdmin()" class="nav-btn bg-red-600 border-red-500"><i class="fa-solid fa-shield-halved"></i> Admin</button>`;
-        } else {
-          adminBtnArea.innerHTML = '';
-        }
+          adminBtnArea.innerHTML = `<button onclick="abrirAdmin()" class="nav-btn bg-red-600/20 border-red-600/50 text-red-500"><i class="fa-solid fa-shield-halved"></i> <span>Admin</span></button>`;
+        } else { adminBtnArea.innerHTML = ''; }
       } else {
         userInfoArea.innerHTML = `
-          <button onclick="abrirModalAuth('login')" class="nav-btn"><i class="fa-solid fa-user"></i> Entrar</button>
-          <button onclick="abrirModalAuth('cadastro')" class="nav-btn nav-btn-primary">Criar Conta</button>
+          <button onclick="abrirModalAuth('login')" class="nav-btn"><i class="fa-solid fa-user"></i> <span>Entrar</span></button>
+          <button onclick="abrirModalAuth('cadastro')" class="nav-btn nav-btn-primary"><span>Criar Conta</span></button>
         `;
         adminBtnArea.innerHTML = '';
       }
     }
 
-    // Painel Admin
     async function abrirAdmin() {
       document.getElementById('modalAdmin').classList.add('active');
       carregarListaAdmin();
@@ -568,11 +623,12 @@
 
         data.produtos.forEach(p => {
           lista.innerHTML += `
-            <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
+            <div class="flex justify-between items-center bg-black/40 p-4 rounded-xl border border-white/5">
               <div>
-                <span class="font-bold text-white">${p.nome}</span> - R$ ${p.preco.toFixed(2)} (${p.entregaTipo})
+                <p class="font-bold text-white text-sm">${p.nome}</p>
+                <p class="text-[10px] text-slate-500 uppercase">${p.entregaTipo} • R$ ${p.preco.toFixed(2)}</p>
               </div>
-              <button onclick="deletarProduto(${p.id})" class="text-red-400 hover:text-red-300 font-bold px-2 py-1"><i class="fa-solid fa-trash"></i></button>
+              <button onclick="deletarProduto(${p.id})" class="w-10 h-10 flex items-center justify-center bg-red-600/10 text-red-500 rounded-lg hover:bg-red-600 hover:text-white transition-all"><i class="fa-solid fa-trash-can"></i></button>
             </div>
           `;
         });
@@ -599,7 +655,6 @@
         });
         const data = await res.json();
         if (data.success) {
-          alert('Produto cadastrado com sucesso!');
           document.getElementById('admNome').value = '';
           document.getElementById('admPreco').value = '';
           document.getElementById('admDescricao').value = '';
@@ -607,33 +662,27 @@
           document.getElementById('admCredenciais').value = '';
           carregarProdutos();
           carregarListaAdmin();
-        } else {
-          alert(data.error);
         }
-      } catch (err) {
-        alert('Erro ao cadastrar produto.');
-      }
+      } catch (err) {}
     }
 
     async function deletarProduto(id) {
-      if (!confirm('Deseja realmente excluir este produto?')) return;
+      if (!confirm('Excluir este serviço permanentemente?')) return;
       try {
         const res = await fetch(`/api/admin/produtos/${id}`, { method: 'DELETE' });
         const data = await res.json();
         if (data.success) {
           carregarProdutos();
           carregarListaAdmin();
-        } else {
-          alert(data.error);
         }
-      } catch (e) {
-        alert('Erro ao excluir produto.');
-      }
+      } catch (e) {}
     }
 
     function fecharModal(id) {
       document.getElementById(id).classList.remove('active');
     }
   </script>
+  <!-- SweetAlert2 para alertas mais bonitos -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
