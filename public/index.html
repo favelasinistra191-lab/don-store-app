@@ -125,143 +125,192 @@
   </style>
 </head>
 <body>
-
   <header>
-    <div class="brand-logo" onclick="window.location.href='index.html'">DON STORE</div>
+    <div class="brand-logo" onclick="carregarProdutos()">DON STORE</div>
     <div class="header-nav">
-      <div id="userInfoArea" class="flex items-center gap-2">
-        <button onclick="abrirModalAuth('login')" class="nav-btn"><i class="fa-solid fa-user"></i> <span>Entrar</span></button>
-        <button onclick="abrirModalAuth('cadastro')" class="nav-btn nav-btn-primary"><span>Criar Conta</span></button>
-      </div>
-      <div id="adminBtnArea"></div>
+      <button class="nav-btn" onclick="abrirModalConsulta()"><i class="fa-solid fa-receipt"></i> Consultar Pedido</button>
+      <button class="nav-btn nav-btn-primary" onclick="abrirModalAdmin()"><i class="fa-solid fa-lock"></i> Admin</button>
     </div>
   </header>
 
   <section class="hero-banner">
-    <h1>CATÁLOGO DIGITAL</h1>
-    <p>Sua loja de confiança para serviços digitais, streaming e suporte especializado com entrega imediata.</p>
+    <h1>CATÁLOGO EXCLUSIVO</h1>
+    <p>Serviços digitais de alta performance, automações e produtos premium com entrega imediata e suporte automatizado.</p>
   </section>
 
   <div class="controls-container">
     <div class="search-box">
       <i class="fa-solid fa-magnifying-glass search-icon"></i>
-      <input type="text" id="searchInput" class="search-input" placeholder="O que você está procurando hoje?" oninput="filtrarProdutos()">
+      <input type="text" id="searchInput" class="search-input" placeholder="Pesquisar produtos, serviços..." oninput="filtrarProdutos()">
     </div>
-    <div class="categories-group" id="categoriasFiltro">
-      <button class="cat-btn active" onclick="mudarCategoria('Todos', this)">Todos</button>
-      <button class="cat-btn" onclick="mudarCategoria('Streaming', this)">Streaming</button>
-      <button class="cat-btn" onclick="mudarCategoria('Serviços', this)">Serviços</button>
+    <div class="categories-group" id="categoriasContainer">
+      <button class="cat-btn active" onclick="filtrarCategoria('todos')">Todos</button>
+      <button class="cat-btn" onclick="filtrarCategoria('servicos')">Serviços</button>
+      <button class="cat-btn" onclick="filtrarCategoria('contas')">Contas</button>
+      <button class="cat-btn" onclick="filtrarCategoria('scripts')">Scripts</button>
     </div>
   </div>
 
-  <main class="main-grid" id="produtosGrid"></main>
+  <main class="main-grid" id="produtosGrid">
+    <!-- Os produtos injetados via JavaScript aparecem aqui -->
+  </main>
+
+  <!-- MODAL DE CHECKOUT / PAGAMENTO -->
+  <div class="modal-overlay" id="modalCheckout">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: #fff;">Finalizar Pedido</h2>
+        <button onclick="fecharModal('modalCheckout')" style="background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="checkoutDetalhes" style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-muted);"></div>
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; color: var(--text-muted);">Seu E-mail (Para receber o produto):</label>
+        <input type="email" id="checkoutEmail" class="search-input" placeholder="seuemail@exemplo.com" style="padding: 12px 16px;">
+      </div>
+      <button class="buy-btn" style="width: 100%; padding: 14px; font-size: 1rem;" onclick="gerarPagamento()">Gerar Pix de Pagamento</button>
+    </div>
+  </div>
+
+  <!-- MODAL PIX QRC CODE / STATUS -->
+  <div class="modal-overlay" id="modalPix">
+    <div class="modal-box" style="text-align: center;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2 style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: #fff;">Pagamento Pix</h2>
+        <button onclick="fecharModal('modalPix')" style="background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Escaneie o QR Code abaixo ou copie a chave Pix Copia e Cola para pagar.</p>
+      <div id="pixQrCodeContainer" style="background: #fff; padding: 15px; border-radius: 12px; display: inline-block; margin-bottom: 15px;">
+        <img id="imgQrCode" src="" alt="QR Code Pix" style="width: 180px; height: 180px; display: block;">
+      </div>
+      <div style="margin-bottom: 20px;">
+        <input type="text" id="pixCopiaCola" class="search-input" readonly style="font-size: 0.8rem; text-align: center; margin-bottom: 10px;">
+        <button class="buy-btn" style="width: 100%;" onclick="copiarPixCode()">Copiar Código Pix</button>
+      </div>
+      <div id="statusPagamento" style="font-size: 0.85rem; color: #f59e0b; font-weight: 700;">Aguardando confirmação de pagamento...</div>
+    </div>
+  </div>
+
+  <!-- MODAL CONSULTA DE PEDIDO -->
+  <div class="modal-overlay" id="modalConsulta">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: #fff;">Consultar Pedido</h2>
+        <button onclick="fecharModal('modalConsulta')" style="background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div style="margin-bottom: 15px;">
+        <input type="text" id="inputConsultaId" class="search-input" placeholder="Digite o ID do pedido ou E-mail" style="padding: 12px 16px;">
+      </div>
+      <button class="buy-btn" style="width: 100%; padding: 12px; margin-bottom: 15px;" onclick="buscarPedido()">Pesquisar</button>
+      <div id="resultadoConsulta" style="font-size: 0.85rem; color: var(--text-muted); max-height: 200px; overflow-y: auto;"></div>
+    </div>
+  </div>
+
+  <!-- MODAL ADMIN LOGIN / PAINEL -->
+  <div class="modal-overlay" id="modalAdmin">
+    <div class="modal-box" style="max-width: 600px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: #fff;">Painel Administrativo</h2>
+        <button onclick="fecharModal('modalAdmin')" style="background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="adminLoginArea">
+        <input type="password" id="adminSenhaInput" class="search-input" placeholder="Senha do Administrador" style="margin-bottom: 15px; padding: 12px 16px;">
+        <button class="buy-btn" style="width: 100%; padding: 12px;" onclick="logarAdmin()">Entrar no Painel</button>
+      </div>
+      <div id="adminPainelArea" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+          <h3 style="font-size: 1rem; color: #fff;">Gerenciar Produtos</h3>
+          <button class="buy-btn" style="flex: none; padding: 6px 12px; font-size: 0.75rem;" onclick="abrirNovoProdutoModal()">+ Novo Produto</button>
+        </div>
+        <div id="adminListaProdutos" style="max-height: 350px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL NOVO/EDITAR PRODUTO ADMIN -->
+  <div class="modal-overlay" id="modalProdutoAdmin">
+    <div class="modal-box" style="max-width: 500px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 id="modalProdutoTitulo" style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: #fff;">Editar Produto</h2>
+        <button onclick="fecharModal('modalProdutoAdmin')" style="background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <input type="hidden" id="admId">
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 5px; color: var(--text-muted);">NOME</label>
+        <input type="text" id="admNome" class="search-input" style="padding: 10px 14px;">
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+        <div>
+          <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 5px; color: var(--text-muted);">PREÇO (R$)</label>
+          <input type="number" step="0.01" id="admPreco" class="search-input" style="padding: 10px 14px;">
+        </div>
+        <div>
+          <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 5px; color: var(--text-muted);">CATEGORIA</label>
+          <input type="text" id="admCategoria" class="search-input" style="padding: 10px 14px;">
+        </div>
+      </div>
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 5px; color: var(--text-muted);">TIPO DE ENTREGA</label>
+        <input type="text" id="admEntregaTipo" class="search-input" style="padding: 10px 14px;">
+      </div>
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 5px; color: var(--text-muted);">DESCRIÇÃO</label>
+        <textarea id="admDescricao" class="search-input" style="padding: 10px 14px; height: 80px; resize: none;"></textarea>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 5px; color: var(--text-muted);">CREDENCIAIS / ESTOQUE (1 por linha)</label>
+        <textarea id="admCredenciais" class="search-input" style="padding: 10px 14px; height: 80px; resize: none;" placeholder="usuario:senha"></textarea>
+      </div>
+      <button class="buy-btn" style="width: 100%; padding: 12px;" onclick="salvarProdutoAdmin()">Salvar Produto</button>
+    </div>
+  </div>
 
   <footer>
-    <p>&copy; 2026 DON STORE. Excelência em Serviços Digitais.</p>
+    <p>&copy; 2026 DON STORE. Todos os direitos reservados. Sistema automatizado de entregas digitais.</p>
   </footer>
 
-  <!-- Modal Auth -->
-  <div class="modal-overlay" id="modalAuth">
-    <div class="modal-box">
-      <div class="flex justify-between items-center mb-6">
-        <h3 class="text-2xl font-black text-white" id="authTitulo">Acessar Conta</h3>
-        <button onclick="fecharModal('modalAuth')" class="text-slate-500 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-      </div>
-      <form id="authForm" onsubmit="realizarAuth(event)" class="space-y-5">
-        <div id="grupoNome" style="display:none;">
-          <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Nome Completo</label>
-          <input type="text" id="authNome" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white text-sm outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Seu E-mail</label>
-          <input type="email" id="authEmail" required class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white text-sm outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Sua Senha</label>
-          <input type="password" id="authSenha" required class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3.5 text-white text-sm outline-none">
-        </div>
-        <button type="submit" id="authSubmitBtn" class="w-full py-4 bg-red-600 rounded-xl font-black text-white hover:bg-red-700 shadow-xl">Entrar</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Modal Admin -->
-  <div class="modal-overlay" id="modalAdmin">
-    <div class="modal-box max-w-2xl">
-      <div class="flex justify-between items-center mb-6">
-        <h3 class="text-2xl font-black text-red-600"><i class="fa-solid fa-shield-halved"></i> Gestão Admin</h3>
-        <button onclick="fecharModal('modalAdmin')" class="text-slate-500 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-      </div>
-      <form onsubmit="salvarProdutoAdmin(event)" class="space-y-4">
-        <input type="hidden" id="admId">
-        <div class="grid grid-cols-2 gap-4">
-          <input type="text" id="admNome" required placeholder="Nome do Serviço" class="bg-black border border-white/10 rounded-xl p-3 text-sm text-white outline-none">
-          <input type="number" step="0.01" id="admPreco" required placeholder="Preço (R$)" class="bg-black border border-white/10 rounded-xl p-3 text-sm text-white outline-none">
-        </div>
-        <div class="grid grid-cols-2 gap-4">
-          <select id="admCategoria" class="bg-black border border-white/10 rounded-xl p-3 text-sm text-white outline-none">
-            <option value="Streaming">Streaming</option>
-            <option value="Serviços">Serviços</option>
-          </select>
-          <select id="admEntregaTipo" class="bg-black border border-white/10 rounded-xl p-3 text-sm text-white outline-none">
-            <option value="EMAIL">Automático (Pix)</option>
-            <option value="WHATSAPP">Manual (WhatsApp)</option>
-          </select>
-        </div>
-        <input type="text" id="admDescricao" placeholder="Descrição Curta" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm text-white outline-none">
-        <input type="file" id="admImagemFile" accept="image/*" class="w-full bg-black border border-white/10 rounded-xl p-2 text-xs text-slate-300">
-        <textarea id="admCredenciais" rows="2" class="w-full bg-black border border-white/10 rounded-xl p-3 text-xs text-white outline-none" placeholder="Estoque (uma linha por conta)"></textarea>
-        <button type="submit" class="w-full py-3 bg-red-600 rounded-xl font-bold text-white">Salvar Produto</button>
-      </form>
-    </div>
-  </div>
-    <script>
+  <script>
     let produtosCache = [];
-    let categoriaAtual = 'Todos';
-    let usuarioLogado = JSON.parse(localStorage.getItem('donstore_usuario')) || null;
+    let categoriaAtual = 'todos';
+    let produtoSelecionado = null;
+    let pedidoAtualId = null;
 
     document.addEventListener('DOMContentLoaded', () => {
       carregarProdutos();
-      atualizarInterfaceUsuario();
-      verificarSessaoAtiva();
     });
 
     async function carregarProdutos() {
       try {
-        const resposta = await fetch('/api/produtos');
-        if (!resposta.ok) throw new Error('Erro ao buscar produtos no servidor.');
-        produtosCache = await resposta.json();
+        const res = await fetch('/api/produtos');
+        const data = await res.json();
+        produtosCache = data;
         renderizarProdutos(produtosCache);
-      } catch (erro) {
-        console.error('Falha de conexão:', erro);
+      } catch (err) {
+        console.error("Erro ao carregar produtos:", err);
       }
     }
 
-    function renderizarProdutos(lista) {
+    function renderizarProdutos(produtos) {
       const grid = document.getElementById('produtosGrid');
-      if (!grid) return;
       grid.innerHTML = '';
-      
-      if (lista.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 font-medium">Nenhum produto encontrado.</div>`;
+      if (produtos.length === 0) {
+        grid.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 40px;">Nenhum produto encontrado.</p>';
         return;
       }
 
-      lista.forEach(p => {
+      produtos.forEach(produto => {
         const card = document.createElement('div');
         card.className = 'product-card';
-        card.onclick = () => window.location.href = `produto.html?id=${p.id}`;
         card.innerHTML = `
           <div class="product-img-container">
-            <span class="badge-category">${p.categoria}</span>
-            <img src="${p.imagem || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600'}" alt="${p.nome}" loading="lazy">
+            <span class="badge-category">${produto.categoria}</span>
+            <img src="${produto.imagem || 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&auto=format&fit=crop'}" alt="${produto.nome}">
           </div>
           <div class="product-content">
-            <h3 class="product-title">${p.nome}</h3>
-            <p class="product-desc">${p.descricao || 'Sem descrição informada.'}</p>
+            <h3 class="product-title">${produto.nome}</h3>
+            <p class="product-desc">${produto.descricao || 'Sem descrição informada.'}</p>
             <div class="product-footer">
-              <div class="product-price"><span>R$</span>${Number(p.preco).toFixed(2)}</div>
-              <span class="buy-btn">Ver Detalhes</span>
+              <div class="product-price"><span>R$</span>${Number(produto.preco).toFixed(2)}</div>
+              <button class="buy-btn" onclick="abrirCheckout(${produto.id})">Comprar</button>
             </div>
           </div>
         `;
@@ -270,198 +319,227 @@
     }
 
     function filtrarProdutos() {
-      const termo = document.getElementById('searchInput').value.toLowerCase().trim();
+      const termo = document.getElementById('searchInput').value.toLowerCase();
       const filtrados = produtosCache.filter(p => {
-        const matchCat = (categoriaAtual === 'Todos' || p.categoria === categoriaAtual);
+        const matchCat = categoriaAtual === 'todos' || p.categoria.toLowerCase() === categoriaAtual.toLowerCase();
         const matchNome = p.nome.toLowerCase().includes(termo) || (p.descricao && p.descricao.toLowerCase().includes(termo));
         return matchCat && matchNome;
       });
       renderizarProdutos(filtrados);
     }
 
-    function mudarCategoria(cat, elementoBotao) {
+    function filtrarCategoria(cat) {
       categoriaAtual = cat;
-      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-      if (elementoBotao) elementoBotao.classList.add('active');
+      document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
       filtrarProdutos();
     }
 
-    function abrirModalAuth(tipo) {
-      const grupoNome = document.getElementById('grupoNome');
-      const titulo = document.getElementById('authTitulo');
-      const form = document.getElementById('authForm');
-      
-      if (tipo === 'cadastro') {
-        grupoNome.style.display = 'block';
-        titulo.innerText = 'Criar Nova Conta';
-        form.onsubmit = realizarCadastro;
-      } else {
-        grupoNome.style.display = 'none';
-        titulo.innerText = 'Acessar Conta';
-        form.onsubmit = realizarLogin;
+    function abrirCheckout(produtoId) {
+      produtoSelecionado = produtosCache.find(p => p.id === produtoId);
+      if (!produtoSelecionado) return;
+
+      const detalhes = document.getElementById('checkoutDetalhes');
+      detalhes.innerHTML = `
+        <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+          <strong style="color: #fff; display: block; margin-bottom: 4px;">${produtoSelecionado.nome}</strong>
+          <span>Valor: R$ ${Number(produtoSelecionado.preco).toFixed(2)}</span>
+        </div>
+      `;
+      document.getElementById('modalCheckout').classList.add('active');
+    }
+
+    async function gerarPagamento() {
+      const email = document.getElementById('checkoutEmail').value;
+      if (!email || !email.includes('@')) {
+        alert('Por favor, informe um e-mail válido.');
+        return;
       }
-      document.getElementById('modalAuth').classList.add('active');
-    }
-
-    function fecharModal(idModal) {
-      const modal = document.getElementById(idModal);
-      if (modal) modal.classList.remove('active');
-    }
-
-    async function realizarLogin(e) {
-      e.preventDefault();
-      const email = document.getElementById('authEmail').value.trim();
-      const senha = document.getElementById('authSenha').value.trim();
 
       try {
-        const res = await fetch('/api/auth/login', {
+        const res = await fetch('/api/pedidos', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, senha })
+          body: JSON.stringify({ produtoId: produtoSelecionado.id, email })
         });
-        const dados = await res.json();
-        
-        if (dados.success) {
-          usuarioLogado = dados.usuario;
-          localStorage.setItem('donstore_usuario', JSON.stringify(usuarioLogado));
-          fecharModal('modalAuth');
-          atualizarInterfaceUsuario();
-          location.reload();
+        const json = await res.json();
+
+        if (json.success) {
+          pedidoAtualId = json.pedidoId;
+          document.getElementById('imgQrCode').src = json.qrCodeBase64 || 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=PixSimulado';
+          document.getElementById('pixCopiaCola').value = json.copiaECola || '00020126580014br.gov.bcb.pix...';
+          
+          fecharModal('modalCheckout');
+          document.getElementById('modalPix').classList.add('active');
+          iniciarVerificacaoPagamento(pedidoAtualId);
         } else {
-          alert(dados.error || 'Erro ao realizar login.');
+          alert(json.message || 'Erro ao gerar pagamento.');
         }
       } catch (err) {
-        alert('Erro de comunicação com o servidor.');
+        alert('Erro de conexão ao processar pedido.');
       }
     }
 
-    async function realizarCadastro(e) {
-      e.preventDefault();
-      const nome = document.getElementById('authNome').value.trim();
-      const email = document.getElementById('authEmail').value.trim();
-      const senha = document.getElementById('authSenha').value.trim();
-
-      try {
-        const res = await fetch('/api/auth/cadastro', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nome, email, senha })
-        });
-        const dados = await res.json();
-        
-        if (dados.success) {
-          usuarioLogado = dados.usuario;
-          localStorage.setItem('donstore_usuario', JSON.stringify(usuarioLogado));
-          fecharModal('modalAuth');
-          atualizarInterfaceUsuario();
-          location.reload();
-        } else {
-          alert(dados.error || 'Erro ao criar conta.');
-        }
-      } catch (err) {
-        alert('Erro de comunicação com o servidor.');
-      }
+    function copiarPixCode() {
+      const input = document.getElementById('pixCopiaCola');
+      input.select();
+      navigator.clipboard.writeText(input.value);
+      alert('Código Pix Copia e Cola copiado com sucesso!');
     }
 
-    function atualizarInterfaceUsuario() {
-      const userInfoArea = document.getElementById('userInfoArea');
-      const adminBtnArea = document.getElementById('adminBtnArea');
+    let intervaloVerificacao = null;
+    function iniciarVerificacaoPagamento(pedidoId) {
+      if (intervaloVerificacao) clearInterval(intervaloVerificacao);
       
-      if (!userInfoArea) return;
-
-      if (usuarioLogado) {
-        userInfoArea.innerHTML = `
-          <div class="flex items-center gap-2 bg-slate-900/80 border border-white/10 px-3 py-1.5 rounded-xl">
-            <span class="text-xs text-slate-300 font-semibold truncate max-w-[120px]">${usuarioLogado.nome}</span>
-            <button onclick="fazerLogout()" class="text-red-400 hover:text-red-300 text-xs p-1" title="Sair"><i class="fa-solid fa-power-off"></i></button>
-          </div>
-        `;
-        if (usuarioLogado.isAdmin && adminBtnArea) {
-          adminBtnArea.innerHTML = `
-            <button onclick="document.getElementById('modalAdmin').classList.add('active')" class="nav-btn bg-red-600/20 text-red-500 border-red-500/30" title="Painel Admin">
-              <i class="fa-solid fa-shield-halved"></i>
-            </button>
-          `;
-        }
-      }
-    }
-
-    function fazerLogout() {
-      localStorage.removeItem('donstore_usuario');
-      usuarioLogado = null;
-      location.reload();
-    }
-
-    function verificarSessaoAtiva() {
-      const saved = localStorage.getItem('donstore_usuario');
-      if (saved) {
+      intervaloVerificacao = setInterval(async () => {
         try {
-          usuarioLogado = JSON.parse(saved);
-        } catch(e) {
-          localStorage.removeItem('donstore_usuario');
-        }
-      }
-    }
-
-    async function salvarProdutoAdmin(e) {
-      e.preventDefault();
-      const id = document.getElementById('admId').value;
-      const nome = document.getElementById('admNome').value;
-      const preco = document.getElementById('admPreco').value;
-      const categoria = document.getElementById('admCategoria').value;
-      const entregaTipo = document.getElementById('admEntregaTipo').value;
-      const descricao = document.getElementById('admDescricao').value;
-      const credenciaisTexto = document.getElementById('admCredenciais').value;
-      const fileInput = document.getElementById('admImagemFile');
-
-      const prosseguirEnvio = async (imgUrl) => {
-        try {
-          const payload = { id, nome, preco, categoria, entregaTipo, descricao, imagem: imgUrl, credenciaisTexto };
-          const res = await fetch('/api/admin/produtos', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
+          const res = await fetch(`/api/pedidos/${pedidoId}/status`);
           const json = await res.json();
-          if (json.success) {
-            fecharModal('modalAdmin');
-            carregarProdutos();
-            e.target.reset();
-          } else {
-            alert('Erro ao salvar produto.');
+          if (json.status === 'pago') {
+            clearInterval(intervaloVerificacao);
+            document.getElementById('statusPagamento').innerHTML = '<span style="color: #22c55e;">Pagamento Confirmado! Produto enviado para seu e-mail.</span>';
           }
-        } catch (err) {
-          alert('Erro de conexão ao salvar.');
+        } catch (e) {
+          console.error('Erro ao verificar status:', e);
         }
-      };
+      }, 5000);
+    }
 
-      if (fileInput && fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (eventoLeitura) => {
-          prosseguirEnvio(eventoLeitura.target.result);
-        };
-        reader.readAsDataURL(fileInput.files[0]);
-      } else {
-        prosseguirEnvio('');
+    function abrirModalConsulta() {
+      document.getElementById('modalConsulta').classList.add('active');
+    }
+
+    async function buscarPedido() {
+      const query = document.getElementById('inputConsultaId').value.trim();
+      const resultado = document.getElementById('resultadoConsulta');
+      if (!query) {
+        alert('Digite um ID ou e-mail válido.');
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/pedidos/consultar?q=${encodeURIComponent(query)}`);
+        const json = await res.json();
+        if (json.length > 0) {
+          resultado.innerHTML = json.map(p => `
+            <div style="background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; margin-bottom: 8px;">
+              <strong>Pedido #${p.id}</strong> - Status: <span style="color: ${p.status === 'pago' ? '#22c55e' : '#f59e0b'}">${p.status}</span><br>
+              <small>Produto ID: ${p.produtoId} | Data: ${p.data || '-'}</small>
+            </div>
+          `).join('');
+        } else {
+          resultado.innerHTML = 'Nenhum pedido encontrado.';
+        }
+      } catch (err) {
+        resultado.innerHTML = 'Erro ao buscar pedido.';
       }
     }
-  </script>
-</body>
-</html>
-    // Funções complementares de gerenciamento e manipulação de modais avançados
+
+    function abrirModalAdmin() {
+      document.getElementById('modalAdmin').classList.add('active');
+    }
+
+    async function logarAdmin() {
+      const senha = document.getElementById('adminSenhaInput').value;
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ senha })
+        });
+        const json = await res.json();
+        if (json.success) {
+          document.getElementById('adminLoginArea').style.display = 'none';
+          document.getElementById('adminPainelArea').style.display = 'block';
+          carregarAdminProdutos();
+        } else {
+          alert('Senha incorreta.');
+        }
+      } catch (err) {
+        alert('Erro ao realizar login admin.');
+      }
+    }
+
+    async function carregarAdminProdutos() {
+      try {
+        const res = await fetch('/api/produtos');
+        const data = await res.json();
+        const lista = document.getElementById('adminListaProdutos');
+        lista.innerHTML = data.map(p => `
+          <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 10px;">
+            <div>
+              <strong style="color: #fff; font-size: 0.9rem;">${p.nome}</strong><br>
+              <small style="color: var(--text-muted);">R$ ${Number(p.preco).toFixed(2)} | ${p.categoria}</small>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="buy-btn" style="padding: 6px 10px; font-size: 0.75rem;" onclick="abrirEdicaoAdmin(${p.id})"><i class="fa-solid fa-pen"></i></button>
+              <button class="buy-btn" style="padding: 6px 10px; font-size: 0.75rem; background: #7f1d1d;" onclick="excluirProdutoAdmin(${p.id})"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error('Erro ao carregar lista admin:', err);
+      }
+    }
+
+    function abrirNovoProdutoModal() {
+      document.getElementById('modalProdutoTitulo').innerText = 'Novo Produto';
+      document.getElementById('admId').value = '';
+      document.getElementById('admNome').value = '';
+      document.getElementById('admPreco').value = '';
+      document.getElementById('admCategoria').value = '';
+      document.getElementById('admEntregaTipo').value = '';
+      document.getElementById('admDescricao').value = '';
+      document.getElementById('admCredenciais').value = '';
+      document.getElementById('modalProdutoAdmin').classList.add('active');
+    }
+
     function abrirEdicaoAdmin(produtoId) {
       const produto = produtosCache.find(p => p.id === produtoId);
       if (!produto) return;
 
+      document.getElementById('modalProdutoTitulo').innerText = 'Editar Produto';
       document.getElementById('admId').value = produto.id;
       document.getElementById('admNome').value = produto.nome;
       document.getElementById('admPreco').value = produto.preco;
       document.getElementById('admCategoria').value = produto.categoria;
-      document.getElementById('admEntregaTipo').value = produto.entregaTipo;
+      document.getElementById('admEntregaTipo').value = produto.entregaTipo || '';
       document.getElementById('admDescricao').value = produto.descricao || '';
       document.getElementById('admCredenciais').value = produto.credenciais ? produto.credenciais.join('\n') : '';
       
-      document.getElementById('modalAdmin').classList.add('active');
+      document.getElementById('modalProdutoAdmin').classList.add('active');
+    }
+
+    async function salvarProdutoAdmin() {
+      const id = document.getElementById('admId').value;
+      const nome = document.getElementById('admNome').value;
+      const preco = parseFloat(document.getElementById('admPreco').value);
+      const categoria = document.getElementById('admCategoria').value;
+      const entregaTipo = document.getElementById('admEntregaTipo').value;
+      const descricao = document.getElementById('admDescricao').value;
+      const credenciais = document.getElementById('admCredenciais').value.split('\n').filter(Boolean);
+
+      const payload = { nome, preco, categoria, entregaTipo, descricao, credenciais };
+      const method = id ? 'PUT' : 'POST';
+      const url = id ? `/api/admin/produtos/${id}` : '/api/admin/produtos';
+
+      try {
+        const res = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+        if (json.success) {
+          fecharModal('modalProdutoAdmin');
+          carregarProdutos();
+          carregarAdminProdutos();
+        } else {
+          alert('Erro ao salvar produto.');
+        }
+      } catch (err) {
+        alert('Erro de conexão.');
+      }
     }
 
     async function excluirProdutoAdmin(produtoId) {
@@ -473,6 +551,7 @@
         const json = await res.json();
         if (json.success) {
           carregarProdutos();
+          carregarAdminProdutos();
         } else {
           alert('Erro ao excluir produto.');
         }
@@ -481,14 +560,16 @@
       }
     }
 
-    // Fechar modais ao clicar fora da caixa principal
+    function fecharModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+
     window.onclick = function(event) {
       if (event.target.classList.contains('modal-overlay')) {
         event.target.classList.remove('active');
       }
     };
 
-    // Atalhos de teclado úteis
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
@@ -497,5 +578,3 @@
   </script>
 </body>
 </html>
-
-
