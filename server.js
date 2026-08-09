@@ -20,9 +20,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ==============================================================================
 // LINHA 23: Insira o seu número do WhatsApp abaixo (com DDI e DDD, ex: 5511999999999):
 const WHATSAPP_NUMERO = '5565993416402';
-
-const client = new MercadoPagoConfig({ accessToken: MERCADO_PAGO_ACCESS_TOKEN });
-
 // Banco de dados em memória inicial (com produtos profissionais)
 let produtos = [
   {
