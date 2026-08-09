@@ -10,7 +10,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' })); // Aumentado o limite para aceitar imagens em Base64
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const SEU_WHATSAPP = "5565993416402";
@@ -25,7 +26,11 @@ let db = {
       categoria: "Streaming",
       icone: "fa-solid fa-tv",
       corIcone: "text-red-500",
+      imagem: "",
       entregaTipo: "EMAIL",
+      controlarEstoque: true,
+      estoque: 10,
+      ilimitado: false,
       whatsapp: SEU_WHATSAPP
     },
     {
@@ -36,7 +41,11 @@ let db = {
       categoria: "Streaming",
       icone: "fa-solid fa-film",
       corIcone: "text-blue-500",
+      imagem: "",
       entregaTipo: "EMAIL",
+      controlarEstoque: true,
+      estoque: 5,
+      ilimitado: false,
       whatsapp: SEU_WHATSAPP
     },
     {
@@ -47,7 +56,11 @@ let db = {
       categoria: "Serviços",
       icone: "fa-solid fa-graduation-cap",
       corIcone: "text-blue-400",
+      imagem: "",
       entregaTipo: "WHATSAPP",
+      controlarEstoque: false,
+      estoque: 0,
+      ilimitado: true,
       whatsapp: SEU_WHATSAPP
     },
     {
@@ -58,18 +71,26 @@ let db = {
       categoria: "Serviços",
       icone: "fa-solid fa-scroll",
       corIcone: "text-amber-400",
+      imagem: "",
       entregaTipo: "WHATSAPP",
+      controlarEstoque: false,
+      estoque: 0,
+      ilimitado: true,
       whatsapp: SEU_WHATSAPP
     },
     {
       id: 5,
       nome: "Esquema SmartFit",
-      descricao: "Acesso e procedimentos exclusivos para SmartFit (Conforme estoque)",
+      descricao: "PDF com procedimento exclusivo para SmartFit",
       preco: 40.00,
       categoria: "Serviços",
       icone: "fa-solid fa-dumbbell",
       corIcone: "text-yellow-500",
+      imagem: "",
       entregaTipo: "EMAIL",
+      controlarEstoque: true,
+      estoque: 3,
+      ilimitado: false,
       whatsapp: SEU_WHATSAPP
     },
     {
@@ -80,7 +101,11 @@ let db = {
       categoria: "Serviços",
       icone: "fa-solid fa-id-card",
       corIcone: "text-amber-500",
+      imagem: "",
       entregaTipo: "WHATSAPP",
+      controlarEstoque: false,
+      estoque: 0,
+      ilimitado: true,
       whatsapp: SEU_WHATSAPP
     },
     {
@@ -91,7 +116,11 @@ let db = {
       categoria: "Serviços",
       icone: "fa-solid fa-id-badge",
       corIcone: "text-emerald-400",
+      imagem: "",
       entregaTipo: "WHATSAPP",
+      controlarEstoque: false,
+      estoque: 0,
+      ilimitado: true,
       whatsapp: SEU_WHATSAPP
     },
     {
@@ -102,7 +131,11 @@ let db = {
       categoria: "Serviços",
       icone: "fa-solid fa-house-chimney",
       corIcone: "text-red-400",
+      imagem: "",
       entregaTipo: "WHATSAPP",
+      controlarEstoque: false,
+      estoque: 0,
+      ilimitado: true,
       whatsapp: SEU_WHATSAPP
     },
     {
@@ -113,29 +146,41 @@ let db = {
       categoria: "Serviços",
       icone: "fa-solid fa-file-medical",
       corIcone: "text-teal-400",
+      imagem: "",
       entregaTipo: "WHATSAPP",
+      controlarEstoque: false,
+      estoque: 0,
+      ilimitado: true,
       whatsapp: SEU_WHATSAPP
     },
     {
       id: 10,
       nome: "99 Motorista",
       descricao: "Suporte e cadastro para motorista da plataforma 99",
-      preco: 230.00,
+      preco: 50.00,
       categoria: "Serviços",
       icone: "fa-solid fa-car",
       corIcone: "text-yellow-400",
+      imagem: "",
       entregaTipo: "WHATSAPP",
+      controlarEstoque: false,
+      estoque: 0,
+      ilimitado: true,
       whatsapp: SEU_WHATSAPP
     },
     {
       id: 11,
       nome: "Uber Motorista",
       descricao: "Suporte, regularização e processos para Uber Motorista",
-      preco: 320.00,
+      preco: 50.00,
       categoria: "Serviços",
       icone: "fa-solid fa-car-side",
       corIcone: "text-slate-200",
+      imagem: "",
       entregaTipo: "WHATSAPP",
+      controlarEstoque: false,
+      estoque: 0,
+      ilimitado: true,
       whatsapp: SEU_WHATSAPP
     }
   ],
@@ -153,6 +198,41 @@ app.post('/api/visita', (req, res) => {
 
 app.get('/api/produtos', (req, res) => {
   res.json(db.produtos);
+});
+
+// Cadastrar novo produto pelo Admin com suporte a imagem local/URL e Estoque
+app.post('/api/admin/produtos', (req, res) => {
+  const { nome, descricao, preco, categoria, icone, corIcone, imagem, entregaTipo, controlarEstoque, estoque, ilimitado } = req.body;
+  if (!nome || !preco) return res.status(400).json({ error: 'Nome e preço são obrigatórios.' });
+
+  const novoProduto = {
+    id: db.produtos.length > 0 ? Math.max(...db.produtos.map(p => p.id)) + 1 : 1,
+    nome,
+    descricao: descricao || '',
+    preco: parseFloat(preco),
+    categoria: categoria || 'Serviços',
+    icone: icone || 'fa-solid fa-box',
+    corIcone: corIcone || 'text-white',
+    imagem: imagem || '',
+    entregaTipo: entregaTipo || 'WHATSAPP',
+    controlarEstoque: !!controlarEstoque,
+    estoque: parseInt(estoque) || 0,
+    ilimitado: !!ilimitado,
+    whatsapp: SEU_WHATSAPP
+  };
+
+  db.produtos.push(novoProduto);
+  res.json({ success: true, produto: novoProduto });
+});
+
+// Deletar produto pelo Admin
+app.delete('/api/admin/produtos/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = db.produtos.findIndex(p => p.id === id);
+  if (index === -1) return res.status(404).json({ error: 'Produto não encontrado.' });
+
+  db.produtos.splice(index, 1);
+  res.json({ success: true });
 });
 
 app.post('/api/auth/cadastro', (req, res) => {
@@ -175,7 +255,16 @@ app.post('/api/auth/login', (req, res) => {
 });
 
 app.post('/api/pedidos', (req, res) => {
-  const { usuarioEmail, produtoNome, valor, tipo } = req.body;
+  const { usuarioEmail, produtoNome, valor, tipo, produtoId } = req.body;
+  
+  // Baixa no estoque se controlar estoque e não for ilimitado
+  if (produtoId) {
+    const prod = db.produtos.find(p => p.id === parseInt(produtoId));
+    if (prod && prod.controlarEstoque && !prod.ilimitado) {
+      if (prod.estoque > 0) prod.estoque -= 1;
+    }
+  }
+
   db.pedidos.push({ id: db.pedidos.length + 1, usuarioEmail: usuarioEmail || 'Anônimo', produtoNome, valor, tipo, data: new Date().toISOString() });
   res.json({ success: true });
 });
@@ -186,7 +275,8 @@ app.get('/api/admin/stats', (req, res) => {
     totalClientes: db.usuarios.filter(u => !u.isAdmin).length,
     totalPedidos: db.pedidos.length,
     clientes: db.usuarios.map(({ senha, ...u }) => u),
-    pedidos: db.pedidos
+    pedidos: db.pedidos,
+    produtos: db.produtos
   });
 });
 
