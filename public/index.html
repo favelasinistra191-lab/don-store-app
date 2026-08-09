@@ -159,13 +159,13 @@
   <!-- Hero Section -->
   <section class="hero-banner">
     <h1>CATÁLOGO DIGITAL</h1>
-    <p>Escolha o serviço ou tela de streaming ideal com entrega rápida e automatizada.</p>
+    <p>Escolha o serviço ou tela de streaming ideal com atendimento e entrega rápida.</p>
   </section>
 
   <!-- Filtros e Busca -->
   <div class="controls-container">
     <div class="search-box">
-      <input type="text" id="searchInput" class="search-input" placeholder="Buscar telas, serviços..." oninput="filtrarProdutos()">
+      <input type="text" id="searchInput" class="search-input" placeholder="Buscar telas, serviços, motorista..." oninput="filtrarProdutos()">
     </div>
     <div class="categories-group" id="categoriasFiltro">
       <button class="cat-btn active" onclick="mudarCategoria('Todos', this)">Todos</button>
@@ -192,7 +192,7 @@
       </div>
       <div class="flex justify-end gap-3">
         <button onclick="fecharModal('modalCompra')" class="px-4 py-2 bg-slate-800 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-700">Cancelar</button>
-        <button id="btnConfirmarCompra" class="px-5 py-2 bg-red-600 rounded-lg text-sm font-bold text-white hover:bg-red-700 shadow-lg shadow-red-600/30">Pagar e Concluir via API</button>
+        <button id="btnConfirmarCompra" class="px-5 py-2 bg-red-600 rounded-lg text-sm font-bold text-white hover:bg-red-700 shadow-lg shadow-red-600/30">Confirmar</button>
       </div>
     </div>
   </div>
@@ -208,7 +208,7 @@
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-400 mb-1">E-mail</label>
-          <input type="email5" id="authEmail" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white text-sm" placeholder="seu@email.com">
+          <input type="email" id="authEmail" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white text-sm" placeholder="seu@email.com">
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-400 mb-1">Senha</label>
@@ -222,7 +222,7 @@
     </div>
   </div>
 
-  <!-- Modal Painel do Administrador (Com Lote de Contas) -->
+  <!-- Modal Painel do Administrador -->
   <div class="modal-overlay" id="modalAdmin">
     <div class="modal-box max-w-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -233,12 +233,12 @@
       <div class="space-y-6">
         <!-- Formulário Adicionar Produto -->
         <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl">
-          <h4 class="font-bold text-sm text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-plus text-red-500"></i> Adicionar / Gerenciar Tela ou Produto</h4>
+          <h4 class="font-bold text-sm text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-plus text-red-500"></i> Adicionar / Gerenciar Produto</h4>
           <form onsubmit="cadastrarProdutoAdmin(event)" class="space-y-3">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs text-slate-400 mb-1">Nome do Produto</label>
-                <input type="text" id="admNome" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm text-white" placeholder="Ex: Tela Netflix 4K">
+                <input type="text" id="admNome" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm text-white" placeholder="Ex: Netflix 4K">
               </div>
               <div>
                 <label class="block text-xs text-slate-400 mb-1">Preço (R$)</label>
@@ -257,15 +257,15 @@
               <div>
                 <label class="block text-xs text-slate-400 mb-1">Tipo de Entrega</label>
                 <select id="admEntregaTipo" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm text-white">
-                  <option value="EMAIL">Automático API (Conta em Lote)</option>
-                  <option value="WHATSAPP">Manual via WhatsApp</option>
+                  <option value="EMAIL">Automático por E-mail (Com Estoque)</option>
+                  <option value="WHATSAPP">Via WhatsApp (Sem Estoque)</option>
                 </select>
               </div>
             </div>
 
             <div>
               <label class="block text-xs text-slate-400 mb-1">Descrição</label>
-              <input type="text" id="admDescricao" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm text-white" placeholder="Ex: Acesso imediato de alta qualidade">
+              <input type="text" id="admDescricao" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm text-white" placeholder="Ex: Acesso imediato">
             </div>
 
             <div>
@@ -273,11 +273,11 @@
               <input type="text" id="admImagem" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm text-white" placeholder="https://exemplo.com/foto.jpg">
             </div>
 
-            <!-- CAMPO DE LOTE DE CONTAS -->
+            <!-- CAMPO DE LOTE DE CONTAS (Apenas para EMAIL) -->
             <div>
-              <label class="block text-xs font-semibold text-red-400 mb-1">Contas em Lote para Entrega Automática (Uma por linha)</label>
+              <label class="block text-xs font-semibold text-red-400 mb-1">Contas em Lote (Preencha APENAS se for entrega automática por e-mail)</label>
               <textarea id="admCredenciais" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white" placeholder="email1@netflix.com:senha123 | Perfil: 01&#10;email2@netflix.com:senha456 | Perfil: 02"></textarea>
-              <p class="text-[11px] text-slate-400 mt-1">O site entregará uma linha por compra de forma 100% automatizada.</p>
+              <p class="text-[11px] text-slate-400 mt-1">Deixe em branco para produtos finalizados via WhatsApp.</p>
             </div>
 
             <button type="submit" class="w-full py-2.5 bg-red-600 hover:bg-red-700 rounded-lg font-bold text-sm text-white shadow-md shadow-red-600/30">Salvar Produto</button>
@@ -334,7 +334,10 @@
           ? `<img src="${p.imagem}" alt="${p.nome}">` 
           : `<div class="product-icon-fallback ${p.corIcone || 'text-white'}"><i class="${p.icone || 'fa-solid fa-box'}"></i></div>`;
 
-        let estoqueTxt = p.estoque > 0 ? `<span class="text-green-400">${p.estoque} disp.</span>` : `<span class="text-red-400">Esgotado</span>`;
+        // Se usa EMAIL, mostra estoque. Se usa WHATSAPP, mostra "Atendimento via WhatsApp"
+        let statusEstoqueHtml = p.entregaTipo === 'EMAIL' 
+          ? (p.estoque > 0 ? `<span class="text-green-400">${p.estoque} disp.</span>` : `<span class="text-red-400">Esgotado</span>`)
+          : `<span class="text-blue-400 font-semibold text-xs"><i class="fa-brands fa-whatsapp"></i> Via WhatsApp</span>`;
 
         const card = document.createElement('div');
         card.className = 'product-card';
@@ -344,12 +347,12 @@
             <h3 class="product-title">${p.nome}</h3>
             <p class="product-desc">${p.descricao}</p>
             <div class="flex justify-between items-center text-xs text-slate-400 mb-3">
-              <span>Estoque:</span>
-              ${estoqueTxt}
+              <span>Disponibilidade:</span>
+              ${statusEstoqueHtml}
             </div>
             <div class="product-footer">
               <div class="product-price">R$ ${p.preco.toFixed(2)}</div>
-              <button onclick="abrirCheckout(${p.id})" class="buy-btn">Comprar</button>
+              <button onclick="abrirCheckout(${p.id})" class="buy-btn">${p.entregaTipo === 'EMAIL' ? 'Comprar' : 'Pedir via WhatsApp'}</button>
             </div>
           </div>
         `;
@@ -374,7 +377,7 @@
       filtrarProdutos();
     }
 
-    // Modal de Compra
+    // Modal de Checkout / Pedido
     let produtoSelecionadoId = null;
     function abrirCheckout(id) {
       const p = produtosCache.find(x => x.id === id);
@@ -382,20 +385,35 @@
       produtoSelecionadoId = id;
 
       const conteudo = document.getElementById('checkoutConteudo');
-      conteudo.innerHTML = `
-        <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
-          <p class="font-bold text-white text-base mb-1">${p.nome}</p>
-          <p class="text-xs text-slate-400 mb-2">${p.descricao}</p>
-          <p class="text-lg font-extrabold text-red-500">R$ ${p.preco.toFixed(2)}</p>
-        </div>
-        <p class="text-xs text-slate-400">Ao clicar em confirmar, o sistema processará sua compra e entregará o acesso imediatamente.</p>
-      `;
+      
+      if (p.entregaTipo === 'EMAIL') {
+        conteudo.innerHTML = `
+          <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+            <p class="font-bold text-white text-base mb-1">${p.nome}</p>
+            <p class="text-xs text-slate-400 mb-2">${p.descricao}</p>
+            <p class="text-lg font-extrabold text-red-500">R$ ${p.preco.toFixed(2)}</p>
+          </div>
+          <p class="text-xs text-slate-400">O sistema processará o pedido e entregará os dados de acesso automaticamente no seu e-mail.</p>
+        `;
+        document.getElementById('btnConfirmarCompra').innerText = 'Pagar e Receber Acesso';
+        document.getElementById('btnConfirmarCompra').onclick = finalizarCompraAutomatica;
+      } else {
+        conteudo.innerHTML = `
+          <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+            <p class="font-bold text-white text-base mb-1">${p.nome}</p>
+            <p class="text-xs text-slate-400 mb-2">${p.descricao}</p>
+            <p class="text-lg font-extrabold text-red-500">R$ ${p.preco.toFixed(2)}</p>
+          </div>
+          <p class="text-xs text-slate-400">Este serviço é finalizado diretamente com o atendente via WhatsApp para configuração e alinhamento rápido.</p>
+        `;
+        document.getElementById('btnConfirmarCompra').innerText = 'Continuar para o WhatsApp';
+        document.getElementById('btnConfirmarCompra').onclick = finalizarCompraWhatsapp;
+      }
 
-      document.getElementById('btnConfirmarCompra').onclick = finalizarCompra;
       document.getElementById('modalCompra').classList.add('active');
     }
 
-    async function finalizarCompra() {
+    async function finalizarCompraAutomatica() {
       try {
         const res = await fetch('/api/pedidos', {
           method: 'POST',
@@ -416,6 +434,18 @@
       } catch (e) {
         alert('Erro de conexão ao realizar o pedido.');
       }
+    }
+
+    function finalizarCompraWhatsapp() {
+      const p = produtosCache.find(x => x.id === produtoSelecionadoId);
+      if (!p) return;
+      
+      const mensagem = encodeURIComponent(`Olá! Quero finalizar o pedido do serviço: *${p.nome}* no valor de R$ ${p.preco.toFixed(2)}. Poderia me ajudar?`);
+      // Substitua pelo seu número de WhatsApp se necessário
+      const telefone = "5584999999999"; 
+      
+      fecharModal('modalCompra');
+      window.open(`https://wa.me/${telefone}?text=${mensagem}`, '_blank');
     }
 
     // Sistema de Autenticação
@@ -540,7 +570,7 @@
           lista.innerHTML += `
             <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
               <div>
-                <span class="font-bold text-white">${p.nome}</span> - R$ ${p.preco.toFixed(2)}
+                <span class="font-bold text-white">${p.nome}</span> - R$ ${p.preco.toFixed(2)} (${p.entregaTipo})
               </div>
               <button onclick="deletarProduto(${p.id})" class="text-red-400 hover:text-red-300 font-bold px-2 py-1"><i class="fa-solid fa-trash"></i></button>
             </div>
